@@ -1,4 +1,4 @@
-import scala.collection.{immutable, mutable}
+import scala.collection.mutable
 
 object Arrays extends App {
 
@@ -61,5 +61,23 @@ object Arrays extends App {
 //  println(twoSum(Array(2, 15, 7, 11), 9).mkString("Array(", ", ", ")"))
 
 
+  // 49. Group Anagrams
+  def groupAnagrams(strs: Array[String]): List[List[String]] = {
+
+    /*
+    going through strs and mapping each element to entry: str -> sorted chars of it
+    going through map and collecting it by sorted arrays
+    * */
+
+    val sorted = strs.map(str => str -> str.toCharArray.sorted.mkString)
+    val map = mutable.Map[String, Seq[String]]()
+    for ((a, b) <- sorted) {
+      val value = map.getOrElse(b, Seq()) :+ a
+      map.update(b, value)
+    }
+
+    map.values.toList.map(_.toList)
+  }
+//  println(groupAnagrams(Array("eat","tea","tan","ate","nat","bat")))
 
 }
