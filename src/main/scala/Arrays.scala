@@ -1,7 +1,8 @@
+import scala.collection.{immutable, mutable}
 
 object Arrays extends App {
 
-  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+  def twoSum_binarySearch(nums: Array[Int], target: Int): Array[Int] = {
     /*
     * add indices
     * sort by value
@@ -33,10 +34,31 @@ object Arrays extends App {
 
     result
   }
+  //  println(twoSum(Array(3,2,3), 6).mkString("Array(", ", ", ")"))
 
-  println(twoSum(Array(3,2,3), 6).mkString("Array(", ", ", ")"))
+  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    val arr = Array.ofDim[Int](2)
+    val map = mutable.Map[Int, Seq[Int]]()
 
+    for ((x, i) <- nums.zipWithIndex) {
+      val diff = target - x
+      val seq = map.getOrElse(diff, Seq[Int]())
+      if (diff == x && seq.size > 1) {
+        arr(0) = seq.head
+        arr(1) = seq(1)
+      } else if (seq.nonEmpty) {
+        arr(0) = i
+        arr(1) = seq.head
+      } else {
+        map.addOne(x, Seq(i))
+      }
+    }
 
+    arr
+  }
+
+//  println(twoSum(Array(3,2,3), 6).mkString("Array(", ", ", ")"))
+//  println(twoSum(Array(2, 15, 7, 11), 9).mkString("Array(", ", ", ")"))
 
 
 
