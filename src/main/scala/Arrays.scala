@@ -1,3 +1,4 @@
+import scala.collection.immutable.Map
 import scala.collection.mutable
 
 object Arrays extends App {
@@ -79,5 +80,19 @@ object Arrays extends App {
     map.values.toList.map(_.toList)
   }
 //  println(groupAnagrams(Array("eat","tea","tan","ate","nat","bat")))
+
+
+  // 347. Top K Frequent Elements
+  def topKFrequent(nums: Array[Int], k: Int): Array[Int] = {
+    nums.foldLeft(Map[Int, Int]()) { (acc, x) => {
+      acc + (x -> (acc.getOrElse(x, 0) + 1))
+    }
+    }.toSeq.sortBy(_._2)(Ordering.Int.reverse).take(k).map(_._1).toArray
+  }
+
+  println(topKFrequent(Array(4,1,-1,2,-1,2,3), 2).mkString("Array(", ", ", ")"))
+//  println(topKFrequent(Array(1, 1, 1, 2, 2, 3), 2).mkString("Array(", ", ", ")"))
+//  println(topKFrequent(Array(-1,-1), 2).mkString("Array(", ", ", ")"))
+
 
 }
