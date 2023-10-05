@@ -1,5 +1,6 @@
 import scala.collection.immutable.Map
 import scala.collection.mutable
+import scala.util.Random
 
 object Arrays extends App {
 
@@ -58,8 +59,8 @@ object Arrays extends App {
     arr
   }
 
-//  println(twoSum(Array(3,2,3), 6).mkString("Array(", ", ", ")"))
-//  println(twoSum(Array(2, 15, 7, 11), 9).mkString("Array(", ", ", ")"))
+  //  println(twoSum(Array(3,2,3), 6).mkString("Array(", ", ", ")"))
+  //  println(twoSum(Array(2, 15, 7, 11), 9).mkString("Array(", ", ", ")"))
 
 
   // 49. Group Anagrams
@@ -79,7 +80,7 @@ object Arrays extends App {
 
     map.values.toList.map(_.toList)
   }
-//  println(groupAnagrams(Array("eat","tea","tan","ate","nat","bat")))
+  //  println(groupAnagrams(Array("eat","tea","tan","ate","nat","bat")))
 
 
   // 347. Top K Frequent Elements
@@ -90,9 +91,28 @@ object Arrays extends App {
     }.toSeq.sortBy(_._2)(Ordering.Int.reverse).take(k).map(_._1).toArray
   }
 
-  println(topKFrequent(Array(4,1,-1,2,-1,2,3), 2).mkString("Array(", ", ", ")"))
-//  println(topKFrequent(Array(1, 1, 1, 2, 2, 3), 2).mkString("Array(", ", ", ")"))
-//  println(topKFrequent(Array(-1,-1), 2).mkString("Array(", ", ", ")"))
+  def topKFrequentHeap(nums: Array[Int], k: Int): Array[Int] = {
+    val x: Map[Int, Int] = nums.foldLeft(Map.empty[Int, Int]) { (acc, num) =>
+      acc + (num -> (acc.getOrElse(num, 0) + 1))
+    }
+
+    val pq = mutable.PriorityQueue.empty[(Int, Int)](Ordering.by(-_._2)) // Use negation for min-heap
+
+    x.foreach { case (num, count) =>
+      pq.enqueue((num, count))
+    }
+
+    // Dequeue until the size of pq is k
+    while (pq.size > k) {
+      pq.dequeue()
+    }
+
+    pq.map(_._1).toArray
+  }
+
+  //  println(topKFrequent(Array(1, 1, 1, 2, 2, 3), 2).mkString("Array(", ", ", ")"))
+  //  println(topKFrequent(Array(-1,-1), 2).mkString("Array(", ", ", ")"))
+
 
 
 }
