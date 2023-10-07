@@ -114,5 +114,19 @@ object Arrays extends App {
   //  println(topKFrequent(Array(-1,-1), 2).mkString("Array(", ", ", ")"))
 
 
+  // 238. Product of Array Except Self
+  def productExceptSelf(nums: Array[Int]): Array[Int] = {
+    /*
+      original - [1, 2, 3, 4]
+      left     - [1, 1, 2, 6]
+      right    - [24, 12, 4, 1]
+      result   - [24, 12, 8, 6]
+    */
+
+    val nums_left_product = nums.take(nums.length - 1).foldLeft(Array(1))((acc, x) => acc :+ (acc.last * x))
+    val nums_right_product = nums.drop(1).foldRight(Array(1))((x, acc) => acc prepended (acc.head * x))
+    nums_left_product.zipWithIndex.map(x => nums_right_product(x._2) * x._1)
+  }
+  println(productExceptSelf(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
 
 }
