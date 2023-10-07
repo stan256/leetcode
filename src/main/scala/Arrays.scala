@@ -129,4 +129,28 @@ object Arrays extends App {
   }
   println(productExceptSelf(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
 
+  def productExceptSelf_fasterSolutionWithoutFold(nums: Array[Int]): Array[Int] = {
+    val arrLeft = new Array[Int](nums.length)
+    val arrRight = new Array[Int](nums.length)
+    arrLeft(0) = 1
+    arrRight(nums.length - 1) = 1
+    for (i <- (1 until nums.length)) {
+      val i1 = arrLeft(i - 1)
+      val i2 = nums(i - 1)
+      arrLeft(i) = i1 * i2
+    }
+    for (i <- (nums.length - 2 to 0 by -1)) {
+      val i1 = arrRight(i + 1)
+      val i2 = nums(i + 1)
+      arrRight(i) = i1 * i2
+    }
+    val result = new Array[Int](nums.length)
+    for (i <- nums.indices) {
+      result(i) = arrLeft(i) * arrRight(i)
+    }
+    result
+  }
+
+  println(productExceptSelf_fasterSolutionWithoutFold(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
+
 }
