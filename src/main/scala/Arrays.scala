@@ -150,7 +150,24 @@ object Arrays extends App {
     }
     result
   }
+//  println(productExceptSelf_fasterSolutionWithoutFold(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
 
-  println(productExceptSelf_fasterSolutionWithoutFold(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
+
+  def productExceptSelf_lessSpace(nums: Array[Int]): Array[Int] = {
+    val result = new Array[Int](nums.length)
+    result(0) = 1
+    for (i <- (1 until nums.length)) {
+      val i1 = result(i - 1)
+      val i2 = nums(i - 1)
+      result(i) = i1 * i2
+    }
+    var right = 1
+    for (i <- (nums.length - 1 to 0 by -1)) {
+      result(i) = result(i) * right
+      right = right * nums(i)
+    }
+    result
+  }
+  println(productExceptSelf_lessSpace(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
 
 }
