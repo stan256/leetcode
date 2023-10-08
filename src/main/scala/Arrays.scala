@@ -195,9 +195,29 @@ object Arrays extends App {
     true
   }
 
-  println(isValidSudoku(Array(
+  def isValidSudoku2(board: Array[Array[Char]]): Boolean = {
+    def checkLine(arr: Seq[Char]) = {
+      val chars = arr.filter(_ != '.')
+      chars.distinct.size == chars.length
+    }
+
+    for (x <- 0 to 8) {
+      if (!checkLine(board(x))) return false
+      for (y <- 0 to 8) {
+        if (!checkLine(board.map(b => b(y)))) return false
+        if (x % 3 == 0 && y % 3 == 0) {
+          if(!checkLine(board.slice(x, x + 3).map(col => col.slice(y, y + 3)).foldLeft(Array.empty[Char])((acc, x) => acc ++ x.filter(_ != '.'))))
+            return false
+        }
+      }
+    }
+
+    true
+  }
+
+  println(isValidSudoku2(Array(
     Array('5', '3', '.', '.', '7', '.', '.', '.', '.'),
-    Array('6', '.', '.', '1', '9', '5', '.', '.', '.'),
+    Array('5', '.', '.', '1', '9', '5', '.', '.', '.'),
     Array('.', '5', '8', '.', '.', '.', '.', '6', '.'),
     Array('8', '.', '.', '.', '6', '.', '.', '.', '3'),
     Array('4', '.', '.', '8', '.', '3', '.', '.', '1'),
