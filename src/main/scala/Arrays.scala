@@ -127,7 +127,7 @@ object Arrays extends App {
     val nums_right_product = nums.drop(1).foldRight(Array(1))((x, acc) => acc prepended (acc.head * x))
     nums_left_product.zipWithIndex.map(x => nums_right_product(x._2) * x._1)
   }
-  println(productExceptSelf(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
+  //  println(productExceptSelf(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
 
   def productExceptSelf_fasterSolutionWithoutFold(nums: Array[Int]): Array[Int] = {
     val arrLeft = new Array[Int](nums.length)
@@ -150,7 +150,7 @@ object Arrays extends App {
     }
     result
   }
-//  println(productExceptSelf_fasterSolutionWithoutFold(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
+  //  println(productExceptSelf_fasterSolutionWithoutFold(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
 
 
   def productExceptSelf_lessSpace(nums: Array[Int]): Array[Int] = {
@@ -168,6 +168,43 @@ object Arrays extends App {
     }
     result
   }
-  println(productExceptSelf_lessSpace(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
+  //  println(productExceptSelf_lessSpace(Array(1, 2, 3, 4)).mkString("Array(", ", ", ")"))
+
+
+  // 36. Valid Sudoku
+  def isValidSudoku(board: Array[Array[Char]]): Boolean = {
+    def checkLine(arr: Array[Char]) = {
+      val chars = arr.filter(_ != '.')
+      chars.toSet.size == chars.length
+    }
+    def checkSquare(xFrom: Int, yFrom: Int) = {
+      val chars = board.slice(xFrom, xFrom + 3).map(col => col.slice(yFrom, yFrom + 3)).foldLeft(Array.empty[Char])((acc, x) => acc ++ x.filter(_ != '.'))
+      chars.toSet.size == chars.length
+    }
+    for (x <- 0 to 8) {
+      if (!checkLine(board(x))) return false
+    }
+    for (y <- 0 to 8) {
+      if (!checkLine(board.map(sub => sub(y)))) return false
+    }
+    for (x <- 0 to 8 by 3) {
+      for (y <- 0 to 8 by 3) {
+        if (!checkSquare(x, y)) return false
+      }
+    }
+    true
+  }
+
+  println(isValidSudoku(Array(
+    Array('5', '3', '.', '.', '7', '.', '.', '.', '.'),
+    Array('6', '.', '.', '1', '9', '5', '.', '.', '.'),
+    Array('.', '5', '8', '.', '.', '.', '.', '6', '.'),
+    Array('8', '.', '.', '.', '6', '.', '.', '.', '3'),
+    Array('4', '.', '.', '8', '.', '3', '.', '.', '1'),
+    Array('7', '.', '.', '.', '2', '.', '.', '.', '6'),
+    Array('.', '6', '.', '.', '.', '.', '2', '8', '.'),
+    Array('.', '.', '.', '4', '1', '9', '.', '.', '5'),
+    Array('.', '.', '.', '.', '8', '.', '.', '7', '9')
+  )))
 
 }
