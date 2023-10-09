@@ -215,16 +215,37 @@ object Arrays extends App {
     true
   }
 
-  println(isValidSudoku2(Array(
-    Array('5', '3', '.', '.', '7', '.', '.', '.', '.'),
-    Array('5', '.', '.', '1', '9', '5', '.', '.', '.'),
-    Array('.', '5', '8', '.', '.', '.', '.', '6', '.'),
-    Array('8', '.', '.', '.', '6', '.', '.', '.', '3'),
-    Array('4', '.', '.', '8', '.', '3', '.', '.', '1'),
-    Array('7', '.', '.', '.', '2', '.', '.', '.', '6'),
-    Array('.', '6', '.', '.', '.', '.', '2', '8', '.'),
-    Array('.', '.', '.', '4', '1', '9', '.', '.', '5'),
-    Array('.', '.', '.', '.', '8', '.', '.', '7', '9')
-  )))
+//  println(isValidSudoku2(Array(
+//    Array('5', '3', '.', '.', '7', '.', '.', '.', '.'),
+//    Array('5', '.', '.', '1', '9', '5', '.', '.', '.'),
+//    Array('.', '5', '8', '.', '.', '.', '.', '6', '.'),
+//    Array('8', '.', '.', '.', '6', '.', '.', '.', '3'),
+//    Array('4', '.', '.', '8', '.', '3', '.', '.', '1'),
+//    Array('7', '.', '.', '.', '2', '.', '.', '.', '6'),
+//    Array('.', '6', '.', '.', '.', '.', '2', '8', '.'),
+//    Array('.', '.', '.', '4', '1', '9', '.', '.', '5'),
+//    Array('.', '.', '.', '.', '8', '.', '.', '7', '9')
+//  )))
+
+  // 128. Longest Consecutive Sequence
+  def longestConsecutive(nums: Array[Int]): Int = {
+    val set = nums.toSet
+    var counter = 0
+
+    for (x <- set) {
+      if (!set(x - 1)) {
+        var currentCounter = 1
+        var el = x
+        while (set(el + 1)) {
+          el += 1
+          currentCounter += 1
+        }
+        if (currentCounter > counter) counter = currentCounter
+      }
+    }
+
+    counter
+  }
+  println(longestConsecutive(Array(100,4,200,1,3,2)))
 
 }
