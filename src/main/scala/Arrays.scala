@@ -1,6 +1,4 @@
-import scala.collection.immutable.Map
 import scala.collection.mutable
-import scala.util.Random
 
 object Arrays extends App {
 
@@ -177,10 +175,12 @@ object Arrays extends App {
       val chars = arr.filter(_ != '.')
       chars.toSet.size == chars.length
     }
+
     def checkSquare(xFrom: Int, yFrom: Int) = {
       val chars = board.slice(xFrom, xFrom + 3).map(col => col.slice(yFrom, yFrom + 3)).foldLeft(Array.empty[Char])((acc, x) => acc ++ x.filter(_ != '.'))
       chars.toSet.size == chars.length
     }
+
     for (x <- 0 to 8) {
       if (!checkLine(board(x))) return false
     }
@@ -206,7 +206,7 @@ object Arrays extends App {
       for (y <- 0 to 8) {
         if (!checkLine(board.map(b => b(y)))) return false
         if (x % 3 == 0 && y % 3 == 0) {
-          if(!checkLine(board.slice(x, x + 3).map(col => col.slice(y, y + 3)).foldLeft(Array.empty[Char])((acc, x) => acc ++ x.filter(_ != '.'))))
+          if (!checkLine(board.slice(x, x + 3).map(col => col.slice(y, y + 3)).foldLeft(Array.empty[Char])((acc, x) => acc ++ x.filter(_ != '.'))))
             return false
         }
       }
@@ -215,17 +215,17 @@ object Arrays extends App {
     true
   }
 
-//  println(isValidSudoku2(Array(
-//    Array('5', '3', '.', '.', '7', '.', '.', '.', '.'),
-//    Array('5', '.', '.', '1', '9', '5', '.', '.', '.'),
-//    Array('.', '5', '8', '.', '.', '.', '.', '6', '.'),
-//    Array('8', '.', '.', '.', '6', '.', '.', '.', '3'),
-//    Array('4', '.', '.', '8', '.', '3', '.', '.', '1'),
-//    Array('7', '.', '.', '.', '2', '.', '.', '.', '6'),
-//    Array('.', '6', '.', '.', '.', '.', '2', '8', '.'),
-//    Array('.', '.', '.', '4', '1', '9', '.', '.', '5'),
-//    Array('.', '.', '.', '.', '8', '.', '.', '7', '9')
-//  )))
+  //  println(isValidSudoku2(Array(
+  //    Array('5', '3', '.', '.', '7', '.', '.', '.', '.'),
+  //    Array('5', '.', '.', '1', '9', '5', '.', '.', '.'),
+  //    Array('.', '5', '8', '.', '.', '.', '.', '6', '.'),
+  //    Array('8', '.', '.', '.', '6', '.', '.', '.', '3'),
+  //    Array('4', '.', '.', '8', '.', '3', '.', '.', '1'),
+  //    Array('7', '.', '.', '.', '2', '.', '.', '.', '6'),
+  //    Array('.', '6', '.', '.', '.', '.', '2', '8', '.'),
+  //    Array('.', '.', '.', '4', '1', '9', '.', '.', '5'),
+  //    Array('.', '.', '.', '.', '8', '.', '.', '7', '9')
+  //  )))
 
   // 128. Longest Consecutive Sequence
   def longestConsecutive(nums: Array[Int]): Int = {
@@ -246,6 +246,5 @@ object Arrays extends App {
 
     counter
   }
-  println(longestConsecutive(Array(100,4,200,1,3,2)))
-
+  //  println(longestConsecutive(Array(100,4,200,1,3,2)))
 }
