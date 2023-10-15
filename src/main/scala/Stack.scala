@@ -1,4 +1,4 @@
-import scala.collection.mutable
+
 
 object Stack extends App {
   // 20. Valid Parentheses
@@ -26,10 +26,11 @@ object Stack extends App {
 
     stack.isEmpty
   }
-//  println(isValid("(])"))
+  //  println(isValid("(])"))
 
   // 155. Min Stack
   class MinStack() {
+
     import scala.collection.mutable
 
     var stack = mutable.Stack[(Int, Int)]()
@@ -64,20 +65,61 @@ object Stack extends App {
     def getMin(): Int = stack.head._2
   }
 
-//  println {
-//    val x = new MinStack()
-//    x.push(-2)
-//    x.push(0)
-//    x.push(-3)
-//    x.getMin()
-//    x.pop()
-//    x.top()
-//    x.getMin()
-//    x.pop()
-//    x.pop()
-//  }
+  //  println {
+  //    val x = new MinStack()
+  //    x.push(-2)
+  //    x.push(0)
+  //    x.push(-3)
+  //    x.getMin()
+  //    x.pop()
+  //    x.top()
+  //    x.getMin()
+  //    x.pop()
+  //    x.pop()
+  //  }
 
+  // 150. Evaluate Reverse Polish Notation
+  def evalRPN(tokens: Array[String]): Int = {
+    import scala.collection.mutable
 
+    val signs = Set('+', '-', '*', '/')
 
+    def isSign(s: String): Boolean = signs.contains(s(0)) && s.length == 1
 
+    def isDigit(s: String): Boolean = !isSign(s)
+
+    def calculate(sign: String, a: Int, b: Int): Int =
+      sign match {
+        case "+" => a + b
+        case "-" => a - b
+        case "*" => a * b
+        case "/" => a / b
+        case _ => throw new RuntimeException()
+      }
+
+    val stack = mutable.Stack.from(tokens)
+
+    var first = tokens.length - 3
+    var second = tokens.length - 2
+    var third = tokens.length - 1
+
+    while (stack.size != 1) {
+      if (isDigit(stack(first)) && isDigit(stack(second)) && isSign(stack(third))) {
+        val result = calculate(stack(third), stack(first).toInt, stack(second).toInt)
+        stack(first) = result.toString
+        stack.remove(third)
+        stack.remove(second)
+      } else {
+        first += -1
+        second += -1
+        third += -1
+      }
+    }
+
+    stack.pop().toInt
+  }
+
+  println(evalRPN(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
 }
+
+
