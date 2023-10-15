@@ -119,7 +119,38 @@ object Stack extends App {
     stack.pop().toInt
   }
 
-  println(evalRPN(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
+  def evalRPN_betterStackApproach(tokens: Array[String]): Int = {
+    import scala.collection.mutable
+
+    val signs = "+-/*"
+    def isSign(s: String): Boolean = signs.contains(s)
+
+    def calculate(sign: String, a: Int, b: Int): Int = sign match {
+      case "+" => a + b
+      case "-" => a - b
+      case "*" => a * b
+      case "/" => a / b
+      case _ => throw new RuntimeException()
+    }
+
+    val stack = mutable.Stack.empty[String]
+
+    for (s: String <- tokens) {
+      if (isSign(s)) {
+        val first = stack.pop().toInt
+        val second = stack.pop().toInt
+        val i = calculate(s, second, first)
+        stack.push(i.toString)
+      }
+      else {
+        stack.push(s)
+      }
+    }
+
+    stack.pop().toInt
+  }
+
+  println(evalRPN_betterStackApproach(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
 }
 
 
