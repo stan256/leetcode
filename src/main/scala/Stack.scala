@@ -1,4 +1,6 @@
-
+import scala.annotation.tailrec
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 
 object Stack extends App {
   // 20. Valid Parentheses
@@ -150,7 +152,23 @@ object Stack extends App {
     stack.pop().toInt
   }
 
-  println(evalRPN_betterStackApproach(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
+//  println(evalRPN_betterStackApproach(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
+
+  // 22. Generate Parentheses
+  def generateParenthesis(n: Int): List[String] = {
+    val ans = scala.collection.mutable.ListBuffer[String]()
+
+    def backtrack(tmp: String, open: Int, close: Int): Unit = {
+      if (tmp.length == n * 2) ans += tmp
+      if (open < n) backtrack(tmp :+ '(', open + 1, close)
+      if (close < open) backtrack(tmp :+ ')', open, close + 1)
+    }
+
+    backtrack("", 0, 0)
+    ans.toList
+  }
+
+  println(generateParenthesis(3))
 }
 
 
