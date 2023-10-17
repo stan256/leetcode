@@ -1,6 +1,4 @@
-import scala.annotation.tailrec
-import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
+
 
 object Stack extends App {
   // 20. Valid Parentheses
@@ -125,6 +123,7 @@ object Stack extends App {
     import scala.collection.mutable
 
     val signs = "+-/*"
+
     def isSign(s: String): Boolean = signs.contains(s)
 
     def calculate(sign: String, a: Int, b: Int): Int = sign match {
@@ -152,7 +151,7 @@ object Stack extends App {
     stack.pop().toInt
   }
 
-//  println(evalRPN_betterStackApproach(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
+  //  println(evalRPN_betterStackApproach(Array("10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+")))
 
   // 22. Generate Parentheses
   def generateParenthesis(n: Int): List[String] = {
@@ -168,7 +167,44 @@ object Stack extends App {
     ans.toList
   }
 
-  println(generateParenthesis(3))
+  //  println(generateParenthesis(3))
+
+
+  // 739. Daily Temperatures
+  def dailyTemperatures(temperatures: Array[Int]): Array[Int] = {
+    val stack = scala.collection.mutable.Stack.empty[(Int, Int)]
+    val result = Array.fill[Int](temperatures.length)(0)
+
+    for (i <- temperatures.zipWithIndex) {
+      if (stack.isEmpty) {
+        stack.push(i)
+      } else {
+        var prev = stack.pop()
+        var searchFurther = true
+
+        while (searchFurther) {
+          if (prev._1 < i._1) {
+            val indexDiff = i._2 - prev._2
+            result(prev._2) = indexDiff
+            if (stack.nonEmpty) {
+              prev = stack.pop()
+            } else {
+              stack.push(i)
+              searchFurther = false
+            }
+          } else {
+            stack.push(prev)
+            stack.push(i)
+            searchFurther = false
+          }
+        }
+      }
+    }
+
+    result
+  }
+
+//  println(dailyTemperatures(Array(73, 74, 75, 71, 69, 72, 76, 73)).mkString("Array(", ", ", ")"))
 }
 
 
