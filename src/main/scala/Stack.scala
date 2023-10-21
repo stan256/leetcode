@@ -185,6 +185,8 @@ object Stack extends App {
         while (searchFurther) {
           if (prev._1 < i._1) {
             val indexDiff = i._2 - prev._2
+
+
             result(prev._2) = indexDiff
             if (stack.nonEmpty) {
               prev = stack.pop()
@@ -204,7 +206,47 @@ object Stack extends App {
     result
   }
 
-//  println(dailyTemperatures(Array(73, 74, 75, 71, 69, 72, 76, 73)).mkString("Array(", ", ", ")"))
+  //  println(dailyTemperatures(Array(73, 74, 75, 71, 69, 72, 76, 73)).mkString("Array(", ", ", ")"))
+
+  // 853. Car Fleet
+  def carFleet(target: Int, position: Array[Int], speed: Array[Int]): Int = {
+    if (position.length > 1) {
+      var counter = 0
+      val priorityQueue = scala.collection.mutable.PriorityQueue.from(position.zip(speed))(_._1 - _._1)
+
+      while (priorityQueue.length >= 2) {
+        val front = priorityQueue.dequeue()
+        val back = priorityQueue.dequeue()
+        val frontReachesTarget = (target - front._1).toDouble / front._2
+        val speedDifference = back._2 - front._2
+
+        if (speedDifference <= 0) {
+          counter += 1
+          priorityQueue.enqueue(back)
+        } else {
+          val backCatchesFrontTime = (front._1 - back._1).toDouble / speedDifference
+          if (frontReachesTarget < backCatchesFrontTime) {
+            counter += 1
+            priorityQueue.enqueue(back)
+          } else {
+            priorityQueue.enqueue(front)
+          }
+        }
+      }
+
+      counter += priorityQueue.length
+      counter
+    } else {
+      position.length
+    }
+  }
+
+  println(carFleet(12, Array(10, 8, 0, 5, 3), Array(2, 4, 1, 1, 3)))
+//  println(carFleet(100, Array(0, 2, 4), Array(4, 2, 1)))
+//  println(carFleet(10, Array(0, 4, 2), Array(2, 1, 3)))
+//  println(carFleet(20, Array(6, 2, 17), Array(3, 9, 2)))
+  //  println(carFleet(12, Array(4,0,5,3,1,2), Array(6,10,9,6,7,2)))
+  //  println(carFleet(13, Array(10,2,5,7,4,6,11), Array(7,5,10,5,9,4,1)))
 }
 
 
