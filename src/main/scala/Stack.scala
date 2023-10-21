@@ -209,6 +209,7 @@ object Stack extends App {
   //  println(dailyTemperatures(Array(73, 74, 75, 71, 69, 72, 76, 73)).mkString("Array(", ", ", ")"))
 
   // 853. Car Fleet
+  // there was much better approach of comparing only the amount of time needed to get to destination by these cars
   def carFleet(target: Int, position: Array[Int], speed: Array[Int]): Int = {
     if (position.length > 1) {
       var counter = 0
@@ -247,6 +248,7 @@ object Stack extends App {
 //  println(carFleet(20, Array(6, 2, 17), Array(3, 9, 2)))
   //  println(carFleet(12, Array(4,0,5,3,1,2), Array(6,10,9,6,7,2)))
   //  println(carFleet(13, Array(10,2,5,7,4,6,11), Array(7,5,10,5,9,4,1)))
+  // todo to make better approach
 }
 
 
