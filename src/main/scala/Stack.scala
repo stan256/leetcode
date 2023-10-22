@@ -242,13 +242,41 @@ object Stack extends App {
     }
   }
 
-  println(carFleet(12, Array(10, 8, 0, 5, 3), Array(2, 4, 1, 1, 3)))
+//  println(carFleet(12, Array(10, 8, 0, 5, 3), Array(2, 4, 1, 1, 3)))
 //  println(carFleet(100, Array(0, 2, 4), Array(4, 2, 1)))
 //  println(carFleet(10, Array(0, 4, 2), Array(2, 1, 3)))
 //  println(carFleet(20, Array(6, 2, 17), Array(3, 9, 2)))
   //  println(carFleet(12, Array(4,0,5,3,1,2), Array(6,10,9,6,7,2)))
   //  println(carFleet(13, Array(10,2,5,7,4,6,11), Array(7,5,10,5,9,4,1)))
   // todo to make better approach
+
+
+  // 84. Largest Rectangle in Histogram
+  // Brute force option, my intuitive first solution. It gives correct answer, but too slow fot Leetcode :(
+  def largestRectangleArea(heights: Array[Int]): Int = {
+    var max = heights.max
+
+    def splitArrayByMinElement(arr: Array[Int]): Array[Array[Int]] = {
+      def splitHelper(arr: Array[Int], min: Int, start: Int): List[Array[Int]] = {
+        val idx = arr.indexOf(min, start)
+        if (idx == -1) List(arr.slice(start, arr.length))
+        else arr.slice(start, idx) :: splitHelper(arr, min, idx + 1).filter(_.nonEmpty)
+      }
+      splitHelper(arr, arr.min, 0).filter(_.nonEmpty).toArray
+    }
+
+    def support(arr: Array[Int]): Unit = {
+      val minElementLine = arr.min * arr.length
+      if (minElementLine > max)
+        max = minElementLine
+      splitArrayByMinElement(arr).foreach(support)
+    }
+
+    support(heights)
+    max
+  }
+
+  println(largestRectangleArea(Array(2,1,5,6,2,3)))
 }
 
 
