@@ -63,10 +63,10 @@ object TwoPointers extends App {
     true
   }
 
-  println(isPalindrome("A man, a plan, a canal: Panama"))
-  println(isPalindrome("ab_a"))
-  println(isPalindrome(" "))
-  println(isPalindrome("0P"))
+//  println(isPalindrome("A man, a plan, a canal: Panama"))
+//  println(isPalindrome("ab_a"))
+//  println(isPalindrome(" "))
+//  println(isPalindrome("0P"))
 
   // 167. Two Sum II - Input Array Is Sorted
   def twoSum(numbers: Array[Int], target: Int): Array[Int] = {
@@ -86,6 +86,33 @@ object TwoPointers extends App {
 
     throw new IllegalStateException()
   }
-  println(twoSum(Array(2,7,11,15), 9).mkString("Array(", ", ", ")"))
+//  println(twoSum(Array(2,7,11,15), 9).mkString("Array(", ", ", ")"))
 
+  // 15. 3Sum
+  def threeSum(nums: Array[Int]): List[List[Int]] = {
+    val sorted = nums.sorted
+    var res = Array.empty[Array[Int]]
+
+    for (i <- sorted.indices) {
+      for (j <- sorted.indices) {
+        val a = sorted(i)
+        val b = sorted(j)
+        val target = 0 - a - b
+        val subResult = Array(a, b, target).sorted
+        if (i != j && res.forall(x => !java.util.Arrays.equals(x, subResult))) {
+          val ints = sorted.zipWithIndex.filter(x => !Seq(i, j).contains(x._2)).map(_._1)
+          import scala.collection.Searching._
+          val search = ints.search(target)
+          search match {
+            case Found(_) => res = res :+ subResult
+            case _ =>
+          }
+        }
+      }
+    }
+
+    res.map(_.toList).toList
+  }
+//  println(threeSum(Array(-1, 0, 1, 2, -1, -4)).mkString("Array(", ", ", ")"))
+  println(threeSum(Array(-1,0,1,2,-1,-4,-2,-3,3,0,4)).mkString("Array(", ", ", ")"))
 }
