@@ -68,4 +68,24 @@ object TwoPointers extends App {
   println(isPalindrome(" "))
   println(isPalindrome("0P"))
 
+  // 167. Two Sum II - Input Array Is Sorted
+  def twoSum(numbers: Array[Int], target: Int): Array[Int] = {
+    var i = 0
+    var j = numbers.length - 1
+
+    while(i <= j) {
+      val res = numbers(i) + numbers(j)
+      if (res == target) {
+        return Array(i + 1, j + 1)
+      } else if (res > target) {
+        j -= 1
+      } else {
+        i += 1
+      }
+    }
+
+    throw new IllegalStateException()
+  }
+  println(twoSum(Array(2,7,11,15), 9).mkString("Array(", ", ", ")"))
+
 }
