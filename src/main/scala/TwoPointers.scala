@@ -63,17 +63,17 @@ object TwoPointers extends App {
     true
   }
 
-//  println(isPalindrome("A man, a plan, a canal: Panama"))
-//  println(isPalindrome("ab_a"))
-//  println(isPalindrome(" "))
-//  println(isPalindrome("0P"))
+  //  println(isPalindrome("A man, a plan, a canal: Panama"))
+  //  println(isPalindrome("ab_a"))
+  //  println(isPalindrome(" "))
+  //  println(isPalindrome("0P"))
 
   // 167. Two Sum II - Input Array Is Sorted
   def twoSum(numbers: Array[Int], target: Int): Array[Int] = {
     var i = 0
     var j = numbers.length - 1
 
-    while(i <= j) {
+    while (i <= j) {
       val res = numbers(i) + numbers(j)
       if (res == target) {
         return Array(i + 1, j + 1)
@@ -86,7 +86,7 @@ object TwoPointers extends App {
 
     throw new IllegalStateException()
   }
-//  println(twoSum(Array(2,7,11,15), 9).mkString("Array(", ", ", ")"))
+  //  println(twoSum(Array(2,7,11,15), 9).mkString("Array(", ", ", ")"))
 
   // 15. 3Sum
   def threeSum(nums: Array[Int]): List[List[Int]] = {
@@ -117,6 +117,31 @@ object TwoPointers extends App {
 
     res.map(_.toList).toList
   }
-  println(threeSum(Array(-1, 0, 1, 2, -1, -4)).mkString("Array(", ", ", ")"))
-//  println(threeSum(Array(-1,0,1,2,-1,-4,-2,-3,3,0,4)).mkString("Array(", ", ", ")"))
+  //  println(threeSum(Array(-1, 0, 1, 2, -1, -4)).mkString("Array(", ", ", ")"))
+  //  println(threeSum(Array(-1,0,1,2,-1,-4,-2,-3,3,0,4)).mkString("Array(", ", ", ")"))
+
+  // 11. Container With Most Water
+  def maxArea(height: Array[Int]): Int = {
+    var i = 0
+    var j = height.length - 1
+    var result = 0
+
+    while (i < j) {
+      val a = height(i)
+      val b = height(j)
+      val temp = Math.min(a, b) * (j - i)
+
+      if (result < temp)
+        result = temp
+
+      if (a < b)
+        i += 1
+      else
+        j -= 1
+    }
+
+    result
+  }
+
+  println(maxArea(Array(1, 8, 6, 2, 5, 4, 8, 3, 7)))
 }
