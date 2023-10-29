@@ -93,26 +93,30 @@ object TwoPointers extends App {
     val sorted = nums.sorted
     var res = Array.empty[Array[Int]]
 
-    for (i <- sorted.indices) {
-      for (j <- sorted.indices) {
-        val a = sorted(i)
-        val b = sorted(j)
-        val target = 0 - a - b
-        val subResult = Array(a, b, target).sorted
-        if (i != j && res.forall(x => !java.util.Arrays.equals(x, subResult))) {
-          val ints = sorted.zipWithIndex.filter(x => !Seq(i, j).contains(x._2)).map(_._1)
-          import scala.collection.Searching._
-          val search = ints.search(target)
-          search match {
-            case Found(_) => res = res :+ subResult
-            case _ =>
+    for (x <- sorted.indices) {
+      var i = 0
+      var j = sorted.length - 1
+
+      val target = 0 - sorted(x)
+      while (i < j) {
+        val sum = sorted(i) + sorted(j)
+        if (sum == target && i != j && x != i && x != j) {
+          val subResult = Array(sorted(x), sorted(i), sorted(j)).sorted
+          if (res.forall(m => !java.util.Arrays.equals(m, subResult))) {
+            res = res :+ subResult
           }
+          i += 1
+          j -= 1
+        } else if (sum < target) {
+          i += 1
+        } else {
+          j -= 1
         }
       }
     }
 
     res.map(_.toList).toList
   }
-//  println(threeSum(Array(-1, 0, 1, 2, -1, -4)).mkString("Array(", ", ", ")"))
-  println(threeSum(Array(-1,0,1,2,-1,-4,-2,-3,3,0,4)).mkString("Array(", ", ", ")"))
+  println(threeSum(Array(-1, 0, 1, 2, -1, -4)).mkString("Array(", ", ", ")"))
+//  println(threeSum(Array(-1,0,1,2,-1,-4,-2,-3,3,0,4)).mkString("Array(", ", ", ")"))
 }
