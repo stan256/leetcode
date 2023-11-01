@@ -1,0 +1,7 @@
+
+object LinkedList extends App {
+
+
+
+
+}
