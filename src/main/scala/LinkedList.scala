@@ -32,7 +32,19 @@ object LinkedList extends App {
     start
   }
 
-  private val node: ListNode = reverseList(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))))
+
+  def reverseList2(head: ListNode): ListNode = {
+    var current = head
+    var reverse: ListNode = null
+
+    while (current != null) {
+      reverse = ListNode(current.x, reverse)
+      current = current.next
+    }
+
+    reverse
+  }
+  private val node: ListNode = reverseList2(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))))
   println(node)
 
 
