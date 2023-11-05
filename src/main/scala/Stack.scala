@@ -254,27 +254,29 @@ object Stack extends App {
   // 84. Largest Rectangle in Histogram
   // todo - to solve in TwoPointers approach
   def largestRectangleArea(heights: Array[Int]): Int = {
-    if (heights.isEmpty)
-      return 0
-
     val stack = scala.collection.mutable.Stack.empty[(Int, Int)]
-    var res = heights.min * heights.length
+//    val zeroIndexesStack = scala.collection.mutable.Stack.empty[Int]
+    var res = 0
 
     for (e <- heights.zipWithIndex) {
-      val prev = stack.headOption
-      stack.push(e)
-
-      while (stack.nonEmpty && (prev.exists(_._1 > e._1) || stack.head._1 > e._1)) {
+      if (stack.headOption.exists(_._1 > e._1)) {
         val prev = stack.pop()
-        val result = prev._1 * (e._2 - prev._2)
-        if (res < result)
-          res = result
+        val prevIndex = if (stack.nonEmpty) stack.head._2 else 0
+        val height = (prev._2 - prevIndex) * prev._1
+        if (height > res)
+          res = height
       }
+
+      if (stack.headOption.exists(_._1 == e._1))
+        stack.pop()
+
+      stack.push(e)
     }
 
     while (stack.nonEmpty) {
-      val prev = stack.pop()
-      val result = prev._1 * (heights.length - prev._2)
+      val item = stack.pop()
+      val previousIndex = if (stack.isEmpty) 0 else item._2
+      val result = item._1 * (heights.length - previousIndex)
       if (res < result)
         res = result
     }
@@ -282,11 +284,14 @@ object Stack extends App {
     res
   }
 
-//      println(largestRectangleArea(Array(2, 1, 5, 6, 2, 3)))
-  //    println(largestRectangleArea(Array(2, 4)))
-  //    println(largestRectangleArea(Array(1, 1)))
-  //    println(largestRectangleArea(Array(2, 1, 2)))
-  println(largestRectangleArea(Array(5, 4, 1, 2)))
+        println(largestRectangleArea(Array(2, 1, 5, 6, 2, 3)))
+//        println(largestRectangleArea(Array(2, 1, 6, 5, 2, 3)))
+//        println(largestRectangleArea(Array(2, 4)))
+//        println(largestRectangleArea(Array(1, 1)))
+//        println(largestRectangleArea(Array(2, 1, 2)))
+//  println(largestRectangleArea(Array(5, 4, 1, 2)))
+//  println(largestRectangleArea(Array(4,2,0,3,2,5)))
+//  println(largestRectangleArea(Array(3,2,5)))
 }
 
 
