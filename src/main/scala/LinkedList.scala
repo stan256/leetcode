@@ -116,10 +116,10 @@ object LinkedList extends App {
   }
 
   //    private val node: ListNode = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
-//  private val node: ListNode = ListNode(1)
+  //  private val node: ListNode = ListNode(1)
   //  private val node: ListNode = ListNode(1, ListNode(2))
   //  private val node: ListNode = ListNode(1, ListNode(2, ListNode(3)))
-//  reorderList(node)
+  //  reorderList(node)
 
   // 19. Remove Nth Node From End of List
   def removeNthFromEnd(head: ListNode, n: Int): ListNode = {
@@ -135,34 +135,62 @@ object LinkedList extends App {
     }
 
     def dropNthElement(list: ListNode, n: Int): ListNode = {
-      if (n == 0) {
+      if (n == 1) {
         list.next
       } else {
+        var counter = 1
+        var temp: ListNode = null
 
-        if (n == 1) {
-          list.next
-        } else {
-          var counter = 1
-          var temp: ListNode = null
-
-          while (counter < n) {
-            counter += 1
-            temp = if (temp == null) list else temp.next
-          }
-
-          if (temp.next.next != null) {
-            temp.next = temp.next.next
-          } else {
-            temp.next = null
-          }
-
-          list
+        while (counter < n) {
+          counter += 1
+          temp = if (temp == null) list else temp.next
         }
+
+        if (temp.next.next != null) {
+          temp.next = temp.next.next
+        } else {
+          temp.next = null
+        }
+
+        list
       }
     }
 
     reverse(dropNthElement(reverse(head), n))
   }
-//  private val node: ListNode = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
-//  println(removeNthFromEnd(node, 2))
+  //  private val node: ListNode = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+  //  println(removeNthFromEnd(node, 2))
+
+  // 138. Copy List with Random Pointer
+  class Node(var _value: Int) {
+    var value: Int = _value
+    var next: Node = null
+    var random: Node = null
+  }
+
+  def copyRandomList(head: Node): Node = {
+    var temp = head
+    val oldNewMap = scala.collection.mutable.Map.empty[Node, Node]
+    while (temp != null) {
+      oldNewMap += (temp -> new Node(temp.value))
+      temp = temp.next
+    }
+
+    temp = head
+    while (temp != null) {
+      val copy = oldNewMap(temp)
+      copy.next = if (temp.next != null) oldNewMap(temp.next) else null
+      copy.random = if (temp.random != null) oldNewMap(temp.random) else null
+      temp = temp.next
+    }
+
+    if (head != null) oldNewMap(head) else null
+  }
+
+  val node = new Node(7)
+  node.next = new Node(13)
+  node.next.next = new Node(11)
+  node.next.next.next = new Node(10)
+  node.next.next.next.next = new Node(1)
+  copyRandomList(node)
 }
