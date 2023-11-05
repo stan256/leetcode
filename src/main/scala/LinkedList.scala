@@ -34,7 +34,7 @@ object LinkedList extends App {
   }
 
 
-  def reverseList2(head: ListNode): ListNode = {
+  def reverseListTwoPointers(head: ListNode): ListNode = {
     var current = head
     var reverse: ListNode = null
 
@@ -116,9 +116,53 @@ object LinkedList extends App {
   }
 
   //    private val node: ListNode = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
-  private val node: ListNode = ListNode(1)
+//  private val node: ListNode = ListNode(1)
   //  private val node: ListNode = ListNode(1, ListNode(2))
   //  private val node: ListNode = ListNode(1, ListNode(2, ListNode(3)))
-  reorderList(node)
+//  reorderList(node)
 
+  // 19. Remove Nth Node From End of List
+  def removeNthFromEnd(head: ListNode, n: Int): ListNode = {
+    def reverse(list: ListNode) = {
+      var h = list
+      var res: ListNode = null
+
+      while (h != null) {
+        res = ListNode(h.x, res)
+        h = h.next
+      }
+      res
+    }
+
+    def dropNthElement(list: ListNode, n: Int): ListNode = {
+      if (n == 0) {
+        list.next
+      } else {
+
+        if (n == 1) {
+          list.next
+        } else {
+          var counter = 1
+          var temp: ListNode = null
+
+          while (counter < n) {
+            counter += 1
+            temp = if (temp == null) list else temp.next
+          }
+
+          if (temp.next.next != null) {
+            temp.next = temp.next.next
+          } else {
+            temp.next = null
+          }
+
+          list
+        }
+      }
+    }
+
+    reverse(dropNthElement(reverse(head), n))
+  }
+//  private val node: ListNode = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+//  println(removeNthFromEnd(node, 2))
 }
