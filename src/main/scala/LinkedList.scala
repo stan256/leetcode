@@ -192,5 +192,53 @@ object LinkedList extends App {
   node.next.next = new Node(11)
   node.next.next.next = new Node(10)
   node.next.next.next.next = new Node(1)
-  copyRandomList(node)
+//  copyRandomList(node)
+
+  // 2. Add Two Numbers
+  def addTwoNumbers(l1: ListNode, l2: ListNode): ListNode = {
+    var i1 = l1
+    var i2 = l2
+    var prevElement = ListNode(Int.MinValue, i1)
+    var addOne = false
+
+    while (i1 != null || i2 != null) {
+      def calculateAndUpdateAddOne(a: Int, b: Int): Int = {
+        var i = a + b + (if (addOne) 1 else 0)
+        if (i >= 10) {
+          addOne = true
+          i = i % 10
+        } else addOne = false
+        i
+      }
+
+      (i1, i2) match {
+        // todo to check we don't need a check a != null
+        case (a, b) if a != null && b != null =>
+          i1.x = calculateAndUpdateAddOne(a.x, b.x)
+          prevElement = i1
+          i1 = i1.next
+          i2 = i2.next
+        case (a, null) if a != null =>
+          i1.x = calculateAndUpdateAddOne(a.x, 0)
+          prevElement = i1
+          i1 = a.next
+        case (null, b) if b != null =>
+          prevElement.next = ListNode(calculateAndUpdateAddOne(0, b.x))
+          prevElement = prevElement.next
+          i2 = b.next
+        case (null, null) => throw new RuntimeException()
+      }
+    }
+
+    if (i1 != null && addOne)
+      i1.next = ListNode(1)
+
+    if (prevElement != null && addOne)
+      prevElement.next = ListNode(1)
+
+    l1
+  }
+
+//  addTwoNumbers(ListNode(2, ListNode(4, ListNode(3))), ListNode(5, ListNode(6, ListNode(4))))
+  addTwoNumbers(ListNode(9), ListNode(9,ListNode(9,ListNode(9,ListNode(9)))))
 }
