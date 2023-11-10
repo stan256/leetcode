@@ -192,7 +192,7 @@ object LinkedList extends App {
   node.next.next = new Node(11)
   node.next.next.next = new Node(10)
   node.next.next.next.next = new Node(1)
-//  copyRandomList(node)
+  //  copyRandomList(node)
 
   // 2. Add Two Numbers
   def addTwoNumbers(l1: ListNode, l2: ListNode): ListNode = {
@@ -238,8 +238,8 @@ object LinkedList extends App {
     l1
   }
 
-//  addTwoNumbers(ListNode(2, ListNode(4, ListNode(3))), ListNode(5, ListNode(6, ListNode(4))))
-//  addTwoNumbers(ListNode(9), ListNode(9,ListNode(9,ListNode(9,ListNode(9)))))
+  //  addTwoNumbers(ListNode(2, ListNode(4, ListNode(3))), ListNode(5, ListNode(6, ListNode(4))))
+  //  addTwoNumbers(ListNode(9), ListNode(9,ListNode(9,ListNode(9,ListNode(9)))))
 
   // 141. Linked List Cycle
   def hasCycle(head: ListNode): Boolean = {
@@ -258,5 +258,19 @@ object LinkedList extends App {
 
     false
   }
+
+  def hasCycle2(head: ListNode): Boolean = {
+    var slow = head
+    var fast = head
+    while (fast != null) {
+      slow = slow.next
+      fast = if (fast.next != null) fast.next.next else
+        return false
+      if (slow == fast)
+        return true
+    }
+    false
+  }
+
   println(hasCycle(ListNode(1, ListNode(2))))
 }
