@@ -212,7 +212,6 @@ object LinkedList extends App {
       }
 
       (i1, i2) match {
-        // todo to check we don't need a check a != null
         case (a, b) if a != null && b != null =>
           i1.x = calculateAndUpdateAddOne(a.x, b.x)
           prevElement = i1
@@ -240,5 +239,24 @@ object LinkedList extends App {
   }
 
 //  addTwoNumbers(ListNode(2, ListNode(4, ListNode(3))), ListNode(5, ListNode(6, ListNode(4))))
-  addTwoNumbers(ListNode(9), ListNode(9,ListNode(9,ListNode(9,ListNode(9)))))
+//  addTwoNumbers(ListNode(9), ListNode(9,ListNode(9,ListNode(9,ListNode(9)))))
+
+  // 141. Linked List Cycle
+  def hasCycle(head: ListNode): Boolean = {
+    val map = scala.collection.mutable.Map.empty[ListNode, ListNode]
+
+    var k = head
+    var counter = 0
+    while (k != null) {
+      map += (k -> k.next)
+      k = k.next
+      counter += 1
+
+      if (map.size != counter)
+        return true
+    }
+
+    false
+  }
+  println(hasCycle(ListNode(1, ListNode(2))))
 }
