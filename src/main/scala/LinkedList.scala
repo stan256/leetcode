@@ -272,5 +272,31 @@ object LinkedList extends App {
     false
   }
 
-  println(hasCycle(ListNode(1, ListNode(2))))
+
+  // 287. Find the Duplicate Number
+  def findDuplicate(nums: Array[Int]): Int = {
+    var slow = nums(0)
+    var fast = nums(nums(0))
+
+    do {
+      slow = nums(slow)
+      fast = nums(nums(fast))
+    } while (slow != fast)
+
+    var slow2 = 0
+    while (slow != slow2) {
+      slow = nums(slow)
+      slow2 = nums(slow2)
+    }
+
+    slow2
+  }
+//  println(findDuplicate(Array(1,1, 2)))
+//  println(findDuplicate(Array(1,2, 2)))
+//  println(findDuplicate(Array(1,1,1,1,1)))
+//  println(findDuplicate(Array(2,2,2,2,2)))
+//  println(findDuplicate(Array(3,3,3,3,3)))
+//  println(findDuplicate(Array(1,3,4,2,2)))
+//  println(findDuplicate(Array(3,1,3,4,2)))
+//  println(findDuplicate(Array(1,3,4,2,4)))
 }
