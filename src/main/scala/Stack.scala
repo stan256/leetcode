@@ -284,7 +284,7 @@ object Stack extends App {
     res
   }
 
-        println(largestRectangleArea(Array(2, 1, 5, 6, 2, 3)))
+//        println(largestRectangleArea(Array(2, 1, 5, 6, 2, 3)))
 //        println(largestRectangleArea(Array(2, 1, 6, 5, 2, 3)))
 //        println(largestRectangleArea(Array(2, 4)))
 //        println(largestRectangleArea(Array(1, 1)))
