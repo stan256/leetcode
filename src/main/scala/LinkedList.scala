@@ -300,19 +300,18 @@ object LinkedList extends App {
   //  println(findDuplicate(Array(3,1,3,4,2)))
   //  println(findDuplicate(Array(1,3,4,2,4)))
 
+  // todo - not done
   class LRUCache(_capacity: Int) {
     case class DoubleLinkedList[T](x: T,
                                    key: Int,
                                    var previous: Option[DoubleLinkedList[T]] = None,
                                    var next: Option[DoubleLinkedList[T]] = None) {
-      override def toString: String = {
-        x.toString + " ; next: " + next.flatMap(_.next.map(_.x)) + "; previous: " + previous.flatMap(_.next.map(_.x))
-      }
+      override def toString: String = x.toString + " ; next: " + next.map(_.x).orNull + "; previous: " + previous.map(_.x).orNull
     }
 
     private val map = scala.collection.mutable.HashMap.empty[Int, DoubleLinkedList[Int]]
-    private var mostRecentlyUsed: DoubleLinkedList[Int] = null
-    private var leastRecentlyUsed: DoubleLinkedList[Int] = null
+    private var head: DoubleLinkedList[Int] = null
+    private var tail: DoubleLinkedList[Int] = null
 
     def get(key: Int): Int = {
       val i = map.get(key) match {
@@ -321,14 +320,15 @@ object LinkedList extends App {
             case (Some(a), Some(b)) =>
               a.next = Some(b)
               b.previous = Some(a)
-              value.previous = None
-              value.next = Some(mostRecentlyUsed)
+              val h = DoubleLinkedList(value.x, key, None, Some(head))
+              head.previous = Some(h)
+              head = h
             case (Some(a), None) =>
-              leastRecentlyUsed = a
               a.next = None
-              value.previous = None
-              value.next = Some(mostRecentlyUsed)
-              mostRecentlyUsed = value
+              tail = a
+              val h = DoubleLinkedList(value.x, key, None, Some(head))
+              head.previous = Some(h)
+              head = h
             case _ =>
           }
           value.x
@@ -339,36 +339,32 @@ object LinkedList extends App {
     }
 
     def put(key: Int, value: Int): Unit = {
-      if (mostRecentlyUsed == null) {
-        mostRecentlyUsed = DoubleLinkedList(value, key)
-        leastRecentlyUsed = mostRecentlyUsed
+      if (head == null) {
+        head = DoubleLinkedList(value, key)
+        tail = head
       } else {
-        val temp = DoubleLinkedList(value, key, next = Some(mostRecentlyUsed))
-        mostRecentlyUsed.previous = Some(temp)
-        mostRecentlyUsed = temp
+        // update tail if that was the last element
+        for {
+          node <- map.get(key)
+          if node.next.isEmpty
+          prev <- node.previous
+        } yield {
+          tail = prev
+          tail.next = None
+        }
+
+        val h = DoubleLinkedList(value, key, None, Some(head))
+        head.previous = Some(h)
+        head = h
       }
 
-      map.put(key, mostRecentlyUsed)
+      map.put(key, head)
 
       if (map.size > _capacity) {
-        leastRecentlyUsed = leastRecentlyUsed.previous.orNull
+        map.remove(tail.key)
+        tail.previous.foreach(prev => prev.next = None)
+        tail = tail.previous.get
       }
     }
-
-    // get (returns value + changes the order in queue)
-    // create (changes the order in queue + removeLast?)
-    // update (changes the order in queue + removeLast?)
-    // removeLast (remove the tail node if needed)
   }
-
-  private val cache = new LRUCache(2)
-  cache.put(1, 1)
-  cache.put(2, 2)
-  cache.get(1) //     1
-  cache.put(3, 3) //
-  cache.get(2) //    -1
-  cache.put(4, 4) //
-  cache.get(1) //    -1
-  cache.get(3) //     3
-  cache.get(4) //     4
 }
