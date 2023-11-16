@@ -20,6 +20,29 @@ object BinarySearch extends App {
     -1
   }
 
-  println(binarySearch(Array(1, 3, 4, 5, 8, 12, 14, 19, 25, 44, 55, 66, 67, 90, 119), 119))
-  println(binarySearch(Array(-1, 0, 3, 5, 9, 12), 12))
+//  println(binarySearch(Array(1, 3, 4, 5, 8, 12, 14, 19, 25, 44, 55, 66, 67, 90, 119), 119))
+//  println(binarySearch(Array(-1, 0, 3, 5, 9, 12), 12))
+
+
+  // 74. Search a 2D Matrix
+  def searchMatrix(matrix: Array[Array[Int]], target: Int): Boolean = {
+    var (top, bottom) = (0, matrix.length - 1)
+
+    while (top <= bottom) {
+      val middle = (top + bottom)/2
+      val middleRow = matrix(middle)
+
+      (middleRow(0), middleRow(middleRow.length - 1)) match {
+        case (a, b) if a <= target && target <= b =>
+          return binarySearch(middleRow, target) != -1
+        case (a, b) if a >= target && b >= target =>
+          bottom = middle - 1
+        case (a, b) if a <= target && b <= target =>
+          top = middle + 1
+      }
+    }
+
+    false
+  }
+//  println(searchMatrix(Array(Array(1,3,5,7), Array(10,11,16,20), Array(23,30,34,60)), 60))
 }
