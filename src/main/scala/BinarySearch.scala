@@ -45,4 +45,28 @@ object BinarySearch extends App {
     false
   }
 //  println(searchMatrix(Array(Array(1,3,5,7), Array(10,11,16,20), Array(23,30,34,60)), 60))
+
+  // 153. Find Minimum in Rotated Sorted Array
+  def findMin(nums: Array[Int]): Int = {
+    var (left, right) = (0, nums.length -1)
+    var middle = (left + right)/2
+
+    while(nums(left) > nums(right)) {
+      val middleElement = nums(middle)
+      val leftElement = nums(left)
+
+      if (middleElement < leftElement)
+        right = middle
+      else
+        left = middle + 1
+
+      middle = (left + right)/2
+    }
+    nums(left)
+  }
+//  println(findMin(Array(5,1,2,3,4)))
+//  println(findMin(Array(4,5,6,7,0,1,2)))
+//  println(findMin(Array(3,1,2)))
+//  println(findMin(Array(2,1)))
+//  println(findMin(Array(1)))
 }
