@@ -73,14 +73,11 @@ object BinarySearch extends App {
   // 33. Search in Rotated Sorted Array
   def search(nums: Array[Int], target: Int): Int = {
     var (left, right) = (0, nums.length - 1)
-    var (leftElement, rightElement) = (nums(left), nums(right))
 
     while (left <= right) {
       val middle = (left + right) / 2
-      val middleElement = nums(middle)
-
-      if (middleElement == target)
-        return (left+right)/2
+      if (nums(middle) == target)
+        return middle
 
       /*
       4 options where can be the target:                   Searching in:
@@ -90,31 +87,28 @@ object BinarySearch extends App {
       right part is sorted & the item is in left part      left part
       * */
 
-      val next = nums(if (middle + 1 > nums.length - 1) nums.length - 1 else middle + 1)
-      val prev = nums(if (middle - 1 < 0) 0 else middle - 1)
-
-      if ((leftElement <= target && target <= prev) || (next <= rightElement && next > target)) {
+      if ((nums(left) <= target && target < nums(middle)) || (nums(middle) < nums(right) && (nums(middle) > target || nums(right) < target))) {
         right = middle - 1
         if (right < 0)
           return -1
-        rightElement = nums(right)
       } else {
         left = middle + 1
         if (left >= nums.length)
           return -1
-        leftElement = nums(left)
       }
 
     }
 
     -1
   }
-  println(search(Array(4,5,6,7,0,1,2), 0))
-  println(search(Array(4,5,6,7,0,1,2), 3))
-  println(search(Array(0,1,2), 2))
-  println(search(Array(4,5,6,7,0,1,2), 4))
-  println(search(Array(4,5,6,7,0,1,2), 2))
-  println(search(Array(1,2), 2))
-  println(search(Array(2,1), 2))
-  println(search(Array(2), 2))
+//  println(search(Array(3,4,5,6,7,8,1,2), 2))
+//  println(search(Array(6,7,1,2,3,4,5), 6))
+//  println(search(Array(4,5,6,7,0,1,2), 0))
+//  println(search(Array(4,5,6,7,0,1,2), 3))
+//  println(search(Array(0,1,2), 2))
+//  println(search(Array(4,5,6,7,0,1,2), 4))
+//  println(search(Array(4,5,6,7,0,1,2), 2))
+//  println(search(Array(1,2), 2))
+//  println(search(Array(2,1), 2))
+//  println(search(Array(2), 2))
 }
