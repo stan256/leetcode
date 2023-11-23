@@ -1,4 +1,4 @@
-
+import scala.collection.mutable
 
 
 object BinarySearch extends App {
@@ -111,4 +111,44 @@ object BinarySearch extends App {
 //  println(search(Array(1,2), 2))
 //  println(search(Array(2,1), 2))
 //  println(search(Array(2), 2))
+
+  // 981. Time Based Key-Value Store
+  class TimeMap() {
+    val map = scala.collection.mutable.HashMap.empty[String, scala.collection.mutable.Seq[(Int, String)]]
+
+    def set(key: String, value: String, timestamp: Int): Unit = {
+      val set = map.getOrElse(key, scala.collection.mutable.Seq.empty[(Int, String)])
+      map.put(key, set :+ (timestamp, value))
+    }
+
+    def get(key: String, timestamp: Int): String =
+      map.get(key).fold(""){
+        list => {
+          var (left, right) = (0, list.size - 1)
+
+          var result = ""
+          while (left <= right) {
+            val middle = (left + right)/2
+
+            if (list(middle)._1 <= timestamp) {
+              result = list(middle)._2
+              left = middle + 1
+            } else {
+              right = middle - 1
+            }
+          }
+          println(result)
+          result
+        }
+      }
+  }
+
+  val timeMap = new TimeMap()
+  timeMap.set("foo", "bar", 1)
+  timeMap.get("foo", 1)
+  timeMap.get("foo", 3)
+  timeMap.set("foo", "bar2", 4)
+  timeMap.get("foo", 4)
+  timeMap.get("foo", 5)
+  timeMap.get("foo", 3)
 }
