@@ -247,4 +247,41 @@ object Arrays extends App {
     counter
   }
   //  println(longestConsecutive(Array(100,4,200,1,3,2)))
+
+  // 271. Encode and Decode Strings
+  class Codec {
+    // Encodes a list of strings to a single string.
+    val delimiter = "^_"
+
+    def encode(strs: List[String]): String =
+      strs.fold("")((a, b) => a + b.length + delimiter + b)
+
+    // Decodes a single string to a list of strings.
+    def decode(s: String): List[String] = {
+      var res: List[String] = List.empty[String]
+      var i = 0
+      var nextWordLengthStr: String = ""
+
+      while (i <= s.length - 1) {
+        if (i < s.length - 1 && s.slice(i, i + 2) == delimiter) {
+          i += 2
+          val k = nextWordLengthStr.toInt
+          res = res :+ s.slice(i, i+k)
+          i += k
+          nextWordLengthStr = ""
+        } else {
+          nextWordLengthStr += s.charAt(i).toString
+          i += 1
+        }
+      }
+
+      res
+    }
+  }
+
+//  val encoder = new Codec()
+//  private val str: String = encoder.encode(List("Hello", "World", "hi"))
+//  println(str)
+//  println(encoder.decode(str))
+
 }
