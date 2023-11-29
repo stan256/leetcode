@@ -23,7 +23,40 @@ object SlidingWindow extends App {
 
     res
   }
-  println(maxProfit(Array(2,1,2,1,0,1,2)))
-  println(maxProfit(Array(7,1,5,3,6,4)))
+//  println(maxProfit(Array(2,1,2,1,0,1,2)))
+//  println(maxProfit(Array(7,1,5,3,6,4)))
+
+  // 3. Longest Substring Without Repeating Characters
+  def lengthOfLongestSubstring(s: String): Int = {
+    var res = 0
+    var slow = 0
+    var fast = 0
+    val map = scala.collection.mutable.HashMap.empty[Char, Int]
+
+    while (fast < s.length) {
+      val fastChar = s.charAt(fast)
+      if (map.contains(fastChar)) {
+        slow = map(fastChar) + 1
+        map.clear()
+        s.slice(slow, fast).zipWithIndex.foreach(c => map.put(c._1, slow + c._2))
+      }
+      map.put(fastChar, fast)
+
+      if (res < map.size)
+        res = map.size
+
+      fast += 1
+    }
+
+    res
+  }
+
+  println(lengthOfLongestSubstring("yfsrsrpzuya"))
+//  println(lengthOfLongestSubstring("au"))
+//  println(lengthOfLongestSubstring("dvdf"))
+//  println(lengthOfLongestSubstring("jauu"))
+//  println(lengthOfLongestSubstring("abcabcbb"))
+//  println(lengthOfLongestSubstring("bbbbb"))
+//  println(lengthOfLongestSubstring("pwwkew"))
 
 }
