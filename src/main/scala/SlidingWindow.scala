@@ -51,12 +51,38 @@ object SlidingWindow extends App {
     res
   }
 
-  println(lengthOfLongestSubstring("yfsrsrpzuya"))
+//  println(lengthOfLongestSubstring("yfsrsrpzuya"))
 //  println(lengthOfLongestSubstring("au"))
 //  println(lengthOfLongestSubstring("dvdf"))
 //  println(lengthOfLongestSubstring("jauu"))
 //  println(lengthOfLongestSubstring("abcabcbb"))
 //  println(lengthOfLongestSubstring("bbbbb"))
 //  println(lengthOfLongestSubstring("pwwkew"))
+
+  // 424. Longest Repeating Character Replacement
+  def characterReplacement(s: String, k: Int): Int = {
+    var left, right = 0
+    var result = 0
+    val arr = scala.collection.mutable.ArrayBuffer.fill(26)(0)
+    var mostOften = 0
+
+    while (right < s.length) {
+      arr(s.charAt(right) - 'A') += 1
+      val frequency = arr(s.charAt(right) - 'A')
+      mostOften = Math.max(mostOften, frequency)
+
+      while (right - left + 1 - mostOften > k) {
+        arr(s.charAt(left) - 'A') -= 1
+        left += 1
+      }
+
+      result = Math.max(result, right - left + 1)
+
+      right += 1
+    }
+
+    result
+  }
+  println(characterReplacement("AABABBA", 1))
 
 }
