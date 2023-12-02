@@ -83,6 +83,55 @@ object SlidingWindow extends App {
 
     result
   }
-  println(characterReplacement("AABABBA", 1))
+//  println(characterReplacement("AABABBA", 1))
+
+  // 567. Permutation in String
+  def checkInclusion(s1: String, s2: String): Boolean = {
+
+    val map = s1.foldLeft(scala.collection.mutable.HashMap.empty[Char, Int])((map, c) => {
+      map.put(c, map.getOrElse(c, 0) + 1)
+      map
+    })
+
+    var left, right = 0
+
+    while (right < s2.length) {
+      val charFreq = map.get(s2.charAt(right))
+
+      if (charFreq.isEmpty) {
+        while (left != right) {
+          val c = s2.charAt(left)
+          map.update(c, map(c) + 1)
+          left += 1
+        }
+        left += 1
+        right += 1
+      } else {
+        val value = charFreq.get
+        if (value > 0) {
+          map.put(s2.charAt(right), value - 1)
+          right += 1
+        } else {
+          map.put(s2.charAt(left), map(s2.charAt(left)) + 1)
+          left += 1
+        }
+      }
+
+      if (map.values.forall(_ == 0)) {
+        return true
+      }
+    }
+
+
+    false
+  }
+  println(checkInclusion("hello", "ooolleoooleh"))
+//  println(checkInclusion("abc", "bbbca"))
+//  println(checkInclusion("abc", "bbbka"))
+//  println(checkInclusion("abc", "abc"))
+//  println(checkInclusion("abc", "acb"))
+//  println(checkInclusion("abc", "ac"))
+//  println(checkInclusion("abc", "abkab"))
+//  println(checkInclusion("abc", "abkabc"))
 
 }
