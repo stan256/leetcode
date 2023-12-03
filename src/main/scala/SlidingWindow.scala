@@ -23,8 +23,8 @@ object SlidingWindow extends App {
 
     res
   }
-//  println(maxProfit(Array(2,1,2,1,0,1,2)))
-//  println(maxProfit(Array(7,1,5,3,6,4)))
+  //  println(maxProfit(Array(2,1,2,1,0,1,2)))
+  //  println(maxProfit(Array(7,1,5,3,6,4)))
 
   // 3. Longest Substring Without Repeating Characters
   def lengthOfLongestSubstring(s: String): Int = {
@@ -51,13 +51,13 @@ object SlidingWindow extends App {
     res
   }
 
-//  println(lengthOfLongestSubstring("yfsrsrpzuya"))
-//  println(lengthOfLongestSubstring("au"))
-//  println(lengthOfLongestSubstring("dvdf"))
-//  println(lengthOfLongestSubstring("jauu"))
-//  println(lengthOfLongestSubstring("abcabcbb"))
-//  println(lengthOfLongestSubstring("bbbbb"))
-//  println(lengthOfLongestSubstring("pwwkew"))
+  //  println(lengthOfLongestSubstring("yfsrsrpzuya"))
+  //  println(lengthOfLongestSubstring("au"))
+  //  println(lengthOfLongestSubstring("dvdf"))
+  //  println(lengthOfLongestSubstring("jauu"))
+  //  println(lengthOfLongestSubstring("abcabcbb"))
+  //  println(lengthOfLongestSubstring("bbbbb"))
+  //  println(lengthOfLongestSubstring("pwwkew"))
 
   // 424. Longest Repeating Character Replacement
   def characterReplacement(s: String, k: Int): Int = {
@@ -83,7 +83,7 @@ object SlidingWindow extends App {
 
     result
   }
-//  println(characterReplacement("AABABBA", 1))
+  //  println(characterReplacement("AABABBA", 1))
 
   // 567. Permutation in String
   def checkInclusion(s1: String, s2: String): Boolean = {
@@ -125,13 +125,60 @@ object SlidingWindow extends App {
 
     false
   }
-  println(checkInclusion("hello", "ooolleoooleh"))
-//  println(checkInclusion("abc", "bbbca"))
-//  println(checkInclusion("abc", "bbbka"))
-//  println(checkInclusion("abc", "abc"))
-//  println(checkInclusion("abc", "acb"))
-//  println(checkInclusion("abc", "ac"))
-//  println(checkInclusion("abc", "abkab"))
-//  println(checkInclusion("abc", "abkabc"))
+  //  println(checkInclusion("hello", "ooolleoooleh"))
+  //  println(checkInclusion("abc", "bbbca"))
+  //  println(checkInclusion("abc", "bbbka"))
+  //  println(checkInclusion("abc", "abc"))
+  //  println(checkInclusion("abc", "acb"))
+  //  println(checkInclusion("abc", "ac"))
+  //  println(checkInclusion("abc", "abkab"))
+  //  println(checkInclusion("abc", "abkabc"))
+
+  // 76. Minimum Window Substring
+  def minWindow(s: String, t: String): String = {
+    val map = t.foldLeft(scala.collection.mutable.HashMap.empty[Char, Int])((map, c) => {
+      map.put(c, map.getOrElse(c, 0) + 1)
+      map
+    })
+    var res = ""
+    var left, right = 0
+
+    while (right < s.length || map.values.forall(_ <= 0)) {
+      if (map.values.forall(_ <= 0)) {
+        val maybeFreq = map.get(s.charAt(left))
+        if (maybeFreq.nonEmpty) {
+          map.update(s.charAt(left), maybeFreq.get + 1)
+        }
+        left += 1
+      } else {
+        val maybeFreq = map.get(s.charAt(right))
+        if (maybeFreq.nonEmpty) {
+          map.update(s.charAt(right), maybeFreq.get - 1)
+        }
+
+        right += 1
+      }
+
+
+
+      if (map.values.forall(_ <= 0)) {
+        if (res == "" || res.length > right - left) {
+          res = s.substring(left, right)
+        }
+      }
+    }
+
+    res
+  } // OBECODEBANC
+  println(minWindow("ab", "a"))
+  println(minWindow("ab", "b"))
+  println(minWindow("ba", "b"))
+  println(minWindow("bb", "b"))
+  println(minWindow("ABCBECODEBANC", "ABC"))
+  println(minWindow("ADOBECODEBANC", "ABC"))
+  println(minWindow("BAAC", "ABC"))
+  println(minWindow("ABC", "ABC"))
+  println(minWindow("A", "A"))
+  println(minWindow("Acb", "cAb"))
 
 }
