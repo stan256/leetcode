@@ -284,4 +284,15 @@ object Arrays extends App {
 //  println(str)
 //  println(encoder.decode(str))
 
+  // 412. Fizz Buzz
+  def fizzBuzz(n: Int): List[String] = {
+    (1 to n).map {
+      case n if n % 15 == 0 => "FizzBuzz"
+      case n if n % 5 == 0 => "Buzz"
+      case n if n % 3 == 0 => "Fizz"
+      case n => n.toString
+    }.toList
+  }
+  println(fizzBuzz(3))
+
 }
