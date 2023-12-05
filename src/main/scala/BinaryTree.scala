@@ -14,6 +14,16 @@ object BinaryTree extends App {
     new TreeNode(root.value, invertTree(root.right), invertTree(root.left))
   }
 
+  // 104. Maximum Depth of Binary Tree
+  def maxDepth(root: TreeNode): Int = {
+    def rec(node: TreeNode, depth: Int): Int =
+      if (node == null)
+        depth
+      else
+        Math.max(rec(node.left, depth + 1), rec(node.right, depth + 1))
+    rec(root, 0)
+  }
+
 
 
 }
