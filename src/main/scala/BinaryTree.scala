@@ -41,8 +41,26 @@ object BinaryTree extends App {
 //  val bsmaller1 = new TreeNode(5)
 //  val b = new TreeNode(6, bsmaller1, bbigger1)
 //  val root = new TreeNode(4, a, b)
-//
 //  println(lowestCommonAncestor(root, bbigger1, bsmaller1).value)
 
+  // 102. Binary Tree Level Order Traversal
+  def levelOrder(root: TreeNode): List[List[Int]] = {
+    if (root == null)
+      return List()
 
+    val map = scala.collection.mutable.Map.empty[Int, List[Int]]
+
+    def update(depth: Int, node: TreeNode): Unit = {
+      if (!map.contains(depth))
+        map.put(depth, List())
+      map.update(depth, map(depth) :+ node.value)
+      if (node.left != null)
+        update(depth + 1, node.left)
+      if (node.right != null)
+        update(depth + 1, node.right)
+    }
+
+    update(0, root)
+    map.values.toList
+  }
 }
