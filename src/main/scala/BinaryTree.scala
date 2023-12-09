@@ -36,12 +36,7 @@ object BinaryTree extends App {
     find(root)
   }
 
-//  val a = new TreeNode(2)
-//  val bbigger1 = new TreeNode(7)
-//  val bsmaller1 = new TreeNode(5)
-//  val b = new TreeNode(6, bsmaller1, bbigger1)
-//  val root = new TreeNode(4, a, b)
-//  println(lowestCommonAncestor(root, bbigger1, bsmaller1).value)
+  //  println(lowestCommonAncestor(root, bbigger1, bsmaller1).value)
 
   // 102. Binary Tree Level Order Traversal
   def levelOrder(root: TreeNode): List[List[Int]] = {
@@ -63,4 +58,45 @@ object BinaryTree extends App {
     update(0, root)
     map.values.toList
   }
+
+  // 543. Diameter of Binary Tree
+  def diameterOfBinaryTree(root: TreeNode): Int = {
+    //                                 result, longest
+    def count(node: TreeNode): (Int, Int) = {
+      if (node.left == null && node.right == null) {
+        (0, 0)
+      } else if (node.left == null && node.right != null) {
+        val right = count(node.right)
+        (Math.max(right._1, right._2 + 1), right._2 + 1)
+      } else if (node.left != null && node.right == null) {
+        val left = count(node.left)
+        (Math.max(left._1, left._2 + 1), left._2 + 1)
+      } else {
+        val left = count(node.left)
+        val right = count(node.right)
+        val res = (left._2 + right._2 + 2 :: left._1 :: right._1 :: Nil).max
+        val longest = Math.max(left._2, right._2) + 1
+        (res, longest)
+      }
+    }
+
+    count(root)._1
+  }
+
+  //  val a = new TreeNode(2)
+  //  val bbigger1 = new TreeNode(7)
+  //  val bsmaller1 = new TreeNode(5)
+  //  val b = new TreeNode(6, bsmaller1, bbigger1)
+  //  val root = new TreeNode(4, a, b)
+//  val root = new TreeNode(4,
+//    new TreeNode(-7),
+//    new TreeNode(-3,
+//      new TreeNode(-9,
+//        new TreeNode(9, new TreeNode(6, new TreeNode(0, new TreeNode(-1)), new TreeNode(6, new TreeNode(-4)))),
+//        new TreeNode(6, new TreeNode(0, new TreeNode(-1)), new TreeNode(6, new TreeNode(-4, new TreeNode(-2))))
+//      ),
+//      new TreeNode(-3, new TreeNode(-4))
+//    )
+//  )
+
 }
