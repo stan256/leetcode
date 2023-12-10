@@ -99,4 +99,11 @@ object BinaryTree extends App {
 //    )
 //  )
 
+  // 110. Balanced Binary Tree
+  def isBalanced(root: TreeNode): Boolean = {
+    false
+  }
+  println(isBalanced(???))
+
+
 }
