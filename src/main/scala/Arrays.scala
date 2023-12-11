@@ -295,4 +295,17 @@ object Arrays extends App {
   }
   println(fizzBuzz(3))
 
+  // 344. Reverse String
+  def reverseString(s: Array[Char]): Unit = {
+    var (left, right) = (0, s.length -1)
+
+    while (left < right) {
+      val temp = s(left)
+      s(left) = s(right)
+      s(right) = temp
+      left += 1
+      right -= 1
+    }
+  }
+
 }
