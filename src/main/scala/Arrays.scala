@@ -293,7 +293,6 @@ object Arrays extends App {
       case n => n.toString
     }.toList
   }
-  println(fizzBuzz(3))
 
   // 344. Reverse String
   def reverseString(s: Array[Char]): Unit = {
@@ -307,5 +306,28 @@ object Arrays extends App {
       right -= 1
     }
   }
+
+  // 977. Squares of a Sorted Array
+  def sortedSquares(nums: Array[Int]): Array[Int] = {
+    var positivePointer = 0
+    while (positivePointer < nums.length && nums(positivePointer) < 0) {
+      positivePointer += 1
+    }
+    var negativePointer = positivePointer - 1
+    var res = Array[Int]()
+    while (negativePointer >= 0 || positivePointer < nums.length) {
+      if (positivePointer == nums.length || negativePointer >= 0 && Math.abs(nums(negativePointer)) < nums(positivePointer)) {
+        res = res :+ nums(negativePointer) * nums(negativePointer)
+        negativePointer -= 1
+      } else {
+        res = res :+ nums(positivePointer) * nums(positivePointer)
+        positivePointer += 1
+      }
+    }
+    res
+  }
+  println(sortedSquares(Array(-4,-1,0,3,10)).mkString("Array(", ", ", ")"))
+  println(sortedSquares(Array(-4)).mkString("Array(", ", ", ")"))
+  println(sortedSquares(Array(-3, 1)).mkString("Array(", ", ", ")"))
 
 }
