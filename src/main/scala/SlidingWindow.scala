@@ -160,7 +160,6 @@ object SlidingWindow extends App {
       }
 
 
-
       if (map.values.forall(_ <= 0)) {
         if (res == "" || res.length > right - left) {
           res = s.substring(left, right)
@@ -170,15 +169,35 @@ object SlidingWindow extends App {
 
     res
   } // OBECODEBANC
-  println(minWindow("ab", "a"))
-  println(minWindow("ab", "b"))
-  println(minWindow("ba", "b"))
-  println(minWindow("bb", "b"))
-  println(minWindow("ABCBECODEBANC", "ABC"))
-  println(minWindow("ADOBECODEBANC", "ABC"))
-  println(minWindow("BAAC", "ABC"))
-  println(minWindow("ABC", "ABC"))
-  println(minWindow("A", "A"))
-  println(minWindow("Acb", "cAb"))
+  //  println(minWindow("ab", "a"))
+  //  println(minWindow("ab", "b"))
+  //  println(minWindow("ba", "b"))
+  //  println(minWindow("bb", "b"))
+  //  println(minWindow("ABCBECODEBANC", "ABC"))
+  //  println(minWindow("ADOBECODEBANC", "ABC"))
+  //  println(minWindow("BAAC", "ABC"))
+  //  println(minWindow("ABC", "ABC"))
+  //  println(minWindow("A", "A"))
+  //  println(minWindow("Acb", "cAb"))
+
+  // 643. Maximum Average Subarray I
+  def findMaxAverage(nums: Array[Int], k: Int): Double = {
+    var (left, right) = (0, k - 1)
+    var count: Double = nums.slice(0, k).sum
+    var res = count / k
+
+    while (right < nums.length - 1) {
+      count -= nums(left)
+      left += 1
+      right += 1
+      count += nums(right)
+
+      if (res < count / k)
+        res = count / k
+    }
+
+    res
+  }
+  //  println(findMaxAverage(Array(1,12,-5,-6,50,3), 4))
 
 }
