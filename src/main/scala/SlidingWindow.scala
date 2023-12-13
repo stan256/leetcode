@@ -200,4 +200,32 @@ object SlidingWindow extends App {
   }
   //  println(findMaxAverage(Array(1,12,-5,-6,50,3), 4))
 
+  // 1004. Max Consecutive Ones III
+  def longestOnes(nums: Array[Int], k: Int): Int = {
+    var left, right = 0
+    var res = 0
+
+    var counter = 0
+    while (right < nums.length) {
+
+      if (nums(right) == 0)
+        counter += 1
+      right += 1
+
+      while (counter > k) {
+        if (nums(left) == 0)
+          counter -= 1
+        left += 1
+      }
+
+      if (right - left > res)
+        res = right - left
+    }
+
+    res
+  }
+//  println(longestOnes(Array(1,1,1,0,0,0,1,1,1,1,0), 2))
+//  println(longestOnes(Array(1), 0))
+//  println(longestOnes(Array(0), 0))
+
 }
