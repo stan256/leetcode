@@ -227,5 +227,4 @@ object SlidingWindow extends App {
 //  println(longestOnes(Array(1,1,1,0,0,0,1,1,1,1,0), 2))
 //  println(longestOnes(Array(1), 0))
 //  println(longestOnes(Array(0), 0))
-
 }

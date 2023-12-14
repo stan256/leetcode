@@ -266,7 +266,7 @@ object Arrays extends App {
         if (i < s.length - 1 && s.slice(i, i + 2) == delimiter) {
           i += 2
           val k = nextWordLengthStr.toInt
-          res = res :+ s.slice(i, i+k)
+          res = res :+ s.slice(i, i + k)
           i += k
           nextWordLengthStr = ""
         } else {
@@ -279,10 +279,10 @@ object Arrays extends App {
     }
   }
 
-//  val encoder = new Codec()
-//  private val str: String = encoder.encode(List("Hello", "World", "hi"))
-//  println(str)
-//  println(encoder.decode(str))
+  //  val encoder = new Codec()
+  //  private val str: String = encoder.encode(List("Hello", "World", "hi"))
+  //  println(str)
+  //  println(encoder.decode(str))
 
   // 412. Fizz Buzz
   def fizzBuzz(n: Int): List[String] = {
@@ -296,7 +296,7 @@ object Arrays extends App {
 
   // 344. Reverse String
   def reverseString(s: Array[Char]): Unit = {
-    var (left, right) = (0, s.length -1)
+    var (left, right) = (0, s.length - 1)
 
     while (left < right) {
       val temp = s(left)
@@ -326,8 +326,23 @@ object Arrays extends App {
     }
     res
   }
-  println(sortedSquares(Array(-4,-1,0,3,10)).mkString("Array(", ", ", ")"))
-  println(sortedSquares(Array(-4)).mkString("Array(", ", ", ")"))
-  println(sortedSquares(Array(-3, 1)).mkString("Array(", ", ", ")"))
+  //  println(sortedSquares(Array(-4,-1,0,3,10)).mkString("Array(", ", ", ")"))
+  //  println(sortedSquares(Array(-4)).mkString("Array(", ", ", ")"))
+  //  println(sortedSquares(Array(-3, 1)).mkString("Array(", ", ", ")"))
 
+
+  // prefix sum
+  // 1413. Minimum Value to Get Positive Step by Step Sum
+  def minStartValue(nums: Array[Int]): Int = {
+    var k = 0
+    val prefixSum = nums.map(y => {
+      k = k + y
+      k
+    })
+    val min = prefixSum.min
+    if (min < 0) Math.abs(min) + 1 else 1
+  }
+
+  //  println(minStartValue(Array(-3, 2, -3, 4, 2)))
+  //  println(minStartValue(Array(1, -2, -3)))
 }
