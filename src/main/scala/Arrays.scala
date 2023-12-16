@@ -331,7 +331,8 @@ object Arrays extends App {
   //  println(sortedSquares(Array(-3, 1)).mkString("Array(", ", ", ")"))
 
 
-  // prefix sum
+  // PREFIX SUM:
+
   // 1413. Minimum Value to Get Positive Step by Step Sum
   def minStartValue(nums: Array[Int]): Int = {
     var k = 0
@@ -345,4 +346,19 @@ object Arrays extends App {
 
   //  println(minStartValue(Array(-3, 2, -3, 4, 2)))
   //  println(minStartValue(Array(1, -2, -3)))
+
+  // 2090. K Radius Subarray Averages
+  def getAverages(nums: Array[Int], k: Int): Array[Int] = {
+    val prefixSum = nums.scanLeft[Long](0)(_ + _).drop(1)
+    nums.zipWithIndex.map(n => {
+      if (n._2 - k < 0 || n._2 + k >= nums.length) -1
+      else {
+        val rightSum = prefixSum(n._2 + k)
+        val leftSum = if (n._2 - k - 1 >= 0) prefixSum(n._2 - k - 1) else 0
+        ((rightSum - leftSum) / (2 * k + 1)).toInt
+      }
+    })
+  }
+
+  //  println(getAverages(Array(7, 4, 3, 9, 1, 8, 5, 2, 6), 3).mkString("Array(", ", ", ")"))
 }
