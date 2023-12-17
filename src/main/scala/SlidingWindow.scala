@@ -224,7 +224,36 @@ object SlidingWindow extends App {
 
     res
   }
-//  println(longestOnes(Array(1,1,1,0,0,0,1,1,1,1,0), 2))
-//  println(longestOnes(Array(1), 0))
-//  println(longestOnes(Array(0), 0))
+  //  println(longestOnes(Array(1,1,1,0,0,0,1,1,1,1,0), 2))
+  //  println(longestOnes(Array(1), 0))
+  //  println(longestOnes(Array(0), 0))
+
+  // 713. Subarray Product Less Than K
+  def numSubarrayProductLessThanK(nums: Array[Int], k: Int): Int = {
+    if (k <= 1)
+      return 0
+
+    var left, right = 0
+    var product = 1
+    var res = 0
+
+    while (right < nums.length) {
+      product *= nums(right)
+
+      while (product >= k) {
+        product /= nums(left)
+        left += 1
+      }
+
+      res += right - left + 1
+      right += 1
+    }
+
+    res
+  }
+
+
+  //  println(numSubarrayProductLessThanK(Array(1,2,3), 0))
+  //  println(numSubarrayProductLessThanK(Array(100, 5, 50, 1), 100))
+  //  println(numSubarrayProductLessThanK(Array(10, 5, 2, 6), 100))
 }
