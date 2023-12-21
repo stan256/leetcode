@@ -13,4 +13,7 @@ object Hashing extends App {
     (0 to nums.length).find(x => !set(x)).get
   }
   //  println(missingNumber(Array(3,0,1)))
+
+  def missingNumber_arithmeticProgression(nums: Array[Int]): Int = nums.length * (nums.length + 1) / 2 - nums.sum
+  //  println(missingNumber_arithmeticProgression(Array(3,0,1)))
 }
