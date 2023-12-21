@@ -7,4 +7,10 @@ object Hashing extends App {
   //  println(checkIfPangram("thequickbrownfoxjumpsoverthelazydog"))
   //  println(checkIfPangram("leetcode"))
 
+  // 268. Missing Number
+  def missingNumber(nums: Array[Int]): Int = {
+    val set = nums.toSet
+    (0 to nums.length).find(x => !set(x)).get
+  }
+  //  println(missingNumber(Array(3,0,1)))
 }
