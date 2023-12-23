@@ -1,3 +1,5 @@
+import scala.collection.mutable
+
 object Hashing extends App {
   // 1832. Check if the Sentence Is Pangram
   def checkIfPangram(sentence: String): Boolean = {
@@ -40,4 +42,8 @@ object Hashing extends App {
   }
 
   // println(findWinners(Array(Array(1, 3), Array(2, 3), Array(3, 6), Array(5, 6), Array(5, 7), Array(4, 5), Array(4, 8), Array(4, 9), Array(10, 4), Array(10, 9))))
+
+  // 1133. Largest Unique Number
+  def largestUniqueNumber(nums: Array[Int]): Int = nums.foldLeft(Map.empty[Int, Int])((acc, x) => acc.updated(x, acc.getOrElse(x, 0) + 1)).filter(_._2 == 1).keys.maxOption.getOrElse(-1)
+  // println(largestUniqueNumber(Array(5,7,3,9,4,9,8,3,1)))
 }
