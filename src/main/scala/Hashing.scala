@@ -46,4 +46,19 @@ object Hashing extends App {
   // 1133. Largest Unique Number
   def largestUniqueNumber(nums: Array[Int]): Int = nums.foldLeft(Map.empty[Int, Int])((acc, x) => acc.updated(x, acc.getOrElse(x, 0) + 1)).filter(_._2 == 1).keys.maxOption.getOrElse(-1)
   // println(largestUniqueNumber(Array(5,7,3,9,4,9,8,3,1)))
+
+  // 1189. Maximum Number of Balloons
+  def maxNumberOfBalloons(text: String): Int = {
+    val chars = text.filter("balloon".contains(_)).foldLeft(Map.empty[Char, Int])((map, c) => map.updated(c, map.getOrElse(c, 0) + 1)).map {
+      case (d, numb) if d == 'l' || d == 'o' => numb / 2
+      case (_, numb) => numb
+    }
+    if (chars.size == "balloon".distinct.length)
+      chars.min
+    else
+      0
+  }
+  // println(maxNumberOfBalloons("lloo"))
+  // println(maxNumberOfBalloons("nlaebolko"))
+  // println(maxNumberOfBalloons("loonbalxballpoon"))
 }
