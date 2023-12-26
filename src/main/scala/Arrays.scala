@@ -361,4 +361,21 @@ object Arrays extends App {
   }
 
   //  println(getAverages(Array(7, 4, 3, 9, 1, 8, 5, 2, 6), 3).mkString("Array(", ", ", ")"))
+
+  // 560. Subarray Sum Equals K
+  def subarraySum(nums: Array[Int], k: Int): Int = {
+    var count = 0
+    var answer = 0
+    val map = collection.mutable.HashMap.empty[Int, Int]
+    map.put(0, 1)
+
+    nums.foreach(i => {
+      count += i
+      answer += map.getOrElse(count - k, 0)
+      map.put(count, map.getOrElse(count, 0) + 1)
+    })
+
+    answer
+  }
+  println(subarraySum(Array(1,1,1), 2))
 }
