@@ -61,4 +61,39 @@ object Hashing extends App {
   // println(maxNumberOfBalloons("lloo"))
   // println(maxNumberOfBalloons("nlaebolko"))
   // println(maxNumberOfBalloons("loonbalxballpoon"))
+
+
+  // 560. Subarray Sum Equals K
+  def subarraySum(nums: Array[Int], k: Int): Int = {
+    var count = 0
+    var answer = 0
+    val map = collection.mutable.HashMap.empty[Int, Int]
+    map.put(0, 1)
+
+    nums.foreach(i => {
+      count += i
+      answer += map.getOrElse(count - k, 0)
+      map.put(count, map.getOrElse(count, 0) + 1)
+    })
+
+    answer
+  }
+  // println(subarraySum(Array(1,1,1), 2))
+
+  // 1248. Count Number of Nice Subarrays
+  def numberOfSubarrays(nums: Array[Int], k: Int): Int = {
+    val map = collection.mutable.HashMap.empty[Int, Int]
+    map.put(0, 1)
+    var count = 0
+    var answer = 0
+
+    nums.foreach(x => {
+      count += x % 2
+      answer += map.getOrElse(count - k, 0)
+      map.put(count, map.getOrElse(count, 0) + 1)
+    })
+
+    answer
+  }
+  // println(numberOfSubarrays(Array(2,2,2,1,2,2,1,2,2,2), 2))
 }
