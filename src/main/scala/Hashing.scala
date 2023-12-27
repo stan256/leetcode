@@ -96,4 +96,21 @@ object Hashing extends App {
     answer
   }
   // println(numberOfSubarrays(Array(2,2,2,1,2,2,1,2,2,2), 2))
+
+  // 930. Binary Subarrays With Sum
+  def numSubarraysWithSum(nums: Array[Int], goal: Int): Int = {
+    var count, ans = 0
+    val map = collection.mutable.HashMap.empty[Int, Int]
+    map.put(0, 1)
+
+    nums.foreach(x => {
+      count += x
+      ans += map.getOrElse(count - goal, 0)
+      map.put(count, map.getOrElse(count, 0) + 1)
+    })
+
+    ans
+  }
+  // println(numSubarraysWithSum(Array(1,0,1,0,1), 2))
+  // println(numSubarraysWithSum(Array(0,0,0,0,0), 0))
 }
