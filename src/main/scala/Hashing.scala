@@ -1,4 +1,3 @@
-import scala.collection.mutable
 
 object Hashing extends App {
   // 1832. Check if the Sentence Is Pangram
@@ -95,7 +94,8 @@ object Hashing extends App {
 
     answer
   }
-  // println(numberOfSubarrays(Array(2,2,2,1,2,2,1,2,2,2), 2))
+
+  // println(numberOfSubarrays(Array(1, 1, 2, 1, 1), 3))
 
   // 930. Binary Subarrays With Sum
   def numSubarraysWithSum(nums: Array[Int], goal: Int): Int = {
@@ -113,4 +113,27 @@ object Hashing extends App {
   }
   // println(numSubarraysWithSum(Array(1,0,1,0,1), 2))
   // println(numSubarraysWithSum(Array(0,0,0,0,0), 0))
+
+  // 525. Contiguous Array
+  def findMaxLength(nums: Array[Int]): Int = {
+    var count, ans = 0
+    val map = collection.mutable.HashMap.empty[Int, Int]
+    map.put(0, -1)
+
+    nums.map {case 0 => -1; case _ => 1}.zipWithIndex.foreach(x => {
+      count += x._1
+      if (map.contains(count)) {
+        val len = x._2 - map(count)
+        ans = Math.max(ans, len)
+      } else {
+        map.put(count, x._2)
+      }
+    })
+
+    ans
+  }
+
+  println(findMaxLength(Array(0, 1, 0)))
+  println(findMaxLength(Array(0, 1, 0, 1, 0)))
+  println(findMaxLength(Array(0, 1)))
 }
