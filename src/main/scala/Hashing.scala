@@ -120,7 +120,7 @@ object Hashing extends App {
     val map = collection.mutable.HashMap.empty[Int, Int]
     map.put(0, -1)
 
-    nums.map {case 0 => -1; case _ => 1}.zipWithIndex.foreach(x => {
+    nums.map { case 0 => -1; case _ => 1 }.zipWithIndex.foreach(x => {
       count += x._1
       if (map.contains(count)) {
         val len = x._2 - map(count)
@@ -133,7 +133,19 @@ object Hashing extends App {
     ans
   }
 
-  println(findMaxLength(Array(0, 1, 0)))
-  println(findMaxLength(Array(0, 1, 0, 1, 0)))
-  println(findMaxLength(Array(0, 1)))
+  //  println(findMaxLength(Array(0, 1, 0)))
+  //  println(findMaxLength(Array(0, 1, 0, 1, 0)))
+  //  println(findMaxLength(Array(0, 1)))
+
+  // 383. Ransom Note
+  def canConstruct(ransomNote: String, magazine: String): Boolean = {
+    var magazineMap = magazine.foldLeft(Map.empty[Char, Int])((map, x) => map + (x -> (map.getOrElse(x, 0) + 1)))
+    ransomNote.forall(c => {
+      magazineMap = magazineMap + (c -> (magazineMap.getOrElse(c, 0) - 1))
+      magazineMap.get(c).exists(x => x >= 0)
+    })
+  }
+  //  println(canConstruct("aa", "bb"))
+  //  println(canConstruct("aa", "ab"))
+  //  println(canConstruct("aab", "bbaa"))
 }
