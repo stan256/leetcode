@@ -148,4 +148,12 @@ object Hashing extends App {
   //  println(canConstruct("aa", "bb"))
   //  println(canConstruct("aa", "ab"))
   //  println(canConstruct("aab", "bbaa"))
+
+  // 771. Jewels and Stones
+  def numJewelsInStones(jewels: String, stones: String): Int = {
+    val set = jewels.toSet
+    stones.foldLeft(0)((counter, x) => if (set(x)) counter + 1 else counter)
+  }
+  //  println(numJewelsInStones("aA", "aAAbbbb"))
+  //  println(numJewelsInStones("z", "ZZ"))
 }
