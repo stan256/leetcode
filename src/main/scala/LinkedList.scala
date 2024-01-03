@@ -367,4 +367,21 @@ object LinkedList extends App {
       }
     }
   }
+
+  // 876. Middle of the Linked List
+  def middleNode(head: ListNode): ListNode = {
+    var slow, fast = head
+
+    while (fast.next != null && fast.next.next != null) {
+      fast = fast.next.next
+      slow = slow.next
+    }
+
+    if (fast.next == null)
+      slow
+    else
+      slow.next
+  }
+  // println(middleNode(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))))
+  // println(middleNode(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6))))))))
 }
