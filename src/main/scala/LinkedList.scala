@@ -384,4 +384,23 @@ object LinkedList extends App {
   }
   // println(middleNode(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))))
   // println(middleNode(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6))))))))
+
+  // 83. Remove Duplicates from Sorted List
+  def deleteDuplicates(head: ListNode): ListNode = {
+    if (head == null || head.next == null)
+      return head
+
+    val dummy = ListNode(0, head)
+    var curr = head
+
+    while (curr != null && curr.next != null) {
+      if (curr.x == curr.next.x) curr.next = curr.next.next
+      else curr = curr.next
+    }
+    dummy.next
+  }
+  //  println(deleteDuplicates(ListNode(1, ListNode(1))))
+  //  println(deleteDuplicates(ListNode(1)))
+  //  println(deleteDuplicates(ListNode(1, ListNode(1, ListNode(2)))))
+  //  println(deleteDuplicates(ListNode(1, ListNode(1, ListNode(2, ListNode(2, ListNode(3, ListNode(3))))))))
 }
