@@ -7,6 +7,7 @@ object LinkedList extends App {
     var x: Int = _x
   }
 
+  // terrible - O(n) space
   def reverseList(head: ListNode): ListNode = {
     val stack = scala.collection.mutable.Stack.empty[Int]
     var next = head
@@ -403,4 +404,19 @@ object LinkedList extends App {
   //  println(deleteDuplicates(ListNode(1)))
   //  println(deleteDuplicates(ListNode(1, ListNode(1, ListNode(2)))))
   //  println(deleteDuplicates(ListNode(1, ListNode(1, ListNode(2, ListNode(2, ListNode(3, ListNode(3))))))))
+
+  // 206. Reverse Linked List
+  def reverseList_2(list: ListNode): ListNode = {
+    var current = list
+    var prev: ListNode = null
+
+    while (current != null) {
+      val next = current.next
+      current.next = prev
+      prev = current
+      current = next
+    }
+
+    prev
+  }
 }
