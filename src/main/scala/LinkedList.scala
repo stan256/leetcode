@@ -433,5 +433,11 @@ object LinkedList extends App {
     }
     head
   }
-  println(deleteDuplicates_2(ListNode(1, ListNode(1))))
+  // println(deleteDuplicates_2(ListNode(1, ListNode(1))))
+
+  // 92. Reverse Linked List II
+  def reverseBetween(head: ListNode, left: Int, right: Int): ListNode = {
+    ???
+  }
+  println(reverseBetween(ListNode(1, ListNode(1)), 2, 4))
 }
