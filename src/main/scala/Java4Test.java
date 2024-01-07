@@ -66,22 +66,6 @@ public class Java4Test {
 
 
     public static void main(String[] args) {
-        System.out.println(Solution.solution("Yvzs! I xzm'g yvorvev Lzmxv olhg srh qly zg gsv xlolmb!!"));
     }
 }
 
-// google foobar challenge #1 - I Love Lance & Janice
-class Solution {
-    public static String solution(String x) {
-        StringBuilder sb = new StringBuilder(x);
-
-        for (int i = 0; i < x.length(); i++) {
-            char c = sb.charAt(i);
-            if (c >= 'a' && c <= 'z') {
-                sb.setCharAt(i, (char) ('z' - (c - 'a')));
-            }
-        }
-
-        return sb.toString();
-    }
-}
