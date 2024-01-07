@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.Arrays;
 
 public class Java4Test {
 
@@ -56,7 +55,7 @@ public class Java4Test {
         int ans = 0;
         int curr = 0;
 
-        for (int num: nums) {
+        for (int num : nums) {
             curr += num;
             ans += counts.getOrDefault(curr - k, 0);
             counts.put(curr, counts.getOrDefault(curr, 0) + 1);
@@ -65,13 +64,24 @@ public class Java4Test {
         return ans;
     }
 
+
     public static void main(String[] args) {
-//        System.out.println(Arrays.toString(productExceptSelf(new int[]{1, 2, 3, 4})));
-//        System.out.println(intersection(new int[][]{
-//                new int[]{3, 1, 2, 4, 5},
-//                new int[]{1, 2, 3, 4},
-//                new int[]{3, 4, 5, 6},
-//        }));
-        System.out.println(subarraySum(new int[]{1,-1,1}, 2));
+        System.out.println(Solution.solution("Yvzs! I xzm'g yvorvev Lzmxv olhg srh qly zg gsv xlolmb!!"));
+    }
+}
+
+// google foobar challenge #1 - I Love Lance & Janice
+class Solution {
+    public static String solution(String x) {
+        StringBuilder sb = new StringBuilder(x);
+
+        for (int i = 0; i < x.length(); i++) {
+            char c = sb.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                sb.setCharAt(i, (char) ('z' - (c - 'a')));
+            }
+        }
+
+        return sb.toString();
     }
 }
