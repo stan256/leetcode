@@ -437,10 +437,43 @@ object LinkedList extends App {
 
   // 92. Reverse Linked List II
   def reverseBetween(head: ListNode, left: Int, right: Int): ListNode = {
-    ???
+    val dummy = ListNode(0, head)
+    var l, r = dummy
+    var i = 0
+    while (i < right - left) {
+      r = r.next
+      i += 1
+    }
+    i = 0
+    while (i < left - 1) {
+      l = l.next
+      r = r.next
+      i += 1
+    }
+
+    var prev: ListNode = null
+    var current = l.next
+    val end = if (r.next != null) r.next.next else null
+
+    while (current != end) {
+      val next = current.next
+      current.next = prev
+      prev = current
+      current = next
+    }
+
+    var last = prev
+    while (last.next != null) {
+      last = last.next
+    }
+
+    l.next = prev
+    last.next = end
+    dummy.next
   }
 
-  println(reverseBetween(ListNode(1, ListNode(1)), 2, 4))
+  //  println(reverseBetween(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2, 4))
+  //  println(reverseBetween(ListNode(1), 1, 1))
 
   // 24. Swap Nodes in Pairs
   def swapPairs(head: ListNode): ListNode = {
