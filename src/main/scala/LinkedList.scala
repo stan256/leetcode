@@ -465,5 +465,35 @@ object LinkedList extends App {
     dummy
   }
 
+  // 2130. Maximum Twin Sum of a Linked List
+  def pairSum(head: ListNode): Int = {
+    var slow, fast = head
+    var ans = 0
+
+    while (fast.next.next != null) {
+      slow = slow.next
+      fast = fast.next.next
+    }
+
+    var prev: ListNode = null
+    var current = slow.next
+    while (current != null) {
+      val next = current.next
+      current.next = prev
+      prev = current
+      current = next
+    }
+
+    slow.next = prev
+    var i2 = prev
+    var i1 = head
+    while (i2 != null) {
+      ans = Math.max(ans, i2.x + i1.x)
+      i1 = i1.next
+      i2 = i2.next
+    }
+    ans
+  }
+
 
 }
