@@ -278,14 +278,29 @@ object Stack extends App {
     res
   }
 
-  println(largestRectangleArea(Array(2, 1, 5, 6, 2, 3)))
-  println(largestRectangleArea(Array(2, 1, 6, 5, 2, 3)))
-  println(largestRectangleArea(Array(2, 4)))
-  println(largestRectangleArea(Array(1, 1)))
-  println(largestRectangleArea(Array(2, 1, 2)))
-  println(largestRectangleArea(Array(5, 4, 1, 2)))
-  println(largestRectangleArea(Array(4, 2, 0, 3, 2, 5)))
-  println(largestRectangleArea(Array(3, 2, 5)))
+  //  println(largestRectangleArea(Array(2, 1, 5, 6, 2, 3)))
+  //  println(largestRectangleArea(Array(2, 1, 6, 5, 2, 3)))
+  //  println(largestRectangleArea(Array(2, 4)))
+  //  println(largestRectangleArea(Array(1, 1)))
+  //  println(largestRectangleArea(Array(2, 1, 2)))
+  //  println(largestRectangleArea(Array(5, 4, 1, 2)))
+  //  println(largestRectangleArea(Array(4, 2, 0, 3, 2, 5)))
+  //  println(largestRectangleArea(Array(3, 2, 5)))
+
+  // 1047. Remove All Adjacent Duplicates In String
+  def removeDuplicates(s: String): String = {
+    var stack = List.empty[Char]
+    for (c <- s) {
+      if (stack.headOption.contains(c))
+        stack = stack.drop(1)
+      else
+        stack = c :: stack
+    }
+    stack.reverse.foldLeft("")(_ + _)
+  }
+
+  // println(removeDuplicates("abbaca"))
+  // println(removeDuplicates("azxxzy"))
 }
 
 
