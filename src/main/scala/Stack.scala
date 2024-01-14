@@ -301,6 +301,20 @@ object Stack extends App {
 
   // println(removeDuplicates("abbaca"))
   // println(removeDuplicates("azxxzy"))
+
+  // 844. Backspace String Compare
+  def backspaceCompare(s: String, t: String): Boolean = {
+    def backspace(s: String): String = {
+      var stack = List.empty[Char]
+      for (c <- s) {
+        if (c == '#') stack = stack.drop(1)
+        else stack = c :: stack
+      }
+      stack.mkString
+    }
+    backspace(s) == backspace(t)
+  }
+  // println(backspaceCompare("a#c", "b"))
 }
 
 
