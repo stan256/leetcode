@@ -312,9 +312,33 @@ object Stack extends App {
       }
       stack.mkString
     }
+
     backspace(s) == backspace(t)
   }
   // println(backspaceCompare("a#c", "b"))
+
+  // 71. Simplify Path
+  def simplifyPath(path: String): String = {
+    val list = path.split("/+").drop(1)
+    var stack: List[String] = List()
+    val sign = "/"
+
+    for (s <- list) {
+      s match {
+        case "." =>
+        case ".." => if (stack.nonEmpty) stack = stack.drop(1)
+        case x => stack = sign + x :: stack
+      }
+    }
+    if (stack.isEmpty) sign else stack.reverse.mkString
+  }
+
+  //  println(simplifyPath("/home//foo/"))
+  //  println(simplifyPath("/home//.foo/"))
+  //  println(simplifyPath("/home//../"))
+  //  println(simplifyPath("/home//./"))
+  //  println(simplifyPath("/.....///.../..//./"))
+  // println(simplifyPath("/a/./b/../../c/"))
 }
 
 
