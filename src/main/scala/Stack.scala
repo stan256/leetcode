@@ -339,6 +339,21 @@ object Stack extends App {
   //  println(simplifyPath("/home//./"))
   //  println(simplifyPath("/.....///.../..//./"))
   // println(simplifyPath("/a/./b/../../c/"))
+
+  // 1544. Make The String Great
+  def makeGood(str: String): String = {
+    val stack = collection.mutable.Stack.empty[Char]
+    for (c <- str) {
+      if (c > 'Z' && stack.headOption.contains(c - 32))
+        stack.pop()
+      else if (c < 'a' && stack.headOption.contains(c + 32))
+        stack.pop()
+      else
+        stack.push(c)
+    }
+    stack.reverse.mkString
+  }
+  // println(makeGood("leEeetcode"))
 }
 
 
