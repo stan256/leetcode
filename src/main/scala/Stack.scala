@@ -171,7 +171,7 @@ object Stack extends App {
 
 
   // 739. Daily Temperatures
-  def dailyTemperatures(temperatures: Array[Int]): Array[Int] = {
+  def dailyTemperatures2(temperatures: Array[Int]): Array[Int] = {
     val stack = scala.collection.mutable.Stack.empty[(Int, Int)]
     val result = Array.fill[Int](temperatures.length)(0)
 
@@ -201,6 +201,24 @@ object Stack extends App {
           }
         }
       }
+    }
+
+    result
+  }
+
+
+  // 739. Daily Temperatures -- 2.0
+  def dailyTemperatures(temperatures: Array[Int]): Array[Int] = {
+    val stack = collection.mutable.Stack.empty[(Int, Int)]
+    val result = Array.fill[Int](temperatures.length)(0)
+
+    val tz = temperatures.zipWithIndex
+    for (e <- tz) {
+      while (stack.headOption.exists(x => x._1 < e._1)) {
+        val pair = stack.pop()
+        result(pair._2) = e._2 - pair._2
+      }
+      stack.push(e)
     }
 
     result
