@@ -47,5 +47,12 @@ object Queue extends App {
     ans
   }
   // println(maxSlidingWindow(Array(1, 3, -1, -3, 5, 3, 6, 7), 3).mkString("Array(", ", ", ")"))
-  println(maxSlidingWindow(Array(1, -1), 1).mkString("Array(", ", ", ")"))
+  // println(maxSlidingWindow(Array(1, -1), 1).mkString("Array(", ", ", ")"))
+
+  // 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+  def longestSubarray(nums: Array[Int], limit: Int): Int = {
+
+    ???
+  }
+  println(longestSubarray(Array(), 1))
 }
