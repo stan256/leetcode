@@ -48,32 +48,49 @@ object Queue extends App {
   // 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
   def longestSubarray(nums: Array[Int], limit: Int): Int = {
     val increasing = collection.mutable.ArrayDeque.empty[Int]
-    val reducing = collection.mutable.ArrayDeque.empty[Int]
+    val decreasing = collection.mutable.ArrayDeque.empty[Int]
     var answer = 0
     var left, right = 0
 
     while (right < nums.length) {
       while (increasing.lastOption.exists(_ > nums(right)))
         increasing.removeLast()
-      while (reducing.lastOption.exists(_ < nums(right)))
-        reducing.removeLast()
+      while (decreasing.lastOption.exists(_ < nums(right)))
+        decreasing.removeLast()
 
       increasing.append(nums(right))
-      reducing.append(nums(right))
+      decreasing.append(nums(right))
 
 
-      while (reducing.head - increasing.head > limit) {
+      while (decreasing.head - increasing.head > limit) {
         if (nums(left) == increasing.head) increasing.removeHead()
-        if (nums(left) == reducing.head) reducing.removeHead()
+        if (nums(left) == decreasing.head) decreasing.removeHead()
         left += 1
       }
 
-      answer = Math.max(answer, right - left + 1)
+      val diff = right - left + 1
+      if (answer < diff) answer = diff
 
       right += 1
     }
 
     answer
   }
-  println(longestSubarray(Array(10,  1,2,4,7,2), 4))
+
+  // 496. Next Greater Element I
+  def nextGreaterElement(nums1: Array[Int], nums2: Array[Int]): Array[Int] = {
+    val stack = collection.mutable.Stack.empty[Int]
+    val map = collection.mutable.HashMap.empty[Int, Int]
+
+    for (x <- nums2) {
+      while (stack.lastOption.exists(l => l < x)){
+        val prev = stack.removeLast()
+        map.put(prev, x)
+      }
+
+      stack.append(x)
+    }
+    nums1.map(x => map.getOrElse(x, -1))
+  }
+
 }
