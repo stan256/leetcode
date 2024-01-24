@@ -93,4 +93,26 @@ object Queue extends App {
     nums1.map(x => map.getOrElse(x, -1))
   }
 
+  // 901. Online Stock Span
+  class StockSpanner() {
+    var stack = collection.mutable.Stack.empty[(Int, Int)]
+
+    def next(price: Int): Int = {
+      var answer = 1
+      while (stack.headOption.exists(p => p._1 <=  price)) {
+        answer += stack.pop()._2
+      }
+      stack.push((price, answer)).head._2
+    }
+  }
+
+  var stockSpanner = new StockSpanner()
+  println(stockSpanner.next(100))
+  println(stockSpanner.next(80))
+  println(stockSpanner.next(60))
+  println(stockSpanner.next(70))
+  println(stockSpanner.next(60))
+  println(stockSpanner.next(75))
+  println(stockSpanner.next(85))
+
 }
