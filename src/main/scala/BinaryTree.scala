@@ -106,4 +106,15 @@ object BinaryTree extends App {
   println(isBalanced(???))
 
 
+  // 112. Path Sum
+  def hasPathSum(root: TreeNode, targetSum: Int): Boolean = {
+    if (root == null) return false
+
+    if (root.value - targetSum == 0 && root.left == null && root.right == null)
+      true
+    else
+      (root.left != null && hasPathSum(root.left, targetSum - root.value)) || (root.right != null) && hasPathSum(root.right, targetSum - root.value)
+  }
+
+
 }
