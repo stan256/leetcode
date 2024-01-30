@@ -116,5 +116,16 @@ object BinaryTree extends App {
       (root.left != null && hasPathSum(root.left, targetSum - root.value)) || (root.right != null) && hasPathSum(root.right, targetSum - root.value)
   }
 
+  // 1448. Count Good Nodes in Binary Tree
+  def goodNodes(root: TreeNode): Int = {
+    def step(node: TreeNode, prevValue: Int): Int = {
+      if (node == null)
+        return 0
+
+      step(node.left, Math.max(node.value, prevValue)) + step(node.right, Math.max(node.value, prevValue)) + (if (node.value >= prevValue) 1 else 0)
+    }
+
+    step(root, root.value)
+  }
 
 }
