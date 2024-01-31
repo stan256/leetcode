@@ -128,4 +128,22 @@ object BinaryTree extends App {
     step(root, root.value)
   }
 
+
+  // 236. Lowest Common Ancestor of a Binary Tree
+  def lowestCommonAncestor_2(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
+    if (root == null)
+      return null
+
+    if (root == p || root == q)
+      return root
+
+    val l = lowestCommonAncestor_2(root.left, p, q)
+    val r = lowestCommonAncestor_2(root.right, p, q)
+
+    if (l != null && r != null)
+      return root
+
+    if (l != null) l else r
+  }
+
 }
