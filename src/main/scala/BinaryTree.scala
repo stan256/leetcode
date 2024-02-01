@@ -146,4 +146,22 @@ object BinaryTree extends App {
     if (l != null) l else r
   }
 
+  // 1026. Maximum Difference Between Node and Ancestor
+  def maxAncestorDiff(root: TreeNode): Int = {
+
+    def dfs(node: TreeNode, min: Int, max: Int, maxDiff: Int): Int = {
+      if (node == null)
+        return maxDiff
+
+      val subResult = Math.max(Math.abs(min - node.value), Math.abs(max - node.value))
+
+      Math.max(
+        dfs(node.left,  Math.min(min, node.value), Math.max(max, node.value), Math.max(subResult, maxDiff)),
+        dfs(node.right, Math.min(min, node.value), Math.max(max, node.value), Math.max(subResult, maxDiff))
+      )
+    }
+
+    dfs(root, root.value, root.value, 0)
+  }
+
 }

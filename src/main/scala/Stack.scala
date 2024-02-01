@@ -372,7 +372,6 @@ object Stack extends App {
     stack.reverse.mkString
   }
   // println(makeGood("leEeetcode"))
-
 }
 
 
