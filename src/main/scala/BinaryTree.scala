@@ -113,7 +113,7 @@ object BinaryTree extends App {
   def isBalanced(root: TreeNode): Boolean = {
     false
   }
-  println(isBalanced(???))
+//  println(isBalanced(???))
 
 
   // 112. Path Sum
@@ -191,6 +191,22 @@ object BinaryTree extends App {
     }
 
     dfs(root, root.value, root.value, 0)
+  }
+
+  def bfs_print(root: TreeNode): Unit = {
+    val queue = scala.collection.mutable.Queue.empty[TreeNode]
+    queue.append(root)
+
+    while (queue.nonEmpty) {
+      val nodesInCurrentLevel = queue.size
+
+      for (_ <- 0 until nodesInCurrentLevel) {
+        val node = queue.removeLast()
+        println(node.value)
+        if (node.left != null) queue.prepend(node.left)
+        if (node.right != null) queue.prepend(node.right)
+      }
+    }
   }
 
 }
