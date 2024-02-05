@@ -156,6 +156,25 @@ object BinaryTree extends App {
     if (l != null) l else r
   }
 
+  // 111. Minimum Depth of Binary Tree
+  def minDepth(root: TreeNode): Int = {
+    def dfs(node: TreeNode, k: Int): Int = {
+      if (node.left == null && node.right == null)
+        k
+      else if (node.left != null && node.right != null) {
+        val leftLength = if (node.left != null) dfs(node.left, k+1) else 0
+        val rightLength = if (node.right != null) dfs(node.right, k+1) else 0
+        Math.min(leftLength, rightLength)
+      } else if (node.left != null)
+        dfs(node.left, k+1)
+      else
+        dfs(node.right, k+1)
+    }
+
+    if (root == null) 0
+    else dfs(root, 1)
+  }
+
   // 1026. Maximum Difference Between Node and Ancestor
   def maxAncestorDiff(root: TreeNode): Int = {
 
