@@ -209,4 +209,26 @@ object BinaryTree extends App {
     }
   }
 
+  // 199. Binary Tree Right Side View
+  def rightSideView(root: TreeNode): List[Int] = {
+    if (root == null)
+      return List.empty
+
+    var res = List.empty[Int]
+    val queue = collection.mutable.Queue.empty[TreeNode]
+    queue.append(root)
+
+    while (queue.nonEmpty) {
+      val size = queue.length
+      res = res :+ queue.last.value
+
+      for (_ <- 0 until size) {
+        val node = queue.removeHead()
+        if (node.left != null) queue.append(node.left)
+        if (node.right != null) queue.append(node.right)
+      }
+    }
+    res
+  }
+
 }
