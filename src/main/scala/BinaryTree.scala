@@ -252,4 +252,25 @@ object BinaryTree extends App {
     }
     res
   }
+
+  // 1302. Deepest Leaves Sum
+  def deepestLeavesSum(root: TreeNode): Int = {
+    if (root == null)
+      return null
+
+    var res = 0
+    val queue = collection.mutable.Queue.empty[TreeNode]
+    queue append root
+    while (queue.nonEmpty) {
+      val size = queue.size
+      res = queue.map(_.value).sum
+      for (_ <- 0 until size) {
+        val node = queue.removeLast()
+        if (node.left != null) queue.prepend(node.left)
+        if (node.right != null) queue.prepend(node.right)
+      }
+    }
+    res
+  }
+
 }
