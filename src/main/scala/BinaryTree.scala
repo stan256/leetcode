@@ -231,4 +231,25 @@ object BinaryTree extends App {
     res
   }
 
+  // 515. Find Largest Value in Each Tree Row
+  def largestValues(root: TreeNode): List[Int] = {
+    if (root == null)
+      return List.empty
+
+    var res = List.empty[Int]
+    val queue = collection.mutable.Queue.empty[TreeNode]
+    queue append root
+
+    while (queue.nonEmpty) {
+      val size = queue.size
+      res = res :+ queue.map(_.value).max
+
+      for (_ <- 0 until size) {
+        val node = queue.removeLast()
+        if (node.left != null) queue prepend node.left
+        if (node.right != null) queue prepend node.right
+      }
+    }
+    res
+  }
 }
