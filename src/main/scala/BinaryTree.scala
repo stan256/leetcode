@@ -1,6 +1,6 @@
 
 object BinaryTree extends App {
-  class TreeNode(_value: Int = 0, _left: TreeNode = null, _right: TreeNode = null) {
+  case class TreeNode(_value: Int = 0, _left: TreeNode = null, _right: TreeNode = null) {
     var value: Int = _value
     var left: TreeNode = _left
     var right: TreeNode = _right
@@ -98,22 +98,22 @@ object BinaryTree extends App {
   //  val bsmaller1 = new TreeNode(5)
   //  val b = new TreeNode(6, bsmaller1, bbigger1)
   //  val root = new TreeNode(4, a, b)
-//  val root = new TreeNode(4,
-//    new TreeNode(-7),
-//    new TreeNode(-3,
-//      new TreeNode(-9,
-//        new TreeNode(9, new TreeNode(6, new TreeNode(0, new TreeNode(-1)), new TreeNode(6, new TreeNode(-4)))),
-//        new TreeNode(6, new TreeNode(0, new TreeNode(-1)), new TreeNode(6, new TreeNode(-4, new TreeNode(-2))))
-//      ),
-//      new TreeNode(-3, new TreeNode(-4))
-//    )
-//  )
+  //  val root = new TreeNode(4,
+  //    new TreeNode(-7),
+  //    new TreeNode(-3,
+  //      new TreeNode(-9,
+  //        new TreeNode(9, new TreeNode(6, new TreeNode(0, new TreeNode(-1)), new TreeNode(6, new TreeNode(-4)))),
+  //        new TreeNode(6, new TreeNode(0, new TreeNode(-1)), new TreeNode(6, new TreeNode(-4, new TreeNode(-2))))
+  //      ),
+  //      new TreeNode(-3, new TreeNode(-4))
+  //    )
+  //  )
 
   // 110. Balanced Binary Tree
   def isBalanced(root: TreeNode): Boolean = {
     false
   }
-//  println(isBalanced(???))
+  //  println(isBalanced(???))
 
 
   // 112. Path Sum
@@ -162,13 +162,13 @@ object BinaryTree extends App {
       if (node.left == null && node.right == null)
         k
       else if (node.left != null && node.right != null) {
-        val leftLength = if (node.left != null) dfs(node.left, k+1) else 0
-        val rightLength = if (node.right != null) dfs(node.right, k+1) else 0
+        val leftLength = if (node.left != null) dfs(node.left, k + 1) else 0
+        val rightLength = if (node.right != null) dfs(node.right, k + 1) else 0
         Math.min(leftLength, rightLength)
       } else if (node.left != null)
-        dfs(node.left, k+1)
+        dfs(node.left, k + 1)
       else
-        dfs(node.right, k+1)
+        dfs(node.right, k + 1)
     }
 
     if (root == null) 0
@@ -185,7 +185,7 @@ object BinaryTree extends App {
       val subResult = Math.max(Math.abs(min - node.value), Math.abs(max - node.value))
 
       Math.max(
-        dfs(node.left,  Math.min(min, node.value), Math.max(max, node.value), Math.max(subResult, maxDiff)),
+        dfs(node.left, Math.min(min, node.value), Math.max(max, node.value), Math.max(subResult, maxDiff)),
         dfs(node.right, Math.min(min, node.value), Math.max(max, node.value), Math.max(subResult, maxDiff))
       )
     }
@@ -256,7 +256,7 @@ object BinaryTree extends App {
   // 1302. Deepest Leaves Sum
   def deepestLeavesSum(root: TreeNode): Int = {
     if (root == null)
-      return null
+      return 0
 
     var res = 0
     val queue = collection.mutable.Queue.empty[TreeNode]
@@ -273,4 +273,27 @@ object BinaryTree extends App {
     res
   }
 
+  // 103. Binary Tree Zigzag Level Order Traversal
+  def zigzagLevelOrder(root: TreeNode): List[List[Int]] = {
+    if (root == null)
+      return List.empty
+
+    val queue = scala.collection.mutable.Queue.empty[TreeNode]
+    var result = List.empty[List[Int]]
+    var level = 1
+    queue append root
+
+    while (queue.nonEmpty) {
+      val size = queue.size
+      result = result :+ (if (level % 2 == 1) queue.toList.map(_.value) else queue.toList.map(_.value).reverse)
+      level += 1
+
+      for (_ <- 0 until size) {
+        val node = queue.removeHead()
+        if (node.left != null) queue.append(node.left)
+        if (node.right != null) queue.append(node.right)
+      }
+    }
+    result
+  }
 }
