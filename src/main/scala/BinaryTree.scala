@@ -296,4 +296,21 @@ object BinaryTree extends App {
     }
     result
   }
+
+  // 938. Range Sum of BST
+  def rangeSumBST(root: TreeNode, low: Int, high: Int): Int = {
+    var result = 0
+
+    def dfs(node: TreeNode): Unit = {
+      if (node == null)
+        return
+
+      if (node.value >= low) dfs(node.left)
+      if (node.value >= low && node.value <= high) result += node.value
+      if (node.value <= high) dfs(node.right)
+    }
+
+    dfs(root)
+    result
+  }
 }
