@@ -313,4 +313,29 @@ object BinaryTree extends App {
     dfs(root)
     result
   }
+
+
+  // 701. Insert into a Binary Search Tree
+  def insertIntoBST(root: TreeNode, x: Int): TreeNode = {
+    if (root == null) return TreeNode(x)
+    var parent = root
+
+    while (parent != null) {
+      if (parent.value > x) {
+        if (parent.left != null) parent = parent.left
+        else {
+          parent.left = TreeNode(x)
+          return root
+        }
+      } else {
+        if (parent.right != null) parent = parent.right
+        else {
+          parent.right = TreeNode(x)
+          return root
+        }
+      }
+    }
+
+    root
+  }
 }
