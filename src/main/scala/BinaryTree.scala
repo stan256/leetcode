@@ -338,4 +338,33 @@ object BinaryTree extends App {
 
     root
   }
+
+  // 270. Closest Binary Search Tree Value
+  def closestValue(root: TreeNode, target: Double): Int = {
+    def rec(node: TreeNode, currentMin: Int): Int = {
+      val minDiff = Math.abs(currentMin - target)
+      val currDiff = Math.abs(node.value - target)
+
+      val min = if (minDiff == currDiff) Math.min(currentMin, node.value)
+      else if (minDiff >= currDiff) node.value
+      else currentMin
+
+      if (node.left == null && node.right == null) {
+        min
+      } else {
+        if (node.left != null && node.right != null) {
+          if (node.value - target > 0) rec(node.left, min)
+          else rec(node.right, min)
+        } else if (node.left == null)
+          rec(node.right, min)
+        else
+          rec(node.left, min)
+      }
+    }
+
+    rec(root, root.value)
+  }
+
+  println(closestValue(TreeNode(3, TreeNode(1, null, TreeNode(2)), TreeNode(4)), 0.428571))
+
 }
