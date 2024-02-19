@@ -365,6 +365,6 @@ object BinaryTree extends App {
     rec(root, root.value)
   }
 
-  println(closestValue(TreeNode(3, TreeNode(1, null, TreeNode(2)), TreeNode(4)), 0.428571))
+  // println(closestValue(TreeNode(3, TreeNode(1, null, TreeNode(2)), TreeNode(4)), 0.428571))
 
 }
