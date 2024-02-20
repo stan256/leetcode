@@ -37,5 +37,27 @@ object Graphs extends App {
     answer
   }
 
+  // 200. Number of Islands
+  def numIslands(grid: Array[Array[Char]]): Int = {
+    val l = grid.length
+    val n = grid(0).length
 
+    var seen = collection.mutable.ArraySeq.fill(l){collection.mutable.ArraySeq.fill(n){false}}
+    var answer = 0
+
+    for (x <- grid.indices) {
+      for (y <- grid(x).indices) {
+        if (grid(x)(y) == 1 && !seen(x)(y)) {
+          answer += 1
+          dfs(x, y)
+        }
+      }
+    }
+
+    def dfs(x: Int, y: Int): Unit = {
+      
+    }
+
+    answer
+  }
 }
