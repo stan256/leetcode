@@ -32,5 +32,25 @@ object Heaps extends App {
     ans
   }
 
+  // 295. Find Median from Data Stream
+  class MedianFinder() {
+    private val min = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+    private val max = collection.mutable.PriorityQueue.empty[Int]
+
+    def addNum(num: Int): Unit = {
+      max.enqueue(num)
+      min.enqueue(max.dequeue())
+      if (min.size > max.size) {
+        max.enqueue(min.dequeue())
+      }
+    }
+
+    def findMedian(): Double = {
+      if (max.size % 2 == 1)
+        max.head
+      else (min.head + max.head) / 2d
+    }
+  }
+
 
 }
