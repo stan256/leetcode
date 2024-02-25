@@ -52,5 +52,19 @@ object Heaps extends App {
     }
   }
 
+  // 1962. Remove Stones to Minimize the Total
+  def minStoneSum(piles: Array[Int], k: Int): Int = {
+    val queue = collection.mutable.PriorityQueue.from(piles)
+
+    for (_ <- 0 until k) {
+      val i = Math.round(queue.dequeue() / 2d).toInt
+      queue.enqueue(i)
+    }
+    queue.sum
+  }
+  println(minStoneSum(Array(5,4,9), 2))
+
+
+
 
 }
