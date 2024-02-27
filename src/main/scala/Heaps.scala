@@ -114,5 +114,18 @@ object Heaps extends App {
     pq.map(_._1).toList.sorted
   }
 
+  // 215. Kth Largest Element in an Array
+  def findKthLargest(nums: Array[Int], k: Int): Int = {
+    val pq = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+
+    for (x <- nums) {
+      pq.enqueue(x)
+      if (pq.size > k)
+        pq.dequeue()
+    }
+
+    pq.head
+  }
+
 
 }
