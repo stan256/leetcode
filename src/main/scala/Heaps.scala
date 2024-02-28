@@ -62,7 +62,22 @@ object Heaps extends App {
     }
     queue.sum
   }
-  println(minStoneSum(Array(5,4,9), 2))
+  // println(minStoneSum(Array(5,4,9), 2))
+
+  // 1167. Minimum Cost to Connect Sticks
+  def connectSticks(sticks: Array[Int]): Int = {
+    var totalCost = 0
+    val queue = collection.mutable.PriorityQueue.from(sticks)(Ordering.Int.reverse)
+
+    while (queue.size > 1) {
+      val c = queue.dequeue() + queue.dequeue()
+      totalCost += c
+      queue.enqueue(c)
+    }
+
+    totalCost
+  }
+
 
 
 
