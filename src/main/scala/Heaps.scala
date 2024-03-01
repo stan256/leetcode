@@ -78,6 +78,21 @@ object Heaps extends App {
     totalCost
   }
 
+  // 347. Top K Frequent Elements
+  def topKFrequent(nums: Array[Int], k: Int): Array[Int] = {
+    val map = nums.foldLeft(Map.empty[Int, Int]){ (map, i) => map + (i -> (map.getOrElse(i, 0) + 1))}
+    val queue = collection.mutable.PriorityQueue.empty[(Int, Int)](Ordering.by[(Int, Int), Int](-_._2))
+
+    for (pair <- map) {
+      queue.enqueue(pair)
+
+      if (queue.size > k) {
+        queue.dequeue()
+      }
+    }
+
+    queue.take(k).map(_._1).toArray
+  }
 
 
 
