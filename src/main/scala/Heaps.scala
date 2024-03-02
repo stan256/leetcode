@@ -127,5 +127,29 @@ object Heaps extends App {
     pq.head
   }
 
+  // 973. K Closest Points to Origin
+  def kClosest(points: Array[Array[Int]], k: Int): Array[Array[Int]] = {
+    val pq = collection.mutable.PriorityQueue.empty[(Int, Int, Double)](Ordering.by[(Int, Int, Double), Double](_._3))
+
+    def distance(x: Int, y: Int): Double = Math.sqrt(x*x + y*y)
+
+    for (num <- points) {
+      val x = num(0)
+      val y = num(1)
+      val dist = distance(x, y)
+
+      if (pq.size < k) {
+        pq.enqueue((x, y, dist))
+      } else {
+        if (pq.head._3 > dist) {
+          pq.dequeue()
+          pq.enqueue((x, y, dist))
+        }
+      }
+    }
+
+    pq.toArray.map(t => Array(t._1, t._2))
+  }
+
 
 }
