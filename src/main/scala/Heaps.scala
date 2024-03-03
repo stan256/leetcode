@@ -94,7 +94,25 @@ object Heaps extends App {
     queue.take(k).map(_._1).toArray
   }
 
+  // 658. Find K Closest Elements
+  def findClosestElements(arr: Array[Int], k: Int, x: Int): List[Int] = {
+    val pq = collection.mutable.PriorityQueue.empty[(Int, Int)](Ordering.by[(Int, Int), Int](-_._2))
 
+    for (num <- arr) {
+      val diff = Math.abs(num - x)
+      if (pq.size < k) {
+        pq.enqueue((num, diff))
+      } else {
+        val head = pq.head
+        if (head._2 > diff || (head._2 == diff && head._1 > num)) {
+          pq.dequeue()
+          pq.enqueue((num, diff))
+        }
+      }
+    }
+
+    pq.map(_._1).toList.sorted
+  }
 
 
 }
