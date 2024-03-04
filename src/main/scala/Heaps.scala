@@ -151,5 +151,28 @@ object Heaps extends App {
     pq.toArray.map(t => Array(t._1, t._2))
   }
 
+  // 703. Kth Largest Element in a Stream
+  class KthLargest(_k: Int, _nums: Array[Int]) {
+    val pq = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+    _nums.foreach {
+      num => {
+        pq.enqueue(num)
+        if (pq.size > _k) {
+          pq.dequeue()
+        }
+      }
+    }
+    // 2, 3, 4, 5, 8
+
+
+    def add(`val`: Int): Int = {
+      pq.enqueue(`val`)
+      if (pq.size > _k) {
+        pq.dequeue()
+      }
+      pq.head
+    }
+  }
+
 
 }
