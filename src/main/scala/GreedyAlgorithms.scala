@@ -46,4 +46,15 @@ object GreedyAlgorithms extends App {
 
     money
   }
+
+  // 1481. Least Number of Unique Integers after K Removals
+  def findLeastNumOfUniqueInts(arr: Array[Int], k: Int): Int = {
+    var rest = k
+    val map = arr.foldLeft(collection.mutable.HashMap.empty[Int, Int]) { (map, x) => map addOne (x, map.getOrElse(x, 0) + 1)}
+    val value = map.toSeq.sorted(Ordering.by[(Int, Int), Int](_._2))
+    value.dropWhile(x => {
+      rest -= x._2
+      rest >= 0
+    }).size
+  }
 }
