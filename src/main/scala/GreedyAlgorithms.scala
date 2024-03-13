@@ -57,4 +57,20 @@ object GreedyAlgorithms extends App {
       rest >= 0
     }).size
   }
+
+  // 881. Boats to Save People
+  def numRescueBoats(people: Array[Int], limit: Int): Int = {
+    val sorted = people.sorted
+    var (left, right) = (0, sorted.length - 1)
+    var answer = 0
+
+    while (left <= right) {
+      if (sorted(left) + sorted(right) <= limit) {
+        left += 1
+      }
+      answer += 1
+      right -= 1
+    }
+    answer
+  }
 }
