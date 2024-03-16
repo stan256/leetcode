@@ -25,4 +25,25 @@ object GreedyAlgorithms extends App {
       stack
     }.size
   }
+
+  // 502. IPO
+  def findMaximizedCapital(k: Int, w: Int, profits: Array[Int], capital: Array[Int]): Int = {
+    val queue = collection.mutable.PriorityQueue[Int]()
+    val revenues = profits.zip(capital).sortInPlaceBy(_._2)
+    var counterInRevenues = 0
+    var currentNumberOfProjects = 0
+    var money = w
+    while (currentNumberOfProjects < k) {
+      while (counterInRevenues < revenues.length && revenues(counterInRevenues)._2 <= money){
+        queue.enqueue(revenues(counterInRevenues)._1)
+        counterInRevenues += 1
+      }
+
+      if (queue.isEmpty) return money
+      money += queue.dequeue
+      currentNumberOfProjects += 1
+    }
+
+    money
+  }
 }
