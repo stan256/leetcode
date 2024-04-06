@@ -73,4 +73,19 @@ object GreedyAlgorithms extends App {
     }
     answer
   }
+
+  // 1323. Maximum 69 Number
+  def maximum69Number (num: Int): Int = {
+    val list = collection.mutable.ListBuffer.empty[Char]
+    var changed = false
+    for (c <- num.toString) {
+      if (!changed && c == '6') {
+        changed = true
+        list += '9'
+      } else {
+        list += c
+      }
+    }
+    list.mkString.toInt
+  }
 }
