@@ -114,4 +114,15 @@ object GreedyAlgorithms extends App {
 
     units
   }
+
+  // 1196. How Many Apples Can You Put into the Basket
+  def maxNumberOfApples(weight: Array[Int]): Int = {
+    var counter = 0
+    weight.sorted.fold(5000) {(left, x) => {
+      val diff = left - x
+      if (diff >= 0) counter += 1
+      diff
+    }}
+    counter
+  }
 }
