@@ -34,7 +34,7 @@ object GreedyAlgorithms extends App {
     var currentNumberOfProjects = 0
     var money = w
     while (currentNumberOfProjects < k) {
-      while (counterInRevenues < revenues.length && revenues(counterInRevenues)._2 <= money){
+      while (counterInRevenues < revenues.length && revenues(counterInRevenues)._2 <= money) {
         queue.enqueue(revenues(counterInRevenues)._1)
         counterInRevenues += 1
       }
@@ -50,7 +50,7 @@ object GreedyAlgorithms extends App {
   // 1481. Least Number of Unique Integers after K Removals
   def findLeastNumOfUniqueInts(arr: Array[Int], k: Int): Int = {
     var rest = k
-    val map = arr.foldLeft(collection.mutable.HashMap.empty[Int, Int]) { (map, x) => map addOne (x, map.getOrElse(x, 0) + 1)}
+    val map = arr.foldLeft(collection.mutable.HashMap.empty[Int, Int]) { (map, x) => map addOne(x, map.getOrElse(x, 0) + 1) }
     val value = map.toSeq.sorted(Ordering.by[(Int, Int), Int](_._2))
     value.dropWhile(x => {
       rest -= x._2
@@ -75,7 +75,7 @@ object GreedyAlgorithms extends App {
   }
 
   // 1323. Maximum 69 Number
-  def maximum69Number (num: Int): Int = {
+  def maximum69Number(num: Int): Int = {
     val list = collection.mutable.ListBuffer.empty[Char]
     var changed = false
     for (c <- num.toString) {
@@ -87,5 +87,31 @@ object GreedyAlgorithms extends App {
       }
     }
     list.mkString.toInt
+  }
+
+  // 1710. Maximum Units on a Truck
+  def maximumUnits(boxTypes: Array[Array[Int]], truckSize: Int): Int = {
+    var units = 0
+    var currentlyBoxes = 0
+
+    val it = boxTypes.sortInPlaceBy { case Array(_, numUnitsPerBox) => -numUnitsPerBox }.iterator
+
+    while (it.hasNext) {
+      val arr = it.next()
+      val numberOfBoxes = arr(0)
+      val numberOfUnitesPerBox = arr(1)
+
+      if (currentlyBoxes < truckSize) {
+        // how much boxes could we add yet
+        // left: 2, boxes: 5
+
+        val left = truckSize - currentlyBoxes
+        val toAdd = Math.min(left, numberOfBoxes)
+        units += toAdd * numberOfUnitesPerBox
+        currentlyBoxes += toAdd
+      }
+    }
+
+    units
   }
 }
