@@ -125,4 +125,17 @@ object GreedyAlgorithms extends App {
     }}
     counter
   }
+
+  // 1338. Reduce Array Size to The Half
+  def minSetSize(arr: Array[Int]): Int = {
+    var map = arr.groupBy(identity).map(x => (x._1, x._2.length)).toList.sortBy(-_._2)
+    var removed = 0
+    var counter = 0
+    while (removed < arr.length / 2) {
+      counter += 1
+      removed += map.head._2
+      map = map.drop(1)
+    }
+    counter
+  }
 }
