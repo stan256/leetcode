@@ -143,12 +143,30 @@ object BinarySearch extends App {
       }
   }
 
-  val timeMap = new TimeMap()
-  timeMap.set("foo", "bar", 1)
-  timeMap.get("foo", 1)
-  timeMap.get("foo", 3)
-  timeMap.set("foo", "bar2", 4)
-  timeMap.get("foo", 4)
-  timeMap.get("foo", 5)
-  timeMap.get("foo", 3)
+  // 2300. Successful Pairs of Spells and Potions
+  def successfulPairs(spells: Array[Int], potions: Array[Int], success: Long): Array[Int] = {
+    val sortedPotions = potions.sorted
+    var arr = Array.empty[Int]
+
+    for (spell <- spells) {
+      val threshold = 1.0 * success / spell
+      val i = search(sortedPotions, threshold)
+      arr = arr :+ potions.length - i
+    }
+
+    arr
+  }
+
+  def search(arr: Array[Int], i: Double): Int = {
+    var left = 0
+    var right = arr.length - 1
+
+    while (left <= right) {
+      val mid = (right - left)/2 + left
+      if (arr(mid) < i) left = mid + 1
+      else right = mid - 1
+    }
+
+    left
+  }
 }
