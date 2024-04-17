@@ -184,4 +184,30 @@ object BinarySearch extends App {
 
     left
   }
+
+  // 2389. Longest Subsequence With Limited Sum
+  def answerQueries(nums: Array[Int], queries: Array[Int]): Array[Int] = {
+    val preSum = nums.sorted.foldLeft(Array.empty[Int])((arr, x) => arr :+ arr.lastOption.getOrElse(0) + x)
+    var answer = Array.empty[Int]
+    for (q <- queries) {
+      val i = checkInsert(preSum, q)
+      println(i)
+      answer = answer :+ i
+    }
+
+    answer
+  }
+
+  def checkInsert(nums: Array[Int], target: Int): Int = {
+    var left = 0
+    var right = nums.length - 1
+
+    while (left <= right) {
+      val mid = (left + right)/2
+      if (nums(mid) > target) right = mid - 1
+      else left = mid + 1
+    }
+
+    left
+  }
 }
