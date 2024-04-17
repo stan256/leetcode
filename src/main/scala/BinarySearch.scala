@@ -169,4 +169,19 @@ object BinarySearch extends App {
 
     left
   }
+
+  // 35. Search Insert Position
+  def searchInsert(nums: Array[Int], target: Int): Int = {
+    var left = 0
+    var right = nums.length - 1
+
+    while (left <= right) {
+      val mid = (left + right)/2
+      if (nums(mid) == target) return mid
+      else if (nums(mid) > target) right = mid - 1
+      else left = mid + 1
+    }
+
+    left
+  }
 }
