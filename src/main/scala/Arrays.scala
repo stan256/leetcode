@@ -432,4 +432,23 @@ object Arrays extends App {
 
     -1
   }
+
+  // 303. Range Sum Query - Immutable
+  class NumArray(_nums: Array[Int]) {
+    private val presum = {
+      val array = Array.ofDim[Int](_nums.length)
+      array(0) = _nums(0)
+      for (i <- 1 until _nums.length) {
+        array(i) = array(i - 1) + _nums(i)
+      }
+      array
+    }
+
+    def sumRange(left: Int, right: Int): Int = {
+      if (left - 1 >= 0)
+        presum(right) - presum(left - 1)
+      else
+        presum(right)
+    }
+  }
 }
