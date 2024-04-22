@@ -210,4 +210,19 @@ object BinarySearch extends App {
 
     left
   }
+
+  // 875. Koko Eating Bananas
+  def minEatingSpeed(piles: Array[Int], hours: Int): Int = {
+    var min = 1
+    var max = piles.max
+
+    while (min <= max) {
+      val middle = min + (max-min)/2
+      val ans = piles.foldLeft(0l)((a, b) => a + Math.ceil(b * 1.0 / middle).toInt)
+      if (ans <= hours) max = middle - 1
+      else min = middle + 1
+    }
+
+    min
+  }
 }
