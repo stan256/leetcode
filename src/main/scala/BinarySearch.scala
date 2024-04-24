@@ -20,8 +20,8 @@ object BinarySearch extends App {
     -1
   }
 
-//  println(binarySearch(Array(1, 3, 4, 5, 8, 12, 14, 19, 25, 44, 55, 66, 67, 90, 119), 119))
-//  println(binarySearch(Array(-1, 0, 3, 5, 9, 12), 12))
+  //  println(binarySearch(Array(1, 3, 4, 5, 8, 12, 14, 19, 25, 44, 55, 66, 67, 90, 119), 119))
+  //  println(binarySearch(Array(-1, 0, 3, 5, 9, 12), 12))
 
 
   // 74. Search a 2D Matrix
@@ -29,7 +29,7 @@ object BinarySearch extends App {
     var (top, bottom) = (0, matrix.length - 1)
 
     while (top <= bottom) {
-      val middle = (top + bottom)/2
+      val middle = (top + bottom) / 2
       val middleRow = matrix(middle)
 
       (middleRow(0), middleRow(middleRow.length - 1)) match {
@@ -44,14 +44,14 @@ object BinarySearch extends App {
 
     false
   }
-//  println(searchMatrix(Array(Array(1,3,5,7), Array(10,11,16,20), Array(23,30,34,60)), 60))
+  //  println(searchMatrix(Array(Array(1,3,5,7), Array(10,11,16,20), Array(23,30,34,60)), 60))
 
   // 153. Find Minimum in Rotated Sorted Array
   def findMin(nums: Array[Int]): Int = {
-    var (left, right) = (0, nums.length -1)
-    var middle = (left + right)/2
+    var (left, right) = (0, nums.length - 1)
+    var middle = (left + right) / 2
 
-    while(nums(left) > nums(right)) {
+    while (nums(left) > nums(right)) {
       val middleElement = nums(middle)
       val leftElement = nums(left)
 
@@ -60,15 +60,15 @@ object BinarySearch extends App {
       else
         left = middle + 1
 
-      middle = (left + right)/2
+      middle = (left + right) / 2
     }
     nums(left)
   }
-//  println(findMin(Array(5,1,2,3,4)))
-//  println(findMin(Array(4,5,6,7,0,1,2)))
-//  println(findMin(Array(3,1,2)))
-//  println(findMin(Array(2,1)))
-//  println(findMin(Array(1)))
+  //  println(findMin(Array(5,1,2,3,4)))
+  //  println(findMin(Array(4,5,6,7,0,1,2)))
+  //  println(findMin(Array(3,1,2)))
+  //  println(findMin(Array(2,1)))
+  //  println(findMin(Array(1)))
 
   // 33. Search in Rotated Sorted Array
   def search(nums: Array[Int], target: Int): Int = {
@@ -101,16 +101,16 @@ object BinarySearch extends App {
 
     -1
   }
-//  println(search(Array(3,4,5,6,7,8,1,2), 2))
-//  println(search(Array(6,7,1,2,3,4,5), 6))
-//  println(search(Array(4,5,6,7,0,1,2), 0))
-//  println(search(Array(4,5,6,7,0,1,2), 3))
-//  println(search(Array(0,1,2), 2))
-//  println(search(Array(4,5,6,7,0,1,2), 4))
-//  println(search(Array(4,5,6,7,0,1,2), 2))
-//  println(search(Array(1,2), 2))
-//  println(search(Array(2,1), 2))
-//  println(search(Array(2), 2))
+  //  println(search(Array(3,4,5,6,7,8,1,2), 2))
+  //  println(search(Array(6,7,1,2,3,4,5), 6))
+  //  println(search(Array(4,5,6,7,0,1,2), 0))
+  //  println(search(Array(4,5,6,7,0,1,2), 3))
+  //  println(search(Array(0,1,2), 2))
+  //  println(search(Array(4,5,6,7,0,1,2), 4))
+  //  println(search(Array(4,5,6,7,0,1,2), 2))
+  //  println(search(Array(1,2), 2))
+  //  println(search(Array(2,1), 2))
+  //  println(search(Array(2), 2))
 
   // 981. Time Based Key-Value Store
   class TimeMap() {
@@ -122,13 +122,13 @@ object BinarySearch extends App {
     }
 
     def get(key: String, timestamp: Int): String =
-      map.get(key).fold(""){
+      map.get(key).fold("") {
         list => {
           var (left, right) = (0, list.size - 1)
 
           var result = ""
           while (left <= right) {
-            val middle = (left + right)/2
+            val middle = (left + right) / 2
 
             if (list(middle)._1 <= timestamp) {
               result = list(middle)._2
@@ -162,7 +162,7 @@ object BinarySearch extends App {
     var right = arr.length - 1
 
     while (left <= right) {
-      val mid = (right - left)/2 + left
+      val mid = (right - left) / 2 + left
       if (arr(mid) < i) left = mid + 1
       else right = mid - 1
     }
@@ -176,7 +176,7 @@ object BinarySearch extends App {
     var right = nums.length - 1
 
     while (left <= right) {
-      val mid = (left + right)/2
+      val mid = (left + right) / 2
       if (nums(mid) == target) return mid
       else if (nums(mid) > target) right = mid - 1
       else left = mid + 1
@@ -203,7 +203,7 @@ object BinarySearch extends App {
     var right = nums.length - 1
 
     while (left <= right) {
-      val mid = (left + right)/2
+      val mid = (left + right) / 2
       if (nums(mid) > target) right = mid - 1
       else left = mid + 1
     }
@@ -217,7 +217,7 @@ object BinarySearch extends App {
     var max = piles.max
 
     while (min <= max) {
-      val middle = min + (max-min)/2
+      val middle = min + (max - min) / 2
       val ans = piles.foldLeft(0l)((a, b) => a + Math.ceil(b * 1.0 / middle).toInt)
       if (ans <= hours) max = middle - 1
       else min = middle + 1
@@ -225,4 +225,71 @@ object BinarySearch extends App {
 
     min
   }
+
+  /*
+  *
+  * 1 4
+  * 2 10
+  * */
+
+
+  // 1631. Path With Minimum Effort
+  // FIXME - did not complete
+  def minimumEffortPath(heights: Array[Array[Int]]): Int = {
+    var right = heights.flatten.max
+    var left = 0
+
+    while (left <= right) {
+      val middle = left + (right - left) / 2
+      val isPossible = check(heights, right)
+      if (isPossible) right = middle - 1
+      else left = middle + 1
+    }
+
+    left
+  }
+
+
+  private val xLeft = -1 -> 0
+  private val xRight = 1 -> 0
+  private val yDown = 0 -> -1
+  private val yUp = 0 -> 1
+
+  val directions = Set(xLeft, xRight, yDown, yUp)
+
+  def check(heights: Array[Array[Int]], maxEffort: Int): Boolean = {
+    case class Coord(row: Int, col: Int)
+
+    var seen = Set.empty[Coord]
+    val stack = collection.mutable.Stack.empty[Coord]
+
+    seen = seen + Coord(0, 0)
+    stack.push(Coord(0, 0))
+
+    while (stack.nonEmpty) {
+      val originalPoint = stack.pop()
+      if (originalPoint.row == heights.length - 1 && originalPoint.col == heights(0).length - 1)
+        return true
+
+      for (direction <- directions) {
+        val newX = originalPoint.col + direction._1
+        val newY = originalPoint.row + direction._2
+
+        def valid(row: Int, col: Int) = 0 <= row && row < heights.length && 0 <= col && col < heights(0).length
+
+        val isValid = valid(newX, newY)
+        val contains = seen.contains(Coord(newX, newY))
+        if (isValid && !contains) {
+          if (Math.abs(heights(newY)(newX) - heights(originalPoint.row)(originalPoint.col)) <= maxEffort) {
+            seen = seen + Coord(newX,newY)
+            stack.push(Coord(newX, newY))
+          }
+        }
+      }
+    }
+
+    false
+  }
+
+  println(minimumEffortPath(Array(Array(1,2,2),Array(3,8,2),Array(5,3,5))))
 }
