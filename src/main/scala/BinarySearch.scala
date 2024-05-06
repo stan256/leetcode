@@ -1,5 +1,3 @@
-import scala.collection.mutable
-
 
 object BinarySearch extends App {
 
@@ -291,5 +289,31 @@ object BinarySearch extends App {
     false
   }
 
-  println(minimumEffortPath(Array(Array(1,2,2),Array(3,8,2),Array(5,3,5))))
+  // println(minimumEffortPath(Array(Array(1,2,2),Array(3,8,2),Array(5,3,5))))
+
+  // 1870. Minimum Speed to Arrive on Time
+  def minSpeedOnTime(dist: Array[Int], hour: Double): Int = {
+    val n = dist.length
+    val maxSpeed = 10000000
+
+    def inTime(speed: Int): Boolean = {
+      var time = 0d
+      for (i <- 0 until n - 1) {
+        val timeToFinish = dist(i).toDouble / speed
+        time += Math.ceil(timeToFinish)
+      }
+      time += dist(n - 1).toDouble / speed
+      time <= hour
+    }
+
+    var left = 1
+    var right = maxSpeed
+    while (left < right) {
+      val mid = (left + right) / 2
+      if (inTime(mid)) right = mid
+      else left = mid + 1
+    }
+
+    if (inTime(left)) left else -1
+  }
 }
