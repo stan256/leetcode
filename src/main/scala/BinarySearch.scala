@@ -316,4 +316,22 @@ object BinarySearch extends App {
 
     if (inTime(left)) left else -1
   }
+
+  // 1283. Find the Smallest Divisor Given a Threshold
+  def smallestDivisor(nums: Array[Int], threshold: Int): Int = {
+    var left = 1
+    var right = nums.max
+
+    while (left <= right) {
+      val middle = (left+right)/2
+      var intermediate = 0
+      for (x <- nums) {
+        intermediate += Math.ceil(x.toDouble/middle).toInt
+      }
+      if (intermediate <= threshold) right = middle - 1
+      else left = middle + 1
+    }
+
+    left
+  }
 }
