@@ -36,7 +36,25 @@ object Backtracking extends App {
     answer
   }
 
-  // println(subsets(Array(1, 2, 3)))
-  // println(subsets(Array(4,1,0)))
+  // 77. Combinations
+  def combine(n: Int, k: Int): List[List[Int]] = {
+    val answer = collection.mutable.ListBuffer.empty[List[Int]]
 
+    def backtracking(curr: List[Int], i: Int): Unit = {
+      if (curr.length == k) {
+        answer += curr
+      } else {
+        val need = k - curr.length
+        val remain = n - i + 1
+        val available = remain - need
+
+        for (num <- (i to i + available).toList) {
+          backtracking(num :: curr, num + 1)
+        }
+      }
+    }
+
+    backtracking(List.empty, 1)
+    answer.toList
+  }
 }
