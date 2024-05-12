@@ -57,4 +57,30 @@ object Backtracking extends App {
     backtracking(List.empty, 1)
     answer.toList
   }
+
+  // 797. All Paths From Source to Target
+  def allPathsSourceTarget(graph: Array[Array[Int]]): List[List[Int]] = {
+    val answer = collection.mutable.ListBuffer.empty[List[Int]]
+    val maxElement = graph.flatten.max
+
+    def backtracking(curr: collection.mutable.ListBuffer[Int]): Unit = {
+      if (curr.lastOption.contains(maxElement)) {
+        answer += curr.toList
+        return
+      }
+
+      val paths = graph(curr.last)
+      for (path <- paths) {
+        if (!curr.contains(path)) {
+          val length = curr.length
+          backtracking(curr += path)
+          curr.remove(length)
+        }
+      }
+    }
+
+    backtracking(collection.mutable.ListBuffer(0))
+
+    answer.map(_.toList).toList
+  }
 }
