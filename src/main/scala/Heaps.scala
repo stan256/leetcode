@@ -20,7 +20,7 @@ object Heaps extends App {
     val sum = nums.map(_.toDouble).sum
     val target: Double = sum / 2d
     var currentSum: Double = sum
-    val queue = collection.mutable.PriorityQueue[Double](nums.map(_.toDouble):_*)
+    val queue = collection.mutable.PriorityQueue[Double](nums.map(_.toDouble): _*)
 
     var ans = 0
     while (currentSum >= target) {
@@ -80,7 +80,7 @@ object Heaps extends App {
 
   // 347. Top K Frequent Elements
   def topKFrequent(nums: Array[Int], k: Int): Array[Int] = {
-    val map = nums.foldLeft(Map.empty[Int, Int]){ (map, i) => map + (i -> (map.getOrElse(i, 0) + 1))}
+    val map = nums.foldLeft(Map.empty[Int, Int]) { (map, i) => map + (i -> (map.getOrElse(i, 0) + 1)) }
     val queue = collection.mutable.PriorityQueue.empty[(Int, Int)](Ordering.by[(Int, Int), Int](-_._2))
 
     for (pair <- map) {
@@ -131,7 +131,7 @@ object Heaps extends App {
   def kClosest(points: Array[Array[Int]], k: Int): Array[Array[Int]] = {
     val pq = collection.mutable.PriorityQueue.empty[(Int, Int, Double)](Ordering.by[(Int, Int, Double), Double](_._3))
 
-    def distance(x: Int, y: Int): Double = Math.sqrt(x*x + y*y)
+    def distance(x: Int, y: Int): Double = Math.sqrt(x * x + y * y)
 
     for (num <- points) {
       val x = num(0)
@@ -173,6 +173,33 @@ object Heaps extends App {
       pq.head
     }
   }
+
+
+  def kthMinInSubarrays(k: Int, vulnerability: Array[Int], m: Int): Seq[Int] = {
+    val pq = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+
+    def addElement(num: Int): Unit = {
+      pq.enqueue(num)
+      if (pq.size > m) pq.dequeue()
+    }
+
+    for (i <- 0 until Math.min(m, vulnerability.length)) {
+      addElement(vulnerability(i))
+    }
+
+    val result = (0 to Math.max(0, vulnerability.length - m)).map { i =>
+      if (i + m < vulnerability.length) {
+        addElement(vulnerability(i + m)) // Add the next element to the priority queue if within bounds
+      }
+      val tempPQ = pq.clone()
+      for (_ <- 1 until k) tempPQ.dequeue()
+      tempPQ.head
+    }
+
+    result.toList
+  }
+
+  println(kthMinInSubarrays(2, Array(1, 3, 2, 1,4,2), 3).mkString("Array(", ", ", ")"))
 
 
 }

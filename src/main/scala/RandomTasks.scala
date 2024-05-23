@@ -26,6 +26,20 @@ object RandomTasks extends App {
   }
   // println(twoSum(Array(3, 3), 6).mkString("Array(", ", ", ")"))
 
+  def process(logs: Array[String], treshold: Int): Array[String] = {
+    val maxIndex = Math.pow(10, 5).toInt
+    val array = collection.mutable.ArrayBuffer.fill(maxIndex)(0)
+
+    logs.foreach(log => {
+      val arr = log.split("\\s")
+      if (arr(0) != arr(1))
+        arr(arr(1).toInt) = arr(arr(1).toInt) + 1
+      arr(arr(0).toInt) = arr(arr(0).toInt) + 1
+    })
+
+    array.filter(_>=treshold).map(_.toString).toArray
+  }
+
 
   // 875. Koko Eating Bananas
   def minEatingSpeed(piles: Array[Int], hours: Int): Int = {
