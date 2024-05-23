@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Java4Test {
@@ -64,8 +65,70 @@ public class Java4Test {
         return ans;
     }
 
+    // 8. String to Integer (atoi)
+    public int myAtoi(String s) {
+        char[] chars = s.trim().toCharArray();
+        StringBuilder sb = new StringBuilder();
+        boolean nonZeroDigitMet = false;
+        boolean anyDigitMet = false;
+        boolean negativeNumber = false;
+
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            if (c == '-') {
+                if (anyDigitMet || i > 0) return response(negativeNumber, sb);
+                else negativeNumber = true;
+            } else if (c == '+') {
+                if (anyDigitMet || i > 0) return response(negativeNumber, sb);
+                else negativeNumber = false;
+            } else if (c == '\s') {
+                if (anyDigitMet || i > 0) return response(negativeNumber, sb);
+            } else if (isDigit(c)) {
+                anyDigitMet = true;
+
+                if (nonZeroDigitMet) {
+                    if (isDigit(c)) {
+                        sb.append(c);
+                    }
+                } else {
+                    if (isNonZeroDigit(c)) {
+                        sb.append(c);
+                        nonZeroDigitMet = true;
+                    }
+                }
+            } else {
+                return response(negativeNumber, sb);
+            }
+        }
+
+        return response(negativeNumber, sb);
+    }
+
+    private static int response(boolean negativeNumber, StringBuilder sb) {
+        if (sb.isEmpty()) sb.append(0);
+
+        BigDecimal result = new BigDecimal(sb.toString());
+        if (result.compareTo(BigDecimal.valueOf(Integer.MAX_VALUE)) > 0) {
+            if (negativeNumber) return -Integer.MAX_VALUE - 1;
+            else return Integer.MAX_VALUE;
+        } else {
+            if (negativeNumber) return -Integer.parseInt(sb.toString());
+            else return Integer.parseInt(sb.toString());
+        }
+    }
+
+    private boolean isDigit(char c) {
+        return c >= 48 && c <= 57;
+    }
+
+    private boolean isNonZeroDigit(char c) {
+        return c >= 49 && c <= 57;
+    }
+
 
     public static void main(String[] args) {
+//        System.out.println(new Java4Test().lengthOfLongestSubstring("abcda"));
+        System.out.println(new Java4Test().myAtoi("+-12"));
     }
 }
 
