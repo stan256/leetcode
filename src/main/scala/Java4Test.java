@@ -65,6 +65,23 @@ public class Java4Test {
         return ans;
     }
 
+    // 3. Longest Substring Without Repeating Characters
+    public int lengthOfLongestSubstring(String s) {
+        int left = 0, right = 0, max = 0;
+        Map<Character, Integer> map = new HashMap<>(28);
+        while (right < s.length()) {
+            char key = s.charAt(right++);
+            map.put(key, map.getOrDefault(key, 0) + 1);
+            while (!map.values().stream().allMatch(x -> x == 1 || x == 0)) {
+                map.put(s.charAt(left), map.get(s.charAt(left)) - 1);
+                left++;
+            }
+            max = Math.max(max, right - left);
+        }
+        return max;
+    }
+
+
     // 8. String to Integer (atoi)
     public int myAtoi(String s) {
         char[] chars = s.trim().toCharArray();
@@ -127,8 +144,7 @@ public class Java4Test {
 
 
     public static void main(String[] args) {
-//        System.out.println(new Java4Test().lengthOfLongestSubstring("abcda"));
-        System.out.println(new Java4Test().myAtoi("+-12"));
+//        System.out.println(new Java4Test().lengthOfLongestSubstring("dd"));
     }
 }
 
