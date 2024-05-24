@@ -1,7 +1,7 @@
 import java.math.BigDecimal;
 import java.util.*;
 
-public class Java4Test {
+public class ArraysJava {
 
     public static int[] productExceptSelf(int[] nums) {
         int n = nums.length;
@@ -170,7 +170,7 @@ public class Java4Test {
 
 
     public static void main(String[] args) {
-        System.out.println(new Java4Test().removeDuplicates(new int[] { 0,0,1,1,1,2,2,3,3,4 }));
+        System.out.println(new ArraysJava().removeDuplicates(new int[] { 0,0,1,1,1,2,2,3,3,4 }));
     }
 }
 
