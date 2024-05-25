@@ -168,9 +168,28 @@ public class ArraysJava {
         return limit;
     }
 
+    // 88. Merge Sorted Array
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        List<Integer> res = new ArrayList<>(m + n + 1);
+        int i = 0, j = 0;
+        while (i < m && j < n) {
+            if (nums1[i] == nums2[j]) {
+                res.add(nums1[i++]);
+                res.add(nums2[j++]);
+            } else if (nums1[i] < nums2[j]) res.add(nums1[i++]);
+            else res.add(nums2[j++]);
+        }
+        while (i < m) res.add(nums1[i++]);
+        while (j < n) res.add(nums2[j++]);
+
+        for (int k = 0; k < res.size(); k++) {
+            nums1[k] = res.get(k);
+        }
+    }
+
 
     public static void main(String[] args) {
-        System.out.println(new ArraysJava().removeDuplicates(new int[] { 0,0,1,1,1,2,2,3,3,4 }));
+        new ArraysJava().merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
     }
 }
 
