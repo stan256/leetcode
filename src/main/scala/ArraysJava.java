@@ -187,9 +187,47 @@ public class ArraysJava {
         }
     }
 
+    // 76. Minimum Window Substring
+    // NOT COMPLETED
+    public String minWindow(String s, String t) {
+        String result = "";
+
+        Map<Character, Integer> chars = countChars(t);
+        Map<Character, Integer> current = new HashMap<>();
+
+        int left = 0, right = 0;
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+            current.put(rightChar, current.getOrDefault(rightChar, 0) + 1);
+            right++;
+
+            while (containsAllChars(chars, current) && left < right) {
+                if (result.isEmpty() || result.length() > left - right)
+                    result = s.substring(left, right);
+                char leftChar = s.charAt(left++);
+                current.put(leftChar, current.get(leftChar) - 1);
+            }
+
+        }
+
+        return result;
+    }
+
+    private boolean containsAllChars(Map<Character, Integer> x, Map<Character, Integer> shouldContainAll) {
+        return x.entrySet().stream().allMatch(entry -> shouldContainAll.getOrDefault(entry.getKey(), -1) >= entry.getValue());
+    }
+
+    private Map<Character, Integer> countChars(String input) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < input.length(); i++) {
+            map.put(input.charAt(i), map.getOrDefault(input.charAt(i), 0) + 1);
+        }
+        return map;
+    }
+
 
     public static void main(String[] args) {
-        new ArraysJava().merge(new int[]{1, 2, 3, 0, 0, 0}, 3, new int[]{2, 5, 6}, 3);
+        System.out.println(new ArraysJava().minWindow("ABAACBAB", "ABC"));
     }
 }
 

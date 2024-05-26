@@ -49,10 +49,6 @@ public class Solution {
 
 
     public static void main(String[] args) {
-
-//        System.out.println(Solution.solution(29, 0));
-        System.out.println(Solution.solution(29, 1));
-//        System.out.println(Solution.solution(29, 8));
-//        System.out.println(Solution.solution(29, 16));
+        System.out.println("stas".substring(0, 4));
     }
 }
