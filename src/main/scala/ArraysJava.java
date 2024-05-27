@@ -227,7 +227,7 @@ public class ArraysJava {
 
 
     public static void main(String[] args) {
-        System.out.println(new ArraysJava().minWindow("ABAACBAB", "ABC"));
+        System.out.println(new ArraysJava().minWindow("cabwefgewcwaefgcf", "cae"));
     }
 }
 
