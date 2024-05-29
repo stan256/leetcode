@@ -226,6 +226,26 @@ public class ArraysJava {
     }
 
 
+    // 1460. Make Two Arrays Equal by Reversing Subarrays
+    public boolean canBeEqual(int[] target, int[] arr) {
+        Map<Integer, Integer> tCount = new HashMap<>();
+        Map<Integer, Integer> arrCount = new HashMap<>();
+
+        for (int t: target) {
+            tCount.put(t, tCount.getOrDefault(t, 0) + 1);
+        }
+        for (int a: arr) {
+            arrCount.put(a, arrCount.getOrDefault(a, 0) + 1);
+        }
+
+        for (Map.Entry<Integer, Integer> e: tCount.entrySet()) {
+            if (arrCount.getOrDefault(e.getKey(), -1) != e.getValue())
+                return false;
+        }
+        return true;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(new ArraysJava().minWindow("cabwefgewcwaefgcf", "cae"));
     }
