@@ -12,7 +12,8 @@ public class MapsJava {
         }
         for (int i: arr) {
             if (i == k/2 && map.containsKey(i) && map.get(i) > 1) {
-                answer += map.get(i);
+                if (map.get(i) == 2) answer++;
+                else answer += map.get(i);
                 map.remove(i);
             } else if (map.containsKey(k - i)) {
                 answer++;

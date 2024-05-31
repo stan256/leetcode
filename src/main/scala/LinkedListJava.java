@@ -16,6 +16,18 @@ public class LinkedListJava {
         }
     }
 
+    public static class Node {
+        int val;
+        Node next;
+        Node random;
+
+        public Node(int val) {
+            this.val = val;
+            this.next = null;
+            this.random = null;
+        }
+    }
+
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int v1 = l1.val;
         int v2 = l2.val;
@@ -62,6 +74,12 @@ public class LinkedListJava {
 
         return result;
     }
+
+
+    // 138. Copy List with Random Pointer
+//    public Node copyRandomList(Node head) {
+//
+//    }
 
     public static void main(String[] args) {
         ListNode l1 = new ListNode(9, new ListNode(9, new ListNode(9, new ListNode( 9, new ListNode(9, new ListNode(9, new ListNode(9)))))));

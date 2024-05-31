@@ -231,23 +231,54 @@ public class ArraysJava {
         Map<Integer, Integer> tCount = new HashMap<>();
         Map<Integer, Integer> arrCount = new HashMap<>();
 
-        for (int t: target) {
+        for (int t : target) {
             tCount.put(t, tCount.getOrDefault(t, 0) + 1);
         }
-        for (int a: arr) {
+        for (int a : arr) {
             arrCount.put(a, arrCount.getOrDefault(a, 0) + 1);
         }
 
-        for (Map.Entry<Integer, Integer> e: tCount.entrySet()) {
+        for (Map.Entry<Integer, Integer> e : tCount.entrySet()) {
             if (arrCount.getOrDefault(e.getKey(), -1) != e.getValue())
                 return false;
         }
         return true;
     }
 
+    int[] countSubarrays(int[] arr) {
+        // Write your code here
 
-    public static void main(String[] args) {
-        System.out.println(new ArraysJava().minWindow("cabwefgewcwaefgcf", "cae"));
+        int[] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            int left = 0;
+            int right = arr.length - 1;
+            int value = arr[i];
+
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[j] > value && j < i) left = j;
+                if (arr[j] > value && j > i) right = j;
+            }
+
+            result[i] = right - left;
+        }
+
+        return result;
+    }
+
+    public static List<Integer> performOperations(List<Integer> arr, List<List<Integer>> operations) {
+        // Write your code here
+        for (List<Integer> o : operations) {
+            int left = o.get(0);
+            int right = o.get(1);
+            while (left < right) {
+                int temp = arr.get(right);
+                arr.set(right, arr.get(left));
+                arr.set(left, temp);
+                left++;
+                right--;
+            }
+        }
+        return arr;
     }
 }
 
