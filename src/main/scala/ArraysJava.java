@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.Arrays;
 
 public class ArraysJava {
 
@@ -250,16 +251,19 @@ public class ArraysJava {
 
         int[] result = new int[arr.length];
         for (int i = 0; i < arr.length; i++) {
-            int left = 0;
-            int right = arr.length - 1;
             int value = arr[i];
 
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[j] > value && j < i) left = j;
-                if (arr[j] > value && j > i) right = j;
+            int left = -1;
+            for (int j = 0; j < i; j++) {
+                if (arr[j] > value) left = j;
             }
 
-            result[i] = right - left;
+            int right = arr.length;
+            for (int j = arr.length - 1; j > i; j--) {
+                if (arr[j] > value) right = j;
+            }
+
+            result[i] = right - left - 1;
         }
 
         return result;
@@ -279,6 +283,10 @@ public class ArraysJava {
             }
         }
         return arr;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new ArraysJava().countSubarrays(new int[]{3, 4, 1, 6, 2})));
     }
 }
 
