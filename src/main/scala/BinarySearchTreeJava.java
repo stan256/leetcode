@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BinarySearchTreeJava {
     public static class TreeNode {
         int val;
@@ -31,10 +34,33 @@ public class BinarySearchTreeJava {
     }
 
 
+    // 114. Flatten Binary Tree to Linked List
+    public void flatten(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue(queue, root);
+        TreeNode temp = new TreeNode();
+        while (!queue.isEmpty()) {
+            temp.right = queue.poll();
+            temp.left = null;
+            temp = temp.right;
+        }
+    }
+
+    public void queue(Queue<TreeNode> queue, TreeNode root) {
+        if (null == root) {
+            return;
+        }
+        queue.add(root);
+        queue(queue, root.left);
+        queue(queue, root.right);
+    }
+
+
     public static void main(String[] args) {
 //        TreeNode treeNode = new TreeNode(2, new TreeNode(1), new TreeNode(3));
-        TreeNode treeNode = new TreeNode(Integer.MIN_VALUE, new TreeNode(Integer.MIN_VALUE), null);
-        System.out.println(new BinarySearchTreeJava().isValidBST(treeNode));
+        TreeNode treeNode = new TreeNode(Integer.MIN_VALUE, new TreeNode(Integer.MIN_VALUE), new TreeNode(Integer.MIN_VALUE));
+        new BinarySearchTreeJava().flatten(treeNode);
+        System.out.println();
 // 1 1
     }
 }
