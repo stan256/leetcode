@@ -1,10 +1,11 @@
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ArraysJava {
 
-    public static int[] productExceptSelf(int[] nums) {
+    public static int[] productExceptSelf_2(int[] nums) {
         int n = nums.length;
         int[] left = new int[n];
         int[] right = new int[n];
@@ -285,8 +286,26 @@ public class ArraysJava {
         return arr;
     }
 
+    // 238. Product of Array Except Self
+    public int[] productExceptSelf(int[] nums) {
+        int length = nums.length;
+        int[] res = new int[length];
+
+        res[0] = 1;
+        for (int i = 1; i < length; i++) {
+            res[i] = nums[i - 1] * res[i - 1];
+        }
+
+        int last = 1;
+        for (int i = length - 1; i >= 0; i--) {
+            res[i] = res[i] * last;
+            last *= nums[i];
+        }
+
+        return res;
+    }
+
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new ArraysJava().countSubarrays(new int[]{3, 4, 1, 6, 2})));
     }
 }
 
