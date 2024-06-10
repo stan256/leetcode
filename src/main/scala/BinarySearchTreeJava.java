@@ -1,7 +1,7 @@
+import java.util.*;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BinarySearchTreeJava {
     public static class TreeNode {
@@ -79,15 +79,37 @@ public class BinarySearchTreeJava {
             }
         }
 
+
         return result;
+    }
+
+    // 1283. Find the Smallest Divisor Given a Threshold
+    public int smallestDivisor(int[] nums, int threshold) {
+        int left = 1;
+        int right = Collections.max(Arrays.stream(nums)
+                .boxed()
+                .toList());
+
+        while (left <= right) {
+            int result = 0;
+            int middle = (left + right)/2;
+
+            for (int x : nums) {
+                result += (int) Math.ceil(x * 1.0 / middle);
+            }
+
+            if (result < threshold) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
+            }
+        }
+
+        return left;
     }
 
 
     public static void main(String[] args) {
-//        TreeNode treeNode = new TreeNode(2, new TreeNode(1), new TreeNode(3));
-        TreeNode treeNode = new TreeNode(Integer.MIN_VALUE, new TreeNode(Integer.MIN_VALUE), new TreeNode(Integer.MIN_VALUE));
-        new BinarySearchTreeJava().flatten(treeNode);
-        System.out.println();
-// 1 1
+        System.out.println(new BinarySearchTreeJava().smallestDivisor(new int[]{ 1,2,5,9}, 6));
     }
 }
