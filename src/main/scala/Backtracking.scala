@@ -112,7 +112,27 @@ object Backtracking extends App {
     list.toList
   }
 
-  println(letterCombinations("23"))
-  println(letterCombinations(""))
-  println(letterCombinations("2"))
+  // 39. Combination Sum
+  def combinationSum(candidates: Array[Int], target: Int): List[List[Int]] = {
+    var answer = List.empty[List[Int]]
+
+    def backtracking(offset: Int, currentSum: Int, path: List[Int]): Unit = {
+      for (i <- offset until candidates.length) {
+        val v = candidates(i)
+        val updatedSum = currentSum + v
+
+        if (updatedSum < target) {
+          backtracking(i, updatedSum, v :: path)
+        } else if (updatedSum == target) {
+          val ints = v :: path
+          answer = ints :: answer
+        }
+      }
+    }
+
+    backtracking(0, 0, List())
+
+    answer
+  }
+
 }
