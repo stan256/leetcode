@@ -135,4 +135,35 @@ object Backtracking extends App {
     answer
   }
 
+  // 52. N-Queens II
+  def totalNQueens(n: Int): Int = {
+    var answer = 0
+    val columns = collection.mutable.HashSet.empty[Int]
+    val diagonals = collection.mutable.HashSet.empty[Int]
+    val antiDiagonals = collection.mutable.HashSet.empty[Int]
+
+    def backtracking(row: Int): Unit = {
+      if (row == n) {
+        answer += 1
+      } else {
+        for (col <- 0 until n) {
+          if (!(columns.contains(col) || diagonals.contains(row - col) || antiDiagonals.contains(row + col))) {
+            columns.add(col)
+            diagonals.add(row - col)
+            antiDiagonals.add(row + col)
+
+            backtracking(row + 1)
+
+            columns.remove(col)
+            diagonals.remove(row - col)
+            antiDiagonals.remove(row + col)
+          }
+        }
+      }
+    }
+
+    backtracking(0)
+
+    answer
+  }
 }
