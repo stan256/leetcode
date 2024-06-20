@@ -166,4 +166,48 @@ object Backtracking extends App {
 
     answer
   }
+
+  // 79. Word Search
+  def exist(board: Array[Array[Char]], word: String): Boolean = {
+
+    val set = collection.mutable.HashSet.empty[(Int, Int)]
+
+    def backtracking(i: Int, r: Int, c: Int): Boolean = {
+      if (i == word.length)
+        true
+      else {
+        val cc = word.charAt(i)
+        val options = Set(
+          if (c > 0) Some((r, c - 1)) else None,
+          if (c < board(0).length - 1) Some((r, c + 1)) else None,
+          if (r > 0) Some((r - 1, c)) else None,
+          if (r < board.length - 1) Some((r + 1, c)) else None
+        ).collect { case Some(x) => x }
+          .diff(set)
+
+        options.exists(rc => {
+          set.add(rc);
+
+          val bool = if (board(rc._1)(rc._2) == cc) backtracking(i + 1, rc._1, rc._2)
+          else false
+
+          set.remove(rc)
+          bool
+        })
+      }
+    }
+
+    board.indices.exists(row => {
+      board(row).indices.exists(col => {
+        set.add((row, col))
+
+        val bool = if (board(row)(col) == word.charAt(0)) backtracking(1, row, col)
+        else false
+
+        set.remove((row, col))
+
+        bool
+      })
+    })
+  }
 }
