@@ -210,4 +210,28 @@ object Backtracking extends App {
       })
     })
   }
+
+  // 22. Generate Parentheses
+  def generateParenthesis(n: Int): List[String] = {
+
+    val arr = collection.mutable.ListBuffer.empty[String]
+
+    def backtracking(str: String, open: Int, closed: Int): Unit = {
+      if (str.length == n * 2) {
+        arr += str
+      } else {
+        if (closed == open) {
+          backtracking(str + "(", open + 1, closed)
+        } else {
+          if (open < n) backtracking(str + "(", open + 1, closed)
+          if (closed < n) backtracking(str + ")", open, closed + 1)
+        }
+      }
+    }
+
+    backtracking("", 0, 0)
+    arr.toList
+  }
+
+  println(generateParenthesis(3))
 }
