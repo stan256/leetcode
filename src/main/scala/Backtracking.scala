@@ -261,6 +261,24 @@ object Backtracking extends App {
     arr
   }
 
-  println(numsSameConsecDiff(3, 7).mkString("Array(", ", ", ")"))
+  // 216. Combination Sum III
+  def combinationSum3(k: Int, n: Int): List[List[Int]] = {
+    var arr = Set.empty[List[Int]]
+
+    def backtracking(set: Set[Int], sum: Int): Unit = {
+      for (i <- 1 to 9) {
+        if (!set.contains(i) && set.size != k) {
+          if (set.size == k - 1 && sum + i == n)
+            arr = arr + (set + i).toList.sorted
+          else
+            backtracking(set + i, sum + i)
+        }
+      }
+    }
+
+    backtracking(Set(), 0)
+
+    arr.toList
+  }
 
 }
