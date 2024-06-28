@@ -430,4 +430,27 @@ object BinarySearch extends App {
 
     -1
   }
+
+  // 283. Move Zeroes
+  def moveZeroes(nums: Array[Int]): Unit = {
+    var reader = 0
+    var writer = 0
+    var counter = 0
+
+    while (reader < nums.length) {
+      if (nums(reader) == 0) {
+        counter += 1
+        reader += 1
+      } else {
+        nums(writer) = nums(reader)
+        reader += 1
+        writer += 1
+      }
+    }
+
+    val offset = nums.length - counter
+    for (i <- 0 until counter) {
+      nums(offset + i) = 0
+    }
+  }
 }
