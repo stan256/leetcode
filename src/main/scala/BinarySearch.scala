@@ -481,4 +481,23 @@ object BinarySearch extends App {
 
     new String(arr)
   }
+
+  // 209. Minimum Size Subarray Sum
+  def minSubArrayLen(target: Int, nums: Array[Int]): Int = {
+    var left, right = 0
+    var res = 0
+    var sum = 0
+
+    while (right < nums.length) {
+      sum += nums(right)
+      while (sum >= target) {
+        sum -= nums(left)
+        res = if (res == 0) right - left + 1 else Math.min(res, right - left + 1)
+        left += 1
+      }
+      right += 1
+    }
+
+    res
+  }
 }
