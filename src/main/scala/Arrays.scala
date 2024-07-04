@@ -415,4 +415,21 @@ object Arrays extends App {
     }
     result
   }
+
+  // 724. Find Pivot Index
+  def pivotIndex(nums: Array[Int]): Int = {
+    val sum = nums.sum
+    var leftSum = 0
+    var i = 0
+    while (i < nums.length) {
+
+      if (leftSum == sum - leftSum - nums(i)) return i
+
+      leftSum += nums(i)
+
+      i += 1
+    }
+
+    -1
+  }
 }
