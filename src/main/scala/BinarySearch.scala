@@ -334,4 +334,30 @@ object BinarySearch extends App {
 
     left
   }
+
+  // 557. Reverse Words in a String III
+  def reverseWords(s: String): String = {
+    def reverseWord(str: String): String = {
+      var left = 0
+      var right = str.length - 1
+      val sb = new StringBuilder(str)
+
+      while (left < right) {
+        val temp = sb.charAt(right)
+        sb.setCharAt(right, sb.charAt(left))
+        sb.setCharAt(left, temp)
+        left += 1
+        right -= 1
+      }
+
+      sb.toString
+    }
+
+    s.split("\\s").map(reverseWord).mkString(" ")
+  }
+
+  println(reverseWords("Let's take LeetCode contest"))
+  println(reverseWords("contest"))
+
+
 }
