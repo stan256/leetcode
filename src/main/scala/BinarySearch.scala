@@ -279,7 +279,7 @@ object BinarySearch extends App {
         val contains = seen.contains(Coord(newX, newY))
         if (isValid && !contains) {
           if (Math.abs(heights(newY)(newX) - heights(originalPoint.row)(originalPoint.col)) <= maxEffort) {
-            seen = seen + Coord(newX,newY)
+            seen = seen + Coord(newX, newY)
             stack.push(Coord(newX, newY))
           }
         }
@@ -323,10 +323,10 @@ object BinarySearch extends App {
     var right = nums.max
 
     while (left <= right) {
-      val middle = (left+right)/2
+      val middle = (left + right) / 2
       var intermediate = 0
       for (x <- nums) {
-        intermediate += Math.ceil(x.toDouble/middle).toInt
+        intermediate += Math.ceil(x.toDouble / middle).toInt
       }
       if (intermediate <= threshold) right = middle - 1
       else left = middle + 1
@@ -386,8 +386,27 @@ object BinarySearch extends App {
     new String(arr)
   }
 
-  println(reverseWords("Let's take LeetCode contest"))
-  println(reverseWords("contest"))
+  // 917. Reverse Only Letters
+  def reverseOnlyLetters(s: String): String = {
+    var left = 0
+    var right = s.length - 1
+    val array = s.toCharArray
+
+    while (left < right) {
+      if (!s.charAt(left).isLetter || !s.charAt(right).isLetter) {
+        if (!s.charAt(left).isLetter) left += 1
+        if (!s.charAt(right).isLetter) right -= 1
+      } else {
+        val c = array(left)
+        array(left) = array(right)
+        array(right) = c
+        left += 1
+        right -= 1
+      }
+    }
+
+    new String(array)
+  }
 
 
 }
