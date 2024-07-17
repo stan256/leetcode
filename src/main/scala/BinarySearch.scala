@@ -408,5 +408,26 @@ object BinarySearch extends App {
     new String(array)
   }
 
+  // 2540. Minimum Common Value
+  def getCommon(nums1: Array[Int], nums2: Array[Int]): Int = {
+    var i1, i2 = 0
 
+    while (true) {
+      if (nums1(i1) == nums2(i2))
+        return nums1(i1)
+      else {
+        if (nums1(i1) > nums2(i2)) {
+          i2 += 1
+          if (i2 == nums2.length)
+            return -1
+        } else {
+          i1 += 1
+          if (i1 == nums1.length)
+            return -1
+        }
+      }
+    }
+
+    -1
+  }
 }
