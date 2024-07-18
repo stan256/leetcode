@@ -252,8 +252,30 @@ object SlidingWindow extends App {
     res
   }
 
+  // 1456. Maximum Number of Vowels in a Substring of Given Length
+  def maxVowels(s: String, k: Int): Int = {
+    val set = Set('a', 'e', 'i', 'o', 'u')
+    var counter = 0
+    var max = 0
 
-  //  println(numSubarrayProductLessThanK(Array(1,2,3), 0))
-  //  println(numSubarrayProductLessThanK(Array(100, 5, 50, 1), 100))
-  //  println(numSubarrayProductLessThanK(Array(10, 5, 2, 6), 100))
+    var start = 0
+    var end = 0
+    while (end < k) {
+      if (set.contains(s.charAt(end))) counter += 1
+      end += 1
+    }
+    max = counter
+
+    while (end < s.length) {
+      if (set.contains(s.charAt(end))) counter += 1
+      if (set.contains(s.charAt(start))) counter -= 1
+
+      max = Math.max(max, counter)
+
+      start += 1
+      end += 1
+    }
+
+    max
+  }
 }
