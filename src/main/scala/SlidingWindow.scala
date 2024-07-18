@@ -278,4 +278,26 @@ object SlidingWindow extends App {
 
     max
   }
+
+  // 1208. Get Equal Substrings Within Budget
+  def equalSubstring(s: String, t: String, maxCost: Int): Int = {
+    var left, right = 0
+    var cost = 0
+    var result = 0
+
+    while (right < s.length) {
+      cost += Math.abs(s.charAt(right) - t.charAt(right))
+
+      while (cost > maxCost) {
+        cost -= Math.abs(s.charAt(left) - t.charAt(left))
+        left += 1
+      }
+
+      result = Math.max(result, right - left + 1)
+
+      right += 1
+    }
+
+    result
+  }
 }
