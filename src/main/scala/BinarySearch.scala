@@ -453,4 +453,32 @@ object BinarySearch extends App {
       nums(offset + i) = 0
     }
   }
+
+  // 2000. Reverse Prefix of Word
+  def reversePrefix(word: String, ch: Char): String = {
+    var start = 0
+    var end = 0
+    var position = -1
+
+    val arr = word.toCharArray
+
+    while (end < word.length && position == -1) {
+      if (word.charAt(end) == ch)
+        position = end
+      end += 1
+    }
+
+    if (position != -1) {
+      while (start < position) {
+        val temp = arr(start)
+        arr(start) = arr(position)
+        arr(position) = temp
+        start += 1
+        position -= 1
+      }
+    }
+
+
+    new String(arr)
+  }
 }
