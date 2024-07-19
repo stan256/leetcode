@@ -405,4 +405,14 @@ object Arrays extends App {
 
     Math.max(0, arr.max)
   }
+
+  def largestAltitude_optimal(gain: Array[Int]): Int = {
+    var result = 0
+    var shift = 0
+    for (i <- gain.indices) {
+      shift += gain(i)
+      result = Math.max(result, shift)
+    }
+    result
+  }
 }
