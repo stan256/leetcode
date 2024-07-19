@@ -394,4 +394,15 @@ object Arrays extends App {
 
     counter
   }
+
+  // 1732. Find the Highest Altitude
+  def largestAltitude(gain: Array[Int]): Int = {
+    val arr = Array.ofDim[Int](gain.length)
+    arr(0) = gain(0)
+    for (i <- 1 until gain.length) {
+      arr(i) = arr(i - 1) + gain(i)
+    }
+
+    Math.max(0, arr.max)
+  }
 }
