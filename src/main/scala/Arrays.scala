@@ -361,4 +361,24 @@ object Arrays extends App {
   }
 
   //  println(getAverages(Array(7, 4, 3, 9, 1, 8, 5, 2, 6), 3).mkString("Array(", ", ", ")"))
+
+  // 2270. Number of Ways to Split Array
+  def waysToSplitArray(nums: Array[Int]): Int = {
+    val prefixSum = Array.ofDim[Int](nums.length)
+
+    prefixSum(0) = nums(0)
+    for (i <- 1 until nums.length) {
+      prefixSum(i) = prefixSum(i - 1) + nums(i)
+    }
+
+    var counter = 0
+
+    for (i <- nums.indices) {
+      val left = prefixSum(i)
+      val right = prefixSum(prefixSum.length - 1) - prefixSum(i)
+      if (left >= right) counter += 1
+    }
+
+    if (prefixSum(prefixSum.length - 1) > 0)  counter - 1 else counter
+  }
 }
