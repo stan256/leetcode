@@ -381,4 +381,17 @@ object Arrays extends App {
 
     if (prefixSum(prefixSum.length - 1) > 0)  counter - 1 else counter
   }
+
+  def waysToSplitArray_withoutArray(nums: Array[Int]): Int = {
+    var left: Long = 0L
+    val total: Long =  nums.map(_.toLong).sum
+    var counter = 0
+
+    for (i <- 0 until nums.length - 1) {
+      left += nums(i)
+      if (left >= total - left) counter += 1
+    }
+
+    counter
+  }
 }
