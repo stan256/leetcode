@@ -379,12 +379,12 @@ object Arrays extends App {
       if (left >= right) counter += 1
     }
 
-    if (prefixSum(prefixSum.length - 1) > 0)  counter - 1 else counter
+    if (prefixSum(prefixSum.length - 1) > 0) counter - 1 else counter
   }
 
   def waysToSplitArray_withoutArray(nums: Array[Int]): Int = {
     var left: Long = 0L
-    val total: Long =  nums.map(_.toLong).sum
+    val total: Long = nums.map(_.toLong).sum
     var counter = 0
 
     for (i <- 0 until nums.length - 1) {
@@ -476,9 +476,10 @@ object Arrays extends App {
 
     val counts = collection.mutable.Map.empty[String, Int]
     pLower.split("\\s+").foreach {
-      str => if (!bannedSet.contains(str)) {
-        counts += (str -> (counts.getOrElse(str, 0) + 1))
-      }
+      str =>
+        if (!bannedSet.contains(str)) {
+          counts += (str -> (counts.getOrElse(str, 0) + 1))
+        }
     }
     counts.toSeq.maxBy(_._2)._1
   }
@@ -491,4 +492,22 @@ object Arrays extends App {
     }
     s.zipWithIndex.find(t => arr(t._1 - 'a') == 1).map(_._2).getOrElse(-1)
   }
+
+  // 937. Reorder Data in Log Files
+  def reorderLogFiles(logs: Array[String]): Array[String] = {
+    val lLogs = collection.mutable.ListBuffer.empty[(String, String)]
+    val dLogs = collection.mutable.ListBuffer.empty[String]
+
+    def isDigitLog(s: String) = s.charAt(0).isDigit
+
+    for (log <- logs) {
+      var (id, content) = log.splitAt(log.indexOf(" "))
+      content = content.drop(1)
+      if (isDigitLog(content)) dLogs.addOne(log)
+      else lLogs.addOne(id -> content)
+    }
+    lLogs.sortWith((x, y) => (if (x._2 == y._2) x._1.compareTo(y._1) else x._2.compareTo(y._2)) < 0)
+      .map(x => x._1 + " " + x._2).toArray ++ dLogs.toArray
+  }
+
 }
