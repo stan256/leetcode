@@ -36,7 +36,7 @@ object Arrays extends App {
   }
   //  println(twoSum(Array(3,2,3), 6).mkString("Array(", ", ", ")"))
 
-  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+  def twoSum_prev(nums: Array[Int], target: Int): Array[Int] = {
     val arr = Array.ofDim[Int](2)
     val map = mutable.Map[Int, Seq[Int]]()
 
@@ -450,5 +450,22 @@ object Arrays extends App {
       else
         presum(right)
     }
+  }
+
+  // 1. Two Sum
+  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    val map = collection.mutable.Map.empty[Int, Int]
+
+    var i = 0
+    while (i < nums.length) {
+      if (map.contains(target - nums(i)))
+        return Array(map(target - nums(i)), i)
+      else
+        map.put(nums(i), i)
+
+      i += 1
+    }
+
+    Array()
   }
 }
