@@ -482,4 +482,13 @@ object Arrays extends App {
     }
     counts.toSeq.maxBy(_._2)._1
   }
+
+  // 387. First Unique Character in a String
+  def firstUniqChar(s: String): Int = {
+    val arr = Array.ofDim[Int](26)
+    for (c <- s) {
+      arr(c - 'a') += 1
+    }
+    s.zipWithIndex.find(t => arr(t._1 - 'a') == 1).map(_._2).getOrElse(-1)
+  }
 }
