@@ -468,4 +468,18 @@ object Arrays extends App {
 
     Array()
   }
+
+  // 819. Most Common Word
+  def mostCommonWord(paragraph: String, banned: Array[String]): String = {
+    val pLower = paragraph.toLowerCase.replaceAll("[!?',;.]", " ")
+    val bannedSet = banned.toSet
+
+    val counts = collection.mutable.Map.empty[String, Int]
+    pLower.split("\\s+").foreach {
+      str => if (!bannedSet.contains(str)) {
+        counts += (str -> (counts.getOrElse(str, 0) + 1))
+      }
+    }
+    counts.toSeq.maxBy(_._2)._1
+  }
 }
