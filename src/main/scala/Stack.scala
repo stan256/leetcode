@@ -372,6 +372,27 @@ object Stack extends App {
     stack.reverse.mkString
   }
   // println(makeGood("leEeetcode"))
+
+  // 20. Valid Parentheses
+  def isValid_2(s: String): Boolean = {
+    val stack = collection.mutable.Stack.empty[Character]
+    val map = Map('}' -> '{', ')' -> '(', ']' -> '[')
+    var i = 0
+
+    while (i < s.length) {
+      val c = s.charAt(i)
+      if ("])}".contains(c)) {
+        val mapping = map(c)
+        if (stack.headOption.contains(mapping)) stack.pop()
+        else return false
+      } else {
+        stack.push(c)
+      }
+      i += 1
+    }
+
+    stack.isEmpty
+  }
 }
 
 
