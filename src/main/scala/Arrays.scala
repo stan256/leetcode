@@ -510,4 +510,100 @@ object Arrays extends App {
       .map(x => x._1 + " " + x._2).toArray ++ dLogs.toArray
   }
 
+  // 273. Integer to English Words
+  object Solution2 {
+    val sb = new StringBuilder()
+
+    def numberToWords(num: Int): String = {
+      if (num == 0) return "Zero"
+
+      val titles = Array("", "Thousand", "Million", "Billion")
+
+      val d = num.toString.length.toDouble / 3
+      val d1 = Math.ceil(d)
+      val groups = d1.toInt
+      val addSpaces = groups * 3 - num.toString.length
+      val fullGroupsNumber = "0" * addSpaces + num.toString
+
+      for (group <- 0 until groups) {
+        val end = (group + 1) * 3
+
+        val str = fullGroupsNumber.substring(end - 3, end)
+        threeDigits(str.toInt, titles(groups - group - 1))
+      }
+      val str = sb.toString.trim.replaceAll("\\s+", " ")
+      sb.clear()
+      str
+    }
+
+    def threeDigits(temp: Int, title: String) = {
+      var addTitle = false
+      var i = temp
+
+      if (i > 99) {
+        sb.append(" ").append(numb(i.toString.charAt(0).toString.toInt)).append(" ").append("Hundred")
+        addTitle = true
+        i = i.toString.drop(1).toInt
+      }
+
+      if (i > 19) {
+        sb.append(" ").append(decades(i)).append(" ").append(numb(i.toString.drop(1).toInt))
+        addTitle = true
+      } else if (i > 9) {
+        sb.append(" ").append(secondDecade(i))
+        addTitle = true
+      } else {
+        val str = numb(i)
+        if (str.nonEmpty) {
+          sb.append(" ").append(str)
+          addTitle = true
+        }
+      }
+
+      if (addTitle) sb.append(" ").append(title)
+    }
+
+    private def secondDecade(i: Int): String =
+      i match {
+        case 10 => "Ten"
+        case 11 => "Eleven"
+        case 12 => "Twelve"
+        case 13 => "Thirteen"
+        case 14 => "Fourteen"
+        case 15 => "Fifteen"
+        case 16 => "Sixteen"
+        case 17 => "Seventeen"
+        case 18 => "Eighteen"
+        case 19 => "Nineteen"
+        case _ => throw new RuntimeException()
+      }
+
+    private def decades(i: Int): String =
+      i.toString.charAt(0) match {
+        case '2' => "Twenty"
+        case '3' => "Thirty"
+        case '4' => "Forty"
+        case '5' => "Fifty"
+        case '6' => "Sixty"
+        case '7' => "Seventy"
+        case '8' => "Eighty"
+        case '9' => "Ninety"
+        case _ => throw new RuntimeException()
+      }
+
+    def numb(i: Int): String =
+      i match {
+        case 0 => ""
+        case 1 => "One"
+        case 2 => "Two"
+        case 3 => "Three"
+        case 4 => "Four"
+        case 5 => "Five"
+        case 6 => "Six"
+        case 7 => "Seven"
+        case 8 => "Eight"
+        case 9 => "Nine"
+        case _ => throw new RuntimeException()
+      }
+  }
 }
