@@ -701,4 +701,24 @@ object Arrays extends App {
 
     sb.toString
   }
+
+  // 2191. Sort the Jumbled Numbers
+  def sortJumbled(mapping: Array[Int], nums: Array[Int]): Array[Int] = {
+    val sb = new StringBuilder()
+
+    val pairs = nums.map(n => {
+      val str = n.toString
+      for (c <- str) {
+        sb.append(mapping(c.asDigit))
+      }
+      val int = sb.toString.toInt
+      sb.clear()
+      n -> int
+    })
+
+    pairs.sortWith((o1, o2) => {
+      if (o1._2 == o2._2) false
+      else o1._2 < o2._2
+    }).map(_._1)
+  }
 }
