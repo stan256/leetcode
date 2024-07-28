@@ -656,4 +656,49 @@ object Arrays extends App {
 
     sb.toString
   }
+
+  // 12. Integer to Roman - better
+  def intToRoman_2(nums: Int): String = {
+    val str = nums.toString
+
+    val sb = new StringBuilder()
+
+    for (t <- str.zipWithIndex.map(x => (x._1.toString.toInt, x._2))) {
+      val order = str.length - t._2
+
+      def one(order: Int) =
+        order match {
+          case 4 => "M"
+          case 3 => "C"
+          case 2 => "X"
+          case 1 => "I"
+        }
+
+      def five(order: Int) =
+        order match {
+          case 3 => "D"
+          case 2 => "L"
+          case 1 => "V"
+        }
+
+      t._1 match {
+        case 0 =>
+        case x if 1 to 3 contains x =>
+          sb.append(one(order) * t._1)
+        case 4 =>
+          sb.append(one(order))
+          sb.append(five(order))
+        case 5 =>
+          sb.append(five(order))
+        case x if 6 to 8 contains x =>
+          sb.append(five(order))
+          sb.append(one(order) * (t._1 - 5))
+        case 9 =>
+          sb.append(one(order))
+          sb.append(one(order + 1))
+      }
+    }
+
+    sb.toString
+  }
 }
