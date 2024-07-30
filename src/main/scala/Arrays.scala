@@ -751,4 +751,48 @@ object Arrays extends App {
     val value = result.toSeq.filter(x => x._2.size == maxL).map(_._1).min
     List(value._1, value._2, value._3)
   }
+
+  // 5. Longest Palindromic Substring
+  def longestPalindrome(s: String): String = {
+    var result = ""
+    val tuples = collection.mutable.ListBuffer.empty[(Int, Int)]
+
+    var l = 0
+    while (l < s.length) {
+      var r = l
+      while (s.length > r && s.charAt(l) == s.charAt(r)) r += 1
+      tuples.addOne((l, r - 1))
+      l = r
+    }
+
+    while (tuples.nonEmpty) {
+      tuples.zipWithIndex.reverse.foreach(e => {
+        val left = e._1._1
+        val right = e._1._2
+        val i = e._2
+
+        if (result.length < (right - left + 1)) result = s.substring(left, right + 1)
+
+        if (left - 1 >= 0 && right + 1 < s.length && s.charAt(left - 1) == s.charAt(right + 1))
+          tuples update(i, (left - 1, right + 1))
+        else tuples.remove(i)
+      })
+    }
+
+    result
+  }
+
+  println(longestPalindrome("a"))
+  println(longestPalindrome("ab"))
+  println(longestPalindrome("aa"))
+  println(longestPalindrome("abcd"))
+  println(longestPalindrome("abcc"))
+  println(longestPalindrome("xxxxababay"))
+  println(longestPalindrome("xxababa"))
+  println(longestPalindrome("xababa"))
+  println(longestPalindrome("abcde"))
+  println(longestPalindrome("abcd"))
+  println(longestPalindrome("abc"))
+  println(longestPalindrome("ab"))
+  println(longestPalindrome("a"))
 }
