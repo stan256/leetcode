@@ -721,4 +721,34 @@ object Arrays extends App {
       else o1._2 < o2._2
     }).map(_._1)
   }
+
+  // 1152. Analyze User Website Visit Pattern
+  def mostVisitedPattern(usernames: Array[String], timestamps: Array[Int], websites: Array[String]): List[String] = {
+    val map: mutable.Map[String, List[(Int, String)]] = collection.mutable.Map.empty
+    val result = collection.mutable.HashMap.empty[(String, String, String), Set[String]]
+
+    for (i <- usernames.indices) {
+      map.put(usernames(i), map.getOrElse(usernames(i), List()) appended (timestamps(i) -> websites(i)))
+    }
+
+    map.filter(_._2.length >= 3)
+      .map(e => (e._1, e._2.sortBy(_._1).map(_._2)))
+      .foreach(e => {
+        val list = e._2
+        for (i <- 0 until list.length - 2) {
+          for (j <- i + 1 until list.length - 1) {
+            for (k <- j + 1 until list.length) {
+              val tuple = (list(i), list(j), list(k))
+              val strings = result.getOrElse(tuple, Set()) + e._1
+              result.put(tuple, strings)
+            }
+          }
+        }
+      })
+
+
+    val maxL = result.toSeq.maxBy(_._2.size)._2.size
+    val value = result.toSeq.filter(x => x._2.size == maxL).map(_._1).min
+    List(value._1, value._2, value._3)
+  }
 }
