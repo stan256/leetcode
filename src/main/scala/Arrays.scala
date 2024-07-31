@@ -782,17 +782,43 @@ object Arrays extends App {
     result
   }
 
-  println(longestPalindrome("a"))
-  println(longestPalindrome("ab"))
-  println(longestPalindrome("aa"))
-  println(longestPalindrome("abcd"))
-  println(longestPalindrome("abcc"))
-  println(longestPalindrome("xxxxababay"))
-  println(longestPalindrome("xxababa"))
-  println(longestPalindrome("xababa"))
-  println(longestPalindrome("abcde"))
-  println(longestPalindrome("abcd"))
-  println(longestPalindrome("abc"))
-  println(longestPalindrome("ab"))
-  println(longestPalindrome("a"))
+  // 1395. Count Number of Teams - Memory Limit Exceeded :( , doesn't work
+  def numTeams(rating: Array[Int]): Int = {
+    var result = 0
+
+    val lessBiggerMap = collection.mutable.Map.empty[Int, (List[Int], List[Int])]
+    rating.indices.foreach(i => lessBiggerMap.put(i, (List(), List())))
+
+    for (i <- rating.indices) {
+      val value = rating(i)
+      for (j <- i until rating.length) {
+        if (value < rating(j)) {
+          val tuple = lessBiggerMap(i)
+          lessBiggerMap.put(i, (tuple._1, tuple._2.appended(j)))
+        }
+      }
+    }
+    for (i <- rating.indices.reverse) {
+      val value = rating(i)
+      for (j <- i - 1 to 0 by -1) {
+        if (value < rating(j)) {
+          val tuple = lessBiggerMap(i)
+          lessBiggerMap.put(i, (tuple._1.appended(j), tuple._2))
+        }
+      }
+    }
+
+    lessBiggerMap.foreach(x => {
+      val tuple = x._2
+      tuple._1.foreach(l => result += lessBiggerMap(l)._1.size)
+      tuple._2.foreach(b => result += lessBiggerMap(b)._2.size)
+    })
+
+    result
+  }
+
+  println(numTeams(Array(2,5,3,4,1)))
+  println(numTeams(Array(1,2,3)))
+  println(numTeams(Array(3,2,1)))
+  println(numTeams(Array(3,4,1)))
 }
