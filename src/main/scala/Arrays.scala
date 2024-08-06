@@ -817,8 +817,25 @@ object Arrays extends App {
     result
   }
 
-  println(numTeams(Array(2,5,3,4,1)))
-  println(numTeams(Array(1,2,3)))
-  println(numTeams(Array(3,2,1)))
-  println(numTeams(Array(3,4,1)))
+  // 56. Merge Intervals
+  def merge(intervals: Array[Array[Int]]): Array[Array[Int]] = {
+    val sorted = intervals.sortBy(arr => arr(0))
+
+    var arr = Array.empty[Array[Int]]
+
+    var current = sorted(0)
+
+    for (i <- 1 until intervals.length) {
+      val next = sorted(i)
+      if (current(1) < next(0)){
+        arr = arr :+ current
+        current = next
+      } else {
+        current = Array(current(0), Math.max(current(1), next(1)))
+      }
+    }
+    arr = arr :+ current
+
+    arr
+  }
 }
