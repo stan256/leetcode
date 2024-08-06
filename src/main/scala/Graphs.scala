@@ -60,4 +60,36 @@ object Graphs extends App {
 
     answer
   }
+
+  val directions = Array((1, 0), (0, 1), (-1, 0), (0, -1))
+  def getAmountOfPaths(grid: Array[Array[Char]], robotLocation: Array[Int],  maxSteps: Int): Int = {
+    val memo = grid.clone()
+
+    var result = 0
+
+    def search(step: Int, coordinate: (Int, Int)): Unit = {
+      if (step > maxSteps ||
+        coordinate._1 < 0 ||
+        coordinate._2 < 0 ||
+        coordinate._1 >= grid.length ||
+        coordinate._2 >= grid(0).length ||
+        memo(coordinate._1)(coordinate._2) == 'V' ||
+        memo(coordinate._1)(coordinate._2) == 'X') return
+
+      if (grid(coordinate._1)(coordinate._2) == 'C') {
+        result += 1
+      } else {
+        memo(coordinate._1)(coordinate._2) = 'V'
+        for (xy <- directions) {
+          search(step + 1, (coordinate._1 + xy._1, coordinate._2 + xy._2))
+        }
+        memo(coordinate._1)(coordinate._2) = '0'
+      }
+    }
+
+
+    search(0, (robotLocation(0), robotLocation(1)))
+
+    result
+  }
 }
