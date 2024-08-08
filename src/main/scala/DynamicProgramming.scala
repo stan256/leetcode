@@ -18,6 +18,50 @@ object DynamicProgramming extends App {
     dp(cost.length)
   }
 
-  println(minCostClimbingStairs(Array(10, 15, 20)))
+  // 1395. Count Number of Teams
+  def numTeams(ratings: Array[Int]): Int = {
+    var teams = 0
+    val n = ratings.length
+    val increasingCache = Array.ofDim[Array[Int]](n)
+    val decreasingCache = Array.ofDim[Array[Int]](n)
+    for (i <- 0 until n) {
+        increasingCache(i) = Array.ofDim[Int](4)
+        decreasingCache(i) = Array.ofDim[Int](4)
+    }
+
+    def countIncreasingTeams(position: Int, teamSize: Int): Int = {
+        if (position == n) return 0
+        if (teamSize == 3) return 1
+
+        if (increasingCache(position)(teamSize) != 0) return increasingCache(position)(teamSize)
+        
+        var validTeams = 0
+        for (j <- position + 1 until n) {
+            if (ratings(j) > ratings(position)) validTeams += countIncreasingTeams(j, teamSize + 1)
+        }
+        increasingCache(position)(teamSize) = validTeams
+        validTeams
+    }
+
+    def countDecreasingTeams(position: Int, teamSize: Int): Int = {
+        if (position == n) return 0
+        if (teamSize == 3) return 1
+
+        if (decreasingCache(position)(teamSize) != 0) return decreasingCache(position)(teamSize)
+        
+        var validTeams = 0
+        for (j <- position + 1 until n) {
+            if (ratings(j) < ratings(position)) validTeams += countDecreasingTeams(j, teamSize + 1)
+        }
+        decreasingCache(position)(teamSize) = validTeams
+        validTeams
+    }
+
+    for (i <- 0 until n) {
+        teams += countIncreasingTeams(i, 1) + countDecreasingTeams(i, 1)
+    }
+    
+    teams
+  }
 
 }
