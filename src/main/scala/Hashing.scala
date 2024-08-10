@@ -156,4 +156,72 @@ object Hashing extends App {
   }
   //  println(numJewelsInStones("aA", "aAAbbbb"))
   //  println(numJewelsInStones("z", "ZZ"))
+
+  // 146. LRU Cache - todo - not this time :(
+  object LRUCache {
+    class ListNode(val value: Int, var prev: ListNode = null, var next: ListNode = null) {
+    }
+  }
+
+  class LRUCache(_capacity: Int) {
+
+    import Hashing.LRUCache.ListNode
+
+    var root: ListNode = null
+    var last: ListNode = null
+    val map = collection.mutable.HashMap.empty[Int, ListNode]
+
+    def updateLast(key: Int) =
+      if (map.get(key).contains(last)) {
+        if (last.prev != null) {
+          last.prev.next = null
+          last = last.prev
+        }
+        else last = map(key)
+      }
+
+    def connectNeighbours(key: Int): Unit =
+      if (map.contains(key)) {
+        val n = map(key)
+        if (n.prev != null) n.prev.next = n.next
+        if (n.next != null) n.next.prev = n.prev
+      }
+
+
+    def get(key: Int): Int = {
+      if (map.contains(key)) {
+        val n = map(key)
+        connectNeighbours(key)
+        updateLast(key)
+        if (root != null) root.prev = n
+        root = n
+        n.value
+      } else -1
+    }
+
+    def put(key: Int, value: Int): Unit = {
+      if (map.contains(key)) {
+        val n = map(key)
+        if (n.prev != null) n.prev.next = n.next
+        if (n.next != null) n.next.prev = n.prev
+      }
+
+      val node = new ListNode(value, null, root)
+      if (root != null) root.prev = node
+      root = node
+
+      if (map.get(key).contains(last)) {
+        if (last.prev != null) last = last.prev
+        else last = node
+      }
+
+      map.put(key, root)
+
+      if (map.size > _capacity) {
+        map.remove(last.value)
+        if (last.prev != null)
+          last = last.prev
+      }
+    }
+  }
 }
