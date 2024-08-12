@@ -163,64 +163,47 @@ object Hashing extends App {
     }
   }
 
+  // 146. LRU Cache
   class LRUCache(_capacity: Int) {
-
     import Hashing.LRUCache.ListNode
+    var head = MapListNode(-1, -1)
+    var tail = MapListNode(-1, -1)
+    val map = collection.mutable.HashMap.empty[Int, MapListNode]
+    head.next = tail
+    tail.prev = head
 
-    var root: ListNode = null
-    var last: ListNode = null
-    val map = collection.mutable.HashMap.empty[Int, ListNode]
+    def add(node: MapListNode): Unit = {
+      val prevEnd = tail.prev
+      prevEnd.next = node
+      node.prev = prevEnd
+      node.next = tail
+      tail.prev = node
+    }
 
-    def updateLast(key: Int) =
-      if (map.get(key).contains(last)) {
-        if (last.prev != null) {
-          last.prev.next = null
-          last = last.prev
-        }
-        else last = map(key)
-      }
-
-    def connectNeighbours(key: Int): Unit =
-      if (map.contains(key)) {
-        val n = map(key)
-        if (n.prev != null) n.prev.next = n.next
-        if (n.next != null) n.next.prev = n.prev
-      }
-
+    def remove(node: MapListNode): Unit = {
+      node.prev.next = node.next
+      node.next.prev = node.prev
+    }
 
     def get(key: Int): Int = {
-      if (map.contains(key)) {
-        val n = map(key)
-        connectNeighbours(key)
-        updateLast(key)
-        if (root != null) root.prev = n
-        root = n
-        n.value
-      } else -1
+      if (!map.contains(key)) return -1
+      val node = map(key)
+      remove(node)
+      add(node)
+      return node.value
     }
 
     def put(key: Int, value: Int): Unit = {
-      if (map.contains(key)) {
-        val n = map(key)
-        if (n.prev != null) n.prev.next = n.next
-        if (n.next != null) n.next.prev = n.prev
-      }
+      if (map.contains(key)) remove(map(key))
 
-      val node = new ListNode(value, null, root)
-      if (root != null) root.prev = node
-      root = node
-
-      if (map.get(key).contains(last)) {
-        if (last.prev != null) last = last.prev
-        else last = node
-      }
-
-      map.put(key, root)
+      val node = MapListNode(value, key)
+      map.put(key, node)
+      add(node)
 
       if (map.size > _capacity) {
-        map.remove(last.value)
-        if (last.prev != null)
-          last = last.prev
+        val r = head.next
+        remove(r)
+        map.remove(r.key)
       }
     }
   }
