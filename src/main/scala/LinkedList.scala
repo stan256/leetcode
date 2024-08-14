@@ -528,5 +528,39 @@ object LinkedList extends App {
     ans
   }
 
+  // 21. Merge Two Sorted Lists
+  def mergeTwoLists_2(list1: ListNode, list2: ListNode): ListNode = {
+    var l1 = list1
+    var l2 = list2
+    val dummy = ListNode(-1000)
+    var temp: ListNode = null
+    while (l1 != null || l2 != null) {
+      val v = (l1, l2) match {
+        case (null, n) =>
+          l2 = l2.next
+          n
+        case (n, null) =>
+          l1 = l1.next
+          n
+        case (n1, n2) =>
+          if (n1.x < n2.x) {
+            l1 = l1.next
+            n1
+          } else {
+            l2 = l2.next
+            n2
+          }
+      }
+      if (temp == null) {
+        temp = v
+        dummy.next = temp
+      } else {
+        temp.next = v
+        temp = temp.next
+      }
+    }
+    dummy.next
+  }
+
 
 }
