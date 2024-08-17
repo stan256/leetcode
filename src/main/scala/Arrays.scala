@@ -452,6 +452,42 @@ object Arrays extends App {
     }
   }
 
+  // 303. Range Sum Query - Immutable - Segment tree approach
+  class NumArray2(_nums: Array[Int]) {
+    val tree = build(_nums)
+    println(tree.mkString("Array(", ", ", ")"))
+
+    def build(arr: Array[Int]): Array[Int] = {
+      val tree = Array.ofDim[Int](4 * arr.length)
+
+      def fill(left: Int, right: Int, index: Int): Unit = {
+        if (left == right) tree(index) = arr(left)
+        else {
+          val middle = left + (right - left)/2
+          fill(left, middle, 2 * index + 1)
+          fill(middle + 1, right, 2 * index + 2)
+          tree(index) = tree(2 * index + 1) + tree(2 * index + 2)
+        }
+      }
+      fill(0, arr.length - 1, 0)
+      tree
+    }
+
+    def query(index: Int, qLeft: Int, qRight: Int, left: Int, right: Int): Int = {
+      if (qRight < left || qLeft > right)
+        return 0
+      if (qLeft <= left && qRight >= right)
+        return tree(index)
+
+      val middle = left + (right - left)/2
+      query(index * 2 + 1, qLeft, qRight, left, middle) + query(index * 2 + 2, qLeft, qRight, middle + 1, right)
+    }
+
+    def sumRange(left: Int, right: Int): Int = {
+      query(0, left, right, 0, _nums.length - 1)
+    }
+  }
+
   // 1. Two Sum
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {
     val map = collection.mutable.Map.empty[Int, Int]
