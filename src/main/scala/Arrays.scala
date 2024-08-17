@@ -488,6 +488,68 @@ object Arrays extends App {
     }
   }
 
+  // 307. Range Sum Query - Mutable
+  class NumArray3(arr: Array[Int]) {
+    val tree = build()
+
+    def build(): Array[Int] = {
+      val tree = Array.ofDim[Int](4 * arr.length)
+
+      def fill(left: Int, right: Int, index: Int): Unit = {
+        if (left == right) tree(index) = arr(left)
+        else {
+          val middle = left + (right - left)/2
+          fill(left, middle, index * 2 + 1)
+          fill(middle + 1, right, index * 2 + 2)
+          tree(index) = tree(index * 2 + 1) + tree(index * 2 + 2)
+        }
+      }
+      fill(0, arr.length - 1, 0)
+
+      tree
+    }
+
+    def segmentTreeUpdate(segmentTreeIndex: Int, arrayIndex: Int, left: Int, right: Int, value: Int): Unit = {
+      if (left == right) {
+        arr(arrayIndex) = value
+        tree(segmentTreeIndex) = value
+      } else {
+        val middle = left + (right - left)/2
+        if (left <= arrayIndex && arrayIndex <= middle)
+          segmentTreeUpdate(2 * segmentTreeIndex + 1, arrayIndex, left, middle, value)
+        else
+          segmentTreeUpdate(2 * segmentTreeIndex + 2, arrayIndex, middle + 1, right, value)
+        tree(segmentTreeIndex) = tree(2 * segmentTreeIndex + 2) + tree(2 * segmentTreeIndex + 1)
+      }
+    }
+
+    def query(qLeft: Int, qRight: Int, left: Int, right: Int, index: Int): Int = {
+      if (qLeft > right || qRight < left)
+        return 0
+      if (qLeft <= left && qRight >= right)
+        return tree(index)
+
+      val middle = left + (right - left)/2
+      query(qLeft, qRight, left, middle, index * 2 + 1) + query(qLeft, qRight, middle + 1, right, index * 2 + 2)
+    }
+
+    def update(index: Int, value: Int): Unit = {
+      segmentTreeUpdate(0, index, 0, arr.length - 1, value)
+    }
+
+    def sumRange(left: Int, right: Int): Int = {
+      query(left, right, 0, arr.length - 1, 0)
+    }
+
+  }
+
+  /**
+   * Your NumArray object will be instantiated and called as such:
+   * val obj = new NumArray(nums)
+   * obj.update(index,`val`)
+   * val param_2 = obj.sumRange(left,right)
+   */
+
   // 1. Two Sum
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {
     val map = collection.mutable.Map.empty[Int, Int]
