@@ -157,22 +157,22 @@ object Hashing extends App {
   //  println(numJewelsInStones("aA", "aAAbbbb"))
   //  println(numJewelsInStones("z", "ZZ"))
 
-  // 146. LRU Cache - todo - not this time :(
-  object LRUCache {
-    class ListNode(val value: Int, var prev: ListNode = null, var next: ListNode = null) {
-    }
-  }
+  case class ListNode(
+                       val value: Int,
+                       val key: Int,
+                       var prev: ListNode = null,
+                       var next: ListNode = null
+                     )
 
   // 146. LRU Cache
   class LRUCache(_capacity: Int) {
-    import Hashing.LRUCache.ListNode
-    var head = MapListNode(-1, -1)
-    var tail = MapListNode(-1, -1)
-    val map = collection.mutable.HashMap.empty[Int, MapListNode]
+    var head = ListNode(-1, -1)
+    var tail = ListNode(-1, -1)
+    val map = collection.mutable.HashMap.empty[Int, ListNode]
     head.next = tail
     tail.prev = head
 
-    def add(node: MapListNode): Unit = {
+    def add(node: ListNode): Unit = {
       val prevEnd = tail.prev
       prevEnd.next = node
       node.prev = prevEnd
@@ -180,7 +180,7 @@ object Hashing extends App {
       tail.prev = node
     }
 
-    def remove(node: MapListNode): Unit = {
+    def remove(node: ListNode): Unit = {
       node.prev.next = node.next
       node.next.prev = node.prev
     }
@@ -196,7 +196,7 @@ object Hashing extends App {
     def put(key: Int, value: Int): Unit = {
       if (map.contains(key)) remove(map(key))
 
-      val node = MapListNode(value, key)
+      val node = ListNode(value, key)
       map.put(key, node)
       add(node)
 
