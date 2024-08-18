@@ -463,12 +463,13 @@ object Arrays extends App {
       def fill(left: Int, right: Int, index: Int): Unit = {
         if (left == right) tree(index) = arr(left)
         else {
-          val middle = left + (right - left)/2
+          val middle = left + (right - left) / 2
           fill(left, middle, 2 * index + 1)
           fill(middle + 1, right, 2 * index + 2)
           tree(index) = tree(2 * index + 1) + tree(2 * index + 2)
         }
       }
+
       fill(0, arr.length - 1, 0)
       tree
     }
@@ -479,7 +480,7 @@ object Arrays extends App {
       if (qLeft <= left && qRight >= right)
         return tree(index)
 
-      val middle = left + (right - left)/2
+      val middle = left + (right - left) / 2
       query(index * 2 + 1, qLeft, qRight, left, middle) + query(index * 2 + 2, qLeft, qRight, middle + 1, right)
     }
 
@@ -498,12 +499,13 @@ object Arrays extends App {
       def fill(left: Int, right: Int, index: Int): Unit = {
         if (left == right) tree(index) = arr(left)
         else {
-          val middle = left + (right - left)/2
+          val middle = left + (right - left) / 2
           fill(left, middle, index * 2 + 1)
           fill(middle + 1, right, index * 2 + 2)
           tree(index) = tree(index * 2 + 1) + tree(index * 2 + 2)
         }
       }
+
       fill(0, arr.length - 1, 0)
 
       tree
@@ -514,7 +516,7 @@ object Arrays extends App {
         arr(arrayIndex) = value
         tree(segmentTreeIndex) = value
       } else {
-        val middle = left + (right - left)/2
+        val middle = left + (right - left) / 2
         if (left <= arrayIndex && arrayIndex <= middle)
           segmentTreeUpdate(2 * segmentTreeIndex + 1, arrayIndex, left, middle, value)
         else
@@ -529,7 +531,7 @@ object Arrays extends App {
       if (qLeft <= left && qRight >= right)
         return tree(index)
 
-      val middle = left + (right - left)/2
+      val middle = left + (right - left) / 2
       query(qLeft, qRight, left, middle, index * 2 + 1) + query(qLeft, qRight, middle + 1, right, index * 2 + 2)
     }
 
@@ -925,7 +927,7 @@ object Arrays extends App {
 
     for (i <- 1 until intervals.length) {
       val next = sorted(i)
-      if (current(1) < next(0)){
+      if (current(1) < next(0)) {
         arr = arr :+ current
         current = next
       } else {
