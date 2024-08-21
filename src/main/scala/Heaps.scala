@@ -218,5 +218,28 @@ object Heaps extends App {
   }
 
 
+  // 23. Merge k Sorted Lists
+  case class ListNode(_x: Int = 0, _next: ListNode = null) {
+    var next: ListNode = _next
+    var x: Int = _x
+  }
+  def mergeKLists(lists: Array[ListNode]): ListNode = {
+    val pq = collection.mutable.PriorityQueue.empty[ListNode](Ordering.by(-_.x))
+
+    val head = new ListNode(-1)
+    var point = head
+
+    for (node <- lists) {
+      if (node != null) pq.enqueue(node)
+    }
+
+    while (pq.nonEmpty) {
+      point.next = pq.dequeue()
+      point = point.next
+      if (point.next != null)
+        pq.enqueue(point.next)
+    }
+    head.next
+  }
 
 }
