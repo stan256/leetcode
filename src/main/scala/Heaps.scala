@@ -223,6 +223,7 @@ object Heaps extends App {
     var next: ListNode = _next
     var x: Int = _x
   }
+
   def mergeKLists(lists: Array[ListNode]): ListNode = {
     val pq = collection.mutable.PriorityQueue.empty[ListNode](Ordering.by(-_.x))
 
@@ -251,6 +252,33 @@ object Heaps extends App {
     Math.max(
       minQ.dequeue * minQ.dequeue * maxQ.head,
       maxQ.dequeue * maxQ.dequeue * maxQ.dequeue)
+  }
+
+  // 695. Max Area of Island
+  def maxAreaOfIsland(grid: Array[Array[Int]]): Int = {
+    val seen = grid.map(arr => arr.map(_ => false))
+    var max = 0
+
+    def countArea(r: Int, c: Int): Int = {
+      if (r < 0
+        || c < 0
+        || r >= grid.length
+        || c >= grid(0).length
+        || seen(r)(c)
+        || grid(r)(c) == 0)
+        return 0
+
+      seen(r)(c) = true
+      1 + countArea(r - 1, c) + countArea(r + 1, c) + countArea(r, c - 1) + countArea(r, c + 1)
+    }
+
+    for (i <- grid.indices) {
+      for (j <- grid(i).indices) {
+        max = Math.max(max, countArea(i, j))
+      }
+    }
+
+    max
   }
 
 }
