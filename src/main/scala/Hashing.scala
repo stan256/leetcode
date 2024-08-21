@@ -207,4 +207,68 @@ object Hashing extends App {
       }
     }
   }
+
+  // 460. LFU Cache
+  class LFUCache(capacity: Int) {
+    import collection.mutable
+
+    private val cache = mutable.Map.empty[Int, (Int, Int)]
+    private val frequencies = mutable.Map.empty[Int, mutable.LinkedHashSet[Int]]
+    private var minFreq = 0
+
+    // getOr -1
+    // remove old freq
+    // maybe remove freqSet
+    // add new freq
+    // return value
+    def get(key: Int): Int = {
+      if (!cache.contains(key)) return -1
+
+      val (freq, value) = cache(key)
+      frequencies(freq).remove(key)
+
+      if (frequencies(freq).isEmpty) {
+        frequencies.remove(freq)
+
+        if (freq == minFreq) minFreq += 1
+      }
+      insert(key, freq + 1, value)
+      value
+    }
+
+    // check capacity
+    // either -update if in cache & increment freq with get
+    // or     -if capacity reached drop one in the head of freqSet and in cache and maybe remove freqSet
+    //         set minFreq = 1 & insert
+
+    def put(key: Int, value: Int): Unit = {
+      if (capacity < 1) return
+
+      if (cache.contains(key)) {
+        val (freq, _) = cache(key)
+        cache.put(key, (freq, value))
+        get(key)
+      } else {
+        if (capacity == cache.size) {
+          val lruKey = frequencies(minFreq).head
+          frequencies(minFreq).remove(lruKey)
+          cache.remove(lruKey)
+          if (frequencies(minFreq).isEmpty) {
+            frequencies.remove(minFreq)
+          }
+        }
+        minFreq = 1
+        insert(key, 1, value)
+      }
+    }
+
+    // to update cache
+    // to update frequencies
+    def insert(key: Int, freq: Int, value: Int): Unit = {
+      cache.put(key, (freq, value))
+      val set = frequencies.getOrElse(freq, mutable.LinkedHashSet.empty[Int])
+      set.addOne(key)
+      frequencies.put(freq, set)
+    }
+  }
 }
