@@ -199,7 +199,24 @@ object Heaps extends App {
     result.toList
   }
 
-  println(kthMinInSubarrays(2, Array(1, 3, 2, 1,4,2), 3).mkString("Array(", ", ", ")"))
+  // 253. Meeting Rooms II
+  def minMeetingRooms(inputIntervals: Array[Array[Int]]): Int = {
+    if (inputIntervals.length == 0) return 0
+
+    val minHeap = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+    val intervals = inputIntervals.sortBy(x => x(0))
+
+    minHeap.enqueue(intervals(0)(1))
+
+    for (i <- 1 until intervals.length) {
+      if (intervals(i)(0) >= minHeap.headOption.getOrElse(0))
+        minHeap.dequeue()
+
+      minHeap.enqueue(intervals(i)(1))
+    }
+    minHeap.size
+  }
+
 
 
 }
