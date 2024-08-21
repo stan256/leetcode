@@ -242,4 +242,15 @@ object Heaps extends App {
     head.next
   }
 
+  // 628. Maximum Product of Three Numbers
+  def maximumProduct(nums: Array[Int]): Int = {
+    val maxQ = collection.mutable.PriorityQueue.empty[Int]
+    val minQ = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+    minQ.addAll(nums)
+    maxQ.addAll(nums)
+    Math.max(
+      minQ.dequeue * minQ.dequeue * maxQ.head,
+      maxQ.dequeue * maxQ.dequeue * maxQ.dequeue)
+  }
+
 }
