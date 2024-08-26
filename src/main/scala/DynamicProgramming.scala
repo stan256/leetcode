@@ -95,6 +95,15 @@ object DynamicProgramming extends App {
     arr(n)
   }
 
-  println(fibonacci_2(6))
+  // 746. Min Cost Climbing Stairs
+  def minCostClimbingStairs_bottomTop(cost: Array[Int]): Int = {
+    val arr = Array.ofDim[Int](cost.length + 1)
+
+    for (i <- 2 to cost.length) {
+      arr(i) = Math.min(arr(i - 1) + cost(i - 1), arr(i - 2) + cost(i - 2))
+    }
+
+    arr(cost.length)
+  }
 
 }
