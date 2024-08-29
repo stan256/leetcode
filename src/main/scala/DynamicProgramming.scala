@@ -106,4 +106,17 @@ object DynamicProgramming extends App {
     arr(cost.length)
   }
 
+  // 198. House Robber
+  def rob(nums: Array[Int]): Int = {
+    val map = collection.mutable.Map.empty[Int, Int]
+
+    def dp(n: Int): Int = {
+      if (n == 0) return nums(0)
+      if (n == 1) return Math.max(nums(0), nums(1))
+      map.getOrElseUpdate(n, Math.max(dp(n - 2) + nums(n), dp(n - 1)))
+    }
+
+    dp(nums.length - 1)
+  }
+
 }
