@@ -119,13 +119,11 @@ object DynamicProgramming extends App {
     dp(nums.length - 1)
   }
 
-  // 198. House Robber
+  // 198. House Robber Bottom top
   def rob_bottomTop(nums: Array[Int]): Int = {
     if (nums.length == 1) return nums.last
 
-    val map = collection.mutable.Map.empty[Int, Int]
-
-    var dp = Array.ofDim[Int](nums.length)
+    val dp = Array.ofDim[Int](nums.length)
     dp(0) = nums(0)
     dp(1) = Math.max(nums(0), nums(1))
     for (i <- 2 until nums.length) {
@@ -133,6 +131,22 @@ object DynamicProgramming extends App {
     }
 
     dp.last
+  }
+
+  // 198. House Robber - bottom top - optimized space
+  def rob_optimized_space(nums: Array[Int]): Int = {
+    if (nums.length == 1) return nums.last
+
+    var prevOne = Math.max(nums(0), nums(1))
+    var prevTwo = nums(0)
+
+    for (i <- 2 until nums.length) {
+      val temp = prevOne
+      prevOne = Math.max(prevOne, prevTwo + nums(i))
+      prevTwo = temp
+    }
+
+    prevOne
   }
 
 }
