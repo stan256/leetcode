@@ -119,4 +119,20 @@ object DynamicProgramming extends App {
     dp(nums.length - 1)
   }
 
+  // 198. House Robber
+  def rob_bottomTop(nums: Array[Int]): Int = {
+    if (nums.length == 1) return nums.last
+
+    val map = collection.mutable.Map.empty[Int, Int]
+
+    var dp = Array.ofDim[Int](nums.length)
+    dp(0) = nums(0)
+    dp(1) = Math.max(nums(0), nums(1))
+    for (i <- 2 until nums.length) {
+      dp(i) = Math.max(dp(i - 2) + nums(i), dp(i - 1))
+    }
+
+    dp.last
+  }
+
 }
