@@ -149,4 +149,20 @@ object DynamicProgramming extends App {
     prevOne
   }
 
+  // 300. Longest Increasing Subsequence
+  def lengthOfLIS(nums: Array[Int]): Int = {
+    val dp = Array.fill[Int](nums.length){1}
+
+    for (i <- nums.indices) {
+      for (j <- 0 until i) {
+        if (nums(i) > nums(j)) {
+          dp(i) = Math.max(dp(j) + 1, dp(i))
+        }
+      }
+    }
+
+    dp.max
+  }
+
+
 }
