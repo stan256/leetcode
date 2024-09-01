@@ -151,7 +151,9 @@ object DynamicProgramming extends App {
 
   // 300. Longest Increasing Subsequence
   def lengthOfLIS(nums: Array[Int]): Int = {
-    val dp = Array.fill[Int](nums.length){1}
+    val dp = Array.fill[Int](nums.length) {
+      1
+    }
 
     for (i <- nums.indices) {
       for (j <- 0 until i) {
@@ -162,6 +164,21 @@ object DynamicProgramming extends App {
     }
 
     dp.max
+  }
+
+  // 2140. Solving Questions With Brainpower
+  def mostPoints(questions: Array[Array[Int]]): Long = {
+    val dp = Array.ofDim[Long](questions.length + 1)
+
+    for (i <- questions.length - 1 to 0 by -1) {
+      val j = i + questions(i)(1) + 1
+      dp(i) = Math.max(
+        dp(i + 1),
+        dp(Math.min(j, questions.length)).toLong + questions(i)(0).toLong
+      )
+    }
+
+    dp.head
   }
 
 
