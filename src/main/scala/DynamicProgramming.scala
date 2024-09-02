@@ -181,5 +181,20 @@ object DynamicProgramming extends App {
     dp.head
   }
 
+  // 70. Climbing Stairs
+  def climbStairs(n: Int): Int = {
+    if (n == 1) return 1
+
+    var dp = Array.ofDim[Int](n)
+    dp(0) = 1
+    dp(1) = 2
+
+    for (i <- 2 until n) {
+      dp(i) = dp(i - 1) + dp(i - 2)
+    }
+
+    dp.last
+  }
+
 
 }
