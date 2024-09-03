@@ -196,5 +196,19 @@ object DynamicProgramming extends App {
     dp.last
   }
 
+  // 70. Climbing Stairs
+  def minCostClimbingStairs_constant_memory(cost: Array[Int]): Int = {
+    var downOne = 0
+    var downTwo = 0
+
+    for (i <- 2 to cost.length) {
+      val temp = downOne
+      downOne = Math.min(downTwo + cost(i - 2) , downOne + cost(i - 1))
+      downTwo = temp
+    }
+
+    downOne
+  }
+
 
 }
