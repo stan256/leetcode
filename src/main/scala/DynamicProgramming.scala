@@ -210,5 +210,28 @@ object DynamicProgramming extends App {
     downOne
   }
 
+  // 322. Coin Change
+  def coinChange(coins: Array[Int], amount: Int): Int = {
+    if (amount < 1) return 0
+    val memo = collection.mutable.Map.empty[Int, Int]
+
+    def dp(amountLeft: Int): Int = {
+      if (amountLeft == 0) return 0
+      if (amountLeft < 0) return -1
+      if (memo.contains(amountLeft))
+        return memo(amountLeft)
+
+      val res = coins
+        .map(c => dp(amountLeft - c))
+        .filter(_ != -1)
+
+      val value = if (res.isEmpty) -1 else res.min + 1
+      memo(amountLeft) = value
+      value
+    }
+
+    dp(amount)
+  }
+
 
 }
