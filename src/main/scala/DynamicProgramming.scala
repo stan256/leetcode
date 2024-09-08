@@ -203,7 +203,7 @@ object DynamicProgramming extends App {
 
     for (i <- 2 to cost.length) {
       val temp = downOne
-      downOne = Math.min(downTwo + cost(i - 2) , downOne + cost(i - 1))
+      downOne = Math.min(downTwo + cost(i - 2), downOne + cost(i - 1))
       downTwo = temp
     }
 
@@ -233,5 +233,24 @@ object DynamicProgramming extends App {
     dp(amount)
   }
 
+  // 1143. Longest Common Subsequence
+  def longestCommonSubsequence(text1: String, text2: String): Int = {
+    val memo = collection.mutable.Map.empty[(Int, Int), Int]
 
+    def dp(i: Int, j: Int): Int = {
+      if (i < 0 || j < 0) return 0
+      if (memo.contains(i -> j))
+        return memo(i -> j)
+
+      if (text1.charAt(i) == text2.charAt(j))
+        dp(i - 1, j - 1) + 1
+      else {
+        val result = Math.max(dp(i - 1, j), dp(i, j - 1))
+        memo.put(i -> j, result)
+        result
+      }
+    }
+
+    dp(text1.length - 1, text2.length - 1)
+  }
 }
