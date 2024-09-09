@@ -39,25 +39,28 @@ object Graphs extends App {
 
   // 200. Number of Islands
   def numIslands(grid: Array[Array[Char]]): Int = {
-    val l = grid.length
-    val n = grid(0).length
-
-    var seen = collection.mutable.ArraySeq.fill(l){collection.mutable.ArraySeq.fill(n){false}}
+    val directions = List((-1, 0), (0, -1), (1, 0), (0, 1))
+    val seen = Array.fill(grid.length)(Array.fill(grid(0).length)(false))
     var answer = 0
 
-    for (x <- grid.indices) {
-      for (y <- grid(x).indices) {
-        if (grid(x)(y) == 1 && !seen(x)(y)) {
-          answer += 1
-          dfs(x, y)
-        }
+    def check(x: Int, y: Int, isNew: Boolean): Unit = {
+      if (x < 0 ||
+        y < 0 ||
+        x >= grid.length ||
+        y >= grid(0).length ||
+        seen(x)(y)
+      ) return
+      seen(x)(y) = true
+      if (grid(x)(y) == '1') {
+        if (isNew) answer += 1
+        for (d <- directions) check(x + d._1, y + d._2, isNew = false)
       }
     }
-
-    def dfs(x: Int, y: Int): Unit = {
-      
+    for (x <- grid.indices) {
+      for (y <- grid(0).indices) {
+        check(x, y, isNew = true)
+      }
     }
-
     answer
   }
 
