@@ -64,6 +64,45 @@ object Graphs extends App {
     answer
   }
 
+  // 1971. Find if Path Exists in Graph
+  def validPath(n: Int,
+                edges: Array[Array[Int]],
+                source: Int,
+                destination: Int): Boolean = {
+
+    if (source == destination) return true
+    if (edges.isEmpty) return false
+
+    val map = collection.mutable.Map.empty[Int, List[Int]]
+    for (edge <- edges){
+      val a = edge(0)
+      val b = edge(1)
+
+      if (map.contains(a)) map.put(a, b :: map(a))
+      else map.put(a, List(b))
+
+      if (map.contains(b)) map.put(b, a :: map(b))
+      else map.put(b, List(a))
+    }
+
+    val queue = collection.mutable.Queue.empty[Int]
+    queue.prependAll(map(source))
+    val memo = collection.mutable.Set.empty[Int]
+    memo.add(source)
+
+    while (queue.nonEmpty) {
+      val value = queue.removeLast()
+
+      if (value == destination) return true
+      else if (!memo.contains(value)) {
+        memo.add(value)
+        queue.prependAll(map(value))
+      }
+    }
+
+    false
+  }
+
   val directions = Array((1, 0), (0, 1), (-1, 0), (0, -1))
   def getAmountOfPaths(grid: Array[Array[Char]], robotLocation: Array[Int],  maxSteps: Int): Int = {
     val memo = grid.clone()
