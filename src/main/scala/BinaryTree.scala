@@ -365,6 +365,28 @@ object BinaryTree extends App {
     rec(root, root.value)
   }
 
-  // println(closestValue(TreeNode(3, TreeNode(1, null, TreeNode(2)), TreeNode(4)), 0.428571))
+  // 226. Invert Binary Tree
+  def invertTree_2(root: TreeNode): TreeNode = {
+    def dfs(node: TreeNode): Unit = {
+      if (node == null) return
+
+      if (node.left != null && node.right != null) {
+        val temp = node.left
+        node.left = node.right
+        node.right = temp
+      } else if (node.left != null) {
+        node.right = node.left
+        node.left = null
+      } else if (node.right != null) {
+        node.left = node.right
+        node.right = null
+      }
+      dfs(node.left)
+      dfs(node.right)
+    }
+
+    dfs(root)
+    root
+  }
 
 }
