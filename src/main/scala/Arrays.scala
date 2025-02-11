@@ -938,4 +938,18 @@ object Arrays extends App {
 
     arr
   }
+
+  // 125. Valid Palindrome
+  def isPalindrome(s: String): Boolean = {
+    val letters = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase()
+    var left = 0
+    var right = letters.length - 1
+    while (left < right) {
+      if (letters(left) != letters(right)) return false
+
+      left +=1
+      right -= 1
+    }
+    true
+  }
 }
