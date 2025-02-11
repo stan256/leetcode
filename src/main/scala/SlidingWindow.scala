@@ -300,4 +300,20 @@ object SlidingWindow extends App {
 
     result
   }
+
+  // 121. Best Time to Buy and Sell Stock
+  def maxProfit_2(prices: Array[Int]): Int = {
+    var minPrice = prices.head
+    var maxProfit = 0
+    for (p <- prices) {
+      if (p < minPrice) {
+        minPrice = p
+      } else {
+        if (maxProfit < p - minPrice) {
+          maxProfit = p - minPrice
+        }
+      }
+    }
+    maxProfit
+  }
 }
