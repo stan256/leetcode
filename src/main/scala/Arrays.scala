@@ -974,6 +974,23 @@ object Arrays extends App {
     binarySearch(0, nums.length - 1)
   }
 
-  println(search(Array(2,5), 0))
+  // 733. Flood Fill
+  def floodFill(image: Array[Array[Int]], sr: Int, sc: Int, color: Int): Array[Array[Int]] = {
+    def print(x: Int, y: Int, original: Int): Unit = {
+      if (image(x)(y) == original) {
+        val arr = Array((x - 1) -> y, (x + 1) -> y, x -> (y - 1), x -> (y + 1))
+        image(x)(y) = color
+        for (t <- arr) {
+          if (t._1 >= 0 && t._1 < image.length && t._2 >= 0 && t._2 < image.head.length) {
+            print(t._1, t._2, original)
+          }
+        }
+      }
+    }
+    if (image(sr)(sc) != color) {
+      print(sr, sc, image(sr)(sc))
+    }
+    image
+  }
 
 }
