@@ -143,5 +143,26 @@ object TwoPointers extends App {
     result
   }
 
-  println(maxArea(Array(1, 8, 6, 2, 5, 4, 8, 3, 7)))
+  // 53. Maximum Subarray
+  def maxSubArray(nums: Array[Int]): Int = {
+    var maxSum = Int.MinValue
+    var currentSum = 0
+
+    var left = 0
+    var right = 0
+
+    while (right < nums.length) {
+      currentSum += nums(right)
+      maxSum = maxSum.max(currentSum)
+
+      while (currentSum < 0 && left <= right && left < nums.length - 1) {
+        currentSum -= nums(left)
+        left += 1
+      }
+
+      right += 1
+    }
+
+    maxSum
+  }
 }
