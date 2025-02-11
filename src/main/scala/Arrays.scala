@@ -952,4 +952,12 @@ object Arrays extends App {
     }
     true
   }
+
+  // 242. Valid Anagram
+  def isAnagram(s: String, t: String): Boolean = {
+    val arr = Array.ofDim[Int](26)
+    for (c <- s) arr(c - 'a') += 1
+    for (c <- t) arr(c - 'a') -= 1
+    arr.forall(_ == 0)
+  }
 }
