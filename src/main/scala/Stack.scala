@@ -393,6 +393,29 @@ object Stack extends App {
 
     stack.isEmpty
   }
+
+  // 20. Valid Parentheses
+  def isValid_3(s: String): Boolean = {
+    val map = Map(')' -> '(', '}' -> '{', ']' -> '[')
+    val openBrackets = Set('{', '(', '[')
+    val stack = collection.mutable.Stack.empty[Char]
+    for (c <- s) {
+      if (openBrackets.contains(c)) {
+        stack.push(c)
+      } else {
+        if (stack.nonEmpty) {
+          if (stack.head == map(c)) {
+            stack.pop()
+          } else {
+            stack.push(c)
+          }
+        } else {
+          stack.push(c)
+        }
+      }
+    }
+    true
+  }
 }
 
 
