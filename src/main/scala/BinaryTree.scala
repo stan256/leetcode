@@ -389,4 +389,31 @@ object BinaryTree extends App {
     root
   }
 
+  // 235. Lowest Common Ancestor of a Binary Search Tree
+  def lowestCommonAncestor_3(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
+    var answer: TreeNode = null
+
+    def dfs(node: TreeNode): (Boolean, Boolean) = {
+      if (node == null) return (false, false)
+
+      var left = false
+      var right = false
+
+      if (node == p) left = true
+      else if (node == q) right = true
+
+      val leftDfs = dfs(node.left)
+      val rightDfs = dfs(node.right)
+
+      if (leftDfs._1 || rightDfs._1) left = true
+      if (leftDfs._2 || rightDfs._2) right = true
+
+      if (left && right && answer == null) answer = node
+      (left, right)
+    }
+
+    dfs(root)
+    answer
+  }
+
 }
