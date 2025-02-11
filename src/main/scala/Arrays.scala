@@ -960,4 +960,20 @@ object Arrays extends App {
     for (c <- t) arr(c - 'a') -= 1
     arr.forall(_ == 0)
   }
+
+  // 704. Binary Search
+  def search(nums: Array[Int], target: Int): Int = {
+    def binarySearch(left: Int, right: Int): Int = {
+      if (left > right) return -1
+      val middle = (left + right)/2
+      if (nums(middle) == target) middle
+      else if (nums(middle) > target) binarySearch(left, middle - 1)
+      else binarySearch(middle + 1, right)
+    }
+
+    binarySearch(0, nums.length - 1)
+  }
+
+  println(search(Array(2,5), 0))
+
 }
