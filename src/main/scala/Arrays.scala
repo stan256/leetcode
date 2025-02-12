@@ -993,4 +993,35 @@ object Arrays extends App {
     image
   }
 
+  // 542. 01 Matrix
+  def updateMatrix(mat: Array[Array[Int]]): Array[Array[Int]] = {
+    val queue = collection.mutable.Queue.empty[Array[Int]]
+    val seen = Array.fill(mat.length)(Array.fill(mat.head.length)(false))
+    for (x <- mat.zipWithIndex) {
+      for (y <- x._1.zipWithIndex) {
+        if (mat(x._2)(y._2) == 0) {
+          queue.enqueue(Array(x._2, y._2))
+        }
+      }
+    }
+    var counter = 0
+    while (queue.nonEmpty) {
+      val size = queue.length
+      for (_ <- 0 until size) {
+        val next = queue.dequeue()
+        val i1 = next(0)
+        val i2 = next(1)
+        if (i1 >= 0 && i1 < mat.length && i2 >= 0 && i2 < mat.head.length) {
+          if (!seen(i1)(i2)) {
+            mat(i1)(i2) = counter
+            seen(i1)(i2) = true
+            Array((i1 + 1) -> i2, (i1 - 1) -> i2, i1 -> (i2 + 1), i1 -> (i2 - 1))
+              .foreach(x => queue.enqueue(Array(x._1, x._2)))
+          }
+        }
+      }
+      counter += 1
+    }
+    mat
+  }
 }
