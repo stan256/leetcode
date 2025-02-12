@@ -143,7 +143,7 @@ object TwoPointers extends App {
     result
   }
 
-  // 53. Maximum Subarray
+  // 53. Maximum Subarray - I actually don't need a heap here
   def maxSubArray(nums: Array[Int]): Int = {
     var maxSum = Int.MinValue
     var currentSum = 0
