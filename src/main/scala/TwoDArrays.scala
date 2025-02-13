@@ -12,7 +12,7 @@ object TwoDArrays extends App {
 
     while (shouldProceed) {
       for (i <- left to right) lb.addOne(matrix(top)(i))
-      if (shouldProceed) for (i <- top + 1 to bottom) lb.addOne(matrix(i)(right))
+      for (i <- top + 1 to bottom) lb.addOne(matrix(i)(right))
       if (shouldProceed) for (i <- right - 1 to left by -1) lb.addOne(matrix(bottom)(i))
       if (shouldProceed) for (i <- bottom - 1 until top by -1) lb.addOne(matrix(i)(left))
 
@@ -25,20 +25,41 @@ object TwoDArrays extends App {
     lb.toList
   }
 
-  println(spiralOrder(
-    Array(
-      Array(1,2,3),
-      Array(4,5,6),
-      Array(7,8,9)
-    )
-  ))
+  def candyCrush(board: Array[Array[Int]]): Array[Array[Int]] = {
+    def find(): List[(Int, Int)] = {
+      val seen = Array.fill(board.length)(Array.fill(board.head.length)(false))
+      val deleteList = collection.mutable.ListBuffer.empty[(Int, Int)]
+      for (row <- board.zipWithIndex) {
+        for (column <- row._1.zipWithIndex) {
+          val r = row._2
+          val c = column._2
 
-//  println(spiralOrder(
-//    Array(
-//      Array(1,2,3,4),
-//      Array(5,6,7,8),
-//      Array(9,10,11,12)
-//    )
-//  ))
+          def dfs(direction: (Int, Int), prevRow: Int, prevCol: Int): List[(Int, Int)] = {
+            val newRow = prevRow + direction._1
+            val newCol = prevCol + direction._2
+            if (newRow < board.length && newCol < board.head.length && board(newRow)(newCol) == board(prevRow)(prevCol)) {
+              seen(newRow)(newCol) = true
+              List(newRow -> newCol) :++ dfs(direction, newRow, newCol)
+            } else List()
+          }
+
+          if (!seen(r)(c)) {
+            val horizontal = dfs((0, 1), r, c)
+            val vertical = dfs((1, 0), r, c)
+            if (horizontal.length >= 3) deleteList.addAll(horizontal)
+            if (vertical.length >= 3) deleteList.addAll(vertical)
+          }
+
+        }
+      }
+      deleteList.toList
+    }
+
+    val tuples = find()
+    println(tuples.mkString(", "))
+    Array()
+  }
+
+  println("0" * 10)
 
 }
