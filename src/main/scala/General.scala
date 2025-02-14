@@ -90,4 +90,28 @@ object General extends App {
     }
   }
 
+  // 1166. Design File System
+  class FileSystem2() {
+    val map = collection.mutable.HashMap.empty[String, Int]
+
+    def createPath(path: String, value: Int): Boolean = {
+      val parts = path.drop(1).split("/")
+      if (parts.length == 1) {
+        if (map.contains(path)) return false
+        else {
+          map(path) = value
+          return true
+        }
+      }
+
+      val parent = path.substring(0, path.lastIndexOf("/"))
+      if (map.contains(parent) && !map.contains(path)) {
+        map(path) = value
+        true
+      } else false
+    }
+
+    def get(path: String): Int = map.getOrElse(path, -1)
+  }
+
 }
