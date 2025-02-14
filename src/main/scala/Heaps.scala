@@ -281,4 +281,43 @@ object Heaps extends App {
     max
   }
 
+  // 1438. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+  def longestSubarray(nums: Array[Int], limit: Int): Int = {
+    val ascending = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
+    val descending = collection.mutable.PriorityQueue.empty[Int]
+    var left, right = 0
+
+    val ascRemove = collection.mutable.Map.empty[Int, Int]
+    val descRemove = collection.mutable.Map.empty[Int, Int]
+
+    var max = 1
+
+    while (right < nums.length) {
+      ascending.enqueue(nums(right))
+      descending.enqueue(nums(right))
+
+      if (descending.head - ascending.head > limit) {
+        ascRemove(nums(left)) = ascRemove.getOrElse(nums(left), 0) + 1
+        descRemove(nums(left)) = descRemove.getOrElse(nums(left), 0) + 1
+        left += 1
+
+        while (descRemove.get(descending.head).exists(_ > 0)) {
+          descRemove(descending.head) = descRemove(descending.head) - 1
+          descending.dequeue()
+        }
+
+        while (ascRemove.get(ascending.head).exists(_ > 0)) {
+          ascRemove(ascending.head) = ascRemove(ascending.head) - 1
+          ascending.dequeue()
+        }
+      } else {
+        max = max.max(right - left + 1)
+      }
+
+      right += 1
+    }
+    max
+  }
+
+
 }
