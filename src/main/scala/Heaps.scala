@@ -160,6 +160,18 @@ object Heaps extends App {
     }).sortBy(_._1).take(k).map(_._2)
   }
 
+  def kClosest3(points: Array[Array[Int]], k: Int): Array[Array[Int]] = {
+    val pq = collection.mutable.PriorityQueue.empty[(Double, Array[Int])](Ordering.by(_._1))
+    for (p <- points) {
+      if (pq.length < k) pq.enqueue(Math.sqrt(p(0)*p(0) + p(1)*p(1)) -> p)
+      else {
+        pq.enqueue(Math.sqrt(p(0)*p(0) + p(1)*p(1)) -> p)
+        pq.dequeue()
+      }
+    }
+    pq.map(_._2).toArray
+  }
+
   // 703. Kth Largest Element in a Stream
   class KthLargest(_k: Int, _nums: Array[Int]) {
     val pq = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)
