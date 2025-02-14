@@ -151,6 +151,15 @@ object Heaps extends App {
     pq.toArray.map(t => Array(t._1, t._2))
   }
 
+  // 973. K Closest Points to Origin
+  def kClosest2(points: Array[Array[Int]], k: Int): Array[Array[Int]] = {
+    points.map(arr => {
+      val x = arr(0)
+      val y = arr(1)
+      Math.sqrt(x * x + y * y) -> arr
+    }).sortBy(_._1).take(k).map(_._2)
+  }
+
   // 703. Kth Largest Element in a Stream
   class KthLargest(_k: Int, _nums: Array[Int]) {
     val pq = collection.mutable.PriorityQueue.empty[Int](Ordering.Int.reverse)

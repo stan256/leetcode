@@ -60,6 +60,6 @@ object TwoDArrays extends App {
     Array()
   }
 
-  println("0" * 10)
+  println(List(1,2,10,4).sortBy(-_))
 
 }
