@@ -54,4 +54,40 @@ object General extends App {
     }
   }
 
+  // 1166. Design File System
+  class FileSystem() {
+    case class Node(var value: Int, val map: collection.mutable.HashMap[String, Node] = collection.mutable.HashMap.empty[String, Node])
+
+    private val map = collection.mutable.HashMap.empty[String, Node]
+
+    def createPath(path: String, value: Int): Boolean = {
+      val parts = path.drop(1).split("/")
+      var search = map
+      parts.dropRight(1).foreach(part => {
+        if (search != null) {
+          val maybeNode = search.get(part)
+          search = maybeNode.map(_.map).orNull
+        }
+      })
+      if (search == null) return false
+      val maybeNode = search.get(parts.last)
+      if (maybeNode.nonEmpty) return false
+      else search(parts.last) = Node(value)
+      true
+    }
+
+    def get(path: String): Int = {
+      val parts = path.drop(1).split("/")
+      var search = map
+      parts.dropRight(1).foreach(part => {
+        if (search != null) {
+          val maybeNode = search.get(part)
+          search = maybeNode.map(_.map).orNull
+        }
+      })
+      if (search == null || !search.contains(parts.last)) return -1
+      else search(parts.last).value
+    }
+  }
+
 }
