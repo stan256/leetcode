@@ -30,4 +30,11 @@ object Strings extends App {
     if (addOne) res = "1" + res
     res
   }
+
+  // 383. Ransom Note
+  def canConstruct(ransomNote: String, magazine: String): Boolean = {
+    val map = collection.mutable.HashMap.from(magazine.groupBy(identity).map(x => x._1 -> x._2.length))
+    for (c <- ransomNote) map(c) = map.getOrElse(c, 0) - 1
+    map.values.forall(_ >= 0)
+  }
 }
