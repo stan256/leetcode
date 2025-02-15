@@ -1045,4 +1045,23 @@ object Arrays extends App {
     if (carry > 0) sb.append("1")
     sb.toString.reverse
   }
+
+  // 278. First Bad Version
+  class Solution {
+    def firstBadVersion(n: Int): Int = {
+      var left = 1
+      var right = n
+
+      while (left < right) {
+        var middle = left + (right - left)/2
+
+//        if (isBadVersion(middle)) {
+//          right = middle
+//        } else {
+//          left = middle + 1
+//        }
+      }
+      left
+    }
+  }
 }
