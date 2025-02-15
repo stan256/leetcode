@@ -416,6 +416,30 @@ object Stack extends App {
     }
     true
   }
+
+  // 232. Implement Queue using Stacks
+  class MyQueue() {
+    val stack = collection.mutable.Stack.empty[Int]
+    val get = collection.mutable.Stack.empty[Int]
+
+    def push(x: Int): Unit = {
+      stack.push(x)
+    }
+
+    def pop(): Int = {
+      if (get.isEmpty) while(stack.nonEmpty) get.push(stack.pop())
+      get.pop()
+    }
+
+    def peek(): Int = {
+      if (get.isEmpty) while(stack.nonEmpty) get.push(stack.pop())
+      get.head
+    }
+
+    def empty(): Boolean = {
+      get.isEmpty && stack.isEmpty
+    }
+  }
 }
 
 
