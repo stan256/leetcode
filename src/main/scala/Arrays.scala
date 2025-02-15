@@ -1024,4 +1024,25 @@ object Arrays extends App {
     }
     mat
   }
+
+  // 415. Add Strings
+  def addStrings(num1: String, num2: String): String = {
+    var carry = 0
+    val sb = new StringBuilder()
+    var i = num1.length - 1
+    var j = num2.length - 1
+
+    while (i >= 0 || j >= 0) {
+      val x = (if (i >= 0) num1(i) else '0') - '0'
+      val y = (if (j >= 0) num2(j) else '0') - '0'
+      var a = x + y + carry
+      carry = a / 10
+      a = a % 10
+      sb.append(a)
+      i -= 1
+      j -= 1
+    }
+    if (carry > 0) sb.append("1")
+    sb.toString.reverse
+  }
 }

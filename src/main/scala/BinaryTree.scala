@@ -109,13 +109,6 @@ object BinaryTree extends App {
   //    )
   //  )
 
-  // 110. Balanced Binary Tree
-  def isBalanced(root: TreeNode): Boolean = {
-    false
-  }
-  //  println(isBalanced(???))
-
-
   // 112. Path Sum
   def hasPathSum(root: TreeNode, targetSum: Int): Boolean = {
     if (root == null) return false
@@ -414,6 +407,27 @@ object BinaryTree extends App {
 
     dfs(root)
     answer
+  }
+
+  def isBalanced(root: TreeNode): Boolean = {
+    val queue = collection.mutable.Queue.empty[TreeNode]
+    queue.enqueue(root)
+
+    var prevSize = 1
+    var lastRound = false
+    while (queue.nonEmpty) {
+      val size = queue.length
+      if (prevSize * 2 != size && prevSize != 1) lastRound = true
+      for (i <- 0 until size) {
+        val q = queue.dequeue()
+        if (q.left != null) queue.enqueue(q.left)
+        if (q.right != null) queue.enqueue(q.right)
+      }
+      prevSize = size
+      if (lastRound && queue.nonEmpty) return false
+    }
+
+    true
   }
 
 }
