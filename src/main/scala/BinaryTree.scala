@@ -409,25 +409,15 @@ object BinaryTree extends App {
     answer
   }
 
+  // 110. Balanced Binary Tree
   def isBalanced(root: TreeNode): Boolean = {
-    val queue = collection.mutable.Queue.empty[TreeNode]
-    queue.enqueue(root)
+    if (root == null) return true
 
-    var prevSize = 1
-    var lastRound = false
-    while (queue.nonEmpty) {
-      val size = queue.length
-      if (prevSize * 2 != size && prevSize != 1) lastRound = true
-      for (i <- 0 until size) {
-        val q = queue.dequeue()
-        if (q.left != null) queue.enqueue(q.left)
-        if (q.right != null) queue.enqueue(q.right)
-      }
-      prevSize = size
-      if (lastRound && queue.nonEmpty) return false
-    }
+    def height(node: TreeNode): Int =
+      if (node == null) return 0
+      else 1 + Math.max(height(node.left), height(node.right))
 
-    true
+    Math.abs(height(root.left) - height(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right)
   }
 
 }
