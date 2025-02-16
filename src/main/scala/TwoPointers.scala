@@ -86,6 +86,25 @@ object TwoPointers extends App {
 
     throw new IllegalStateException()
   }
+
+  // 167. Two Sum II - Input Array Is Sorted
+  def twoSum_binary(numbers: Array[Int], target: Int): Array[Int] = {
+    def binary(left: Int, right: Int, x: Int): Int = {
+      val middle = left + (right - left)/2
+      if (numbers(middle) == x) middle
+      else if (left >= right) -1
+      else if (numbers(middle) > x) binary(left, middle - 1, x)
+      else binary(middle + 1, right, x)
+    }
+
+    var i = 0
+    while (i < numbers.length) {
+      val j = binary(0, numbers.length - 1, target - numbers(i))
+      if (j != -1 && j != i) return Array(i + 1, j + 1).sorted
+      i += 1
+    }
+    Array()
+  }
   //  println(twoSum(Array(2,7,11,15), 9).mkString("Array(", ", ", ")"))
 
   // 15. 3Sum
