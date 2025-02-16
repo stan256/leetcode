@@ -165,4 +165,27 @@ object TwoPointers extends App {
 
     maxSum
   }
+
+  // 15. 3Sum
+  def threeSum2(nums: Array[Int]): List[List[Int]] = {
+    var set = collection.mutable.Set.empty[List[Int]]
+    val sorted = nums.sorted
+
+    def binary(x: Int, left: Int, right: Int): Int = {
+      val middle = left + (right - left)/2
+      if (sorted(middle) == x) middle
+      else if (left >= right) -1
+      else if (sorted(middle) > x) binary(x, left, middle - 1)
+      else binary(x, middle + 1, right)
+    }
+
+    for (i <- 0 until nums.length) {
+      for (j <- i + 1 until nums.length) {
+        val k = binary(0 - sorted(i) - sorted(j), 0, sorted.length - 1)
+        if (k != -1 && k != i && k != j) set.addOne(List(sorted(i), sorted(j), sorted(k)).sorted)
+      }
+    }
+
+    set.toList
+  }
 }
