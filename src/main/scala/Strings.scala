@@ -37,4 +37,25 @@ object Strings extends App {
     for (c <- ransomNote) map(c) = map.getOrElse(c, 0) - 1
     map.values.forall(_ >= 0)
   }
+
+  // 3. Longest Substring Without Repeating Characters
+  def lengthOfLongestSubstring(s: String): Int = {
+    var left = 0
+    var right = 0
+    var max = 0
+    var set = collection.mutable.Set.empty[Char]
+
+    while (right < s.length) {
+      if (set.contains(s.charAt(right))) {
+        set.remove(s.charAt(left))
+        left += 1
+      } else {
+        set.addOne(s.charAt(right))
+        max = max.max(right - left + 1)
+        right += 1
+      }
+    }
+
+    max
+  }
 }
