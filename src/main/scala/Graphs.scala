@@ -1,4 +1,12 @@
 object Graphs extends App {
+
+  class Node(var _value: Int) {
+    var value: Int = _value
+    var neighbors: List[Node] = List()
+  }
+
+
+
   // 547. Number of Provinces
   def findCircleNum(isConnected: Array[Array[Int]]): Int = {
     var map = isConnected.indices.map(_ -> List.empty[Int]).toMap
@@ -133,5 +141,23 @@ object Graphs extends App {
     search(0, (robotLocation(0), robotLocation(1)))
 
     result
+  }
+
+  // 133. Clone Graph
+  def cloneGraph(graph: Node): Node = {
+    if (graph == null) return null
+
+    val map = collection.mutable.HashMap.empty[Node, Node]
+
+    def updateAndReturnGraph(node: Node): Node = {
+      if (!map.contains(node)) {
+        val newNode = new Node(node.value)
+        map.put(node, newNode)
+      } else return map(node)
+      map(node).neighbors = node.neighbors.map(updateAndReturnGraph)
+      map(node)
+    }
+
+    updateAndReturnGraph(graph)
   }
 }
