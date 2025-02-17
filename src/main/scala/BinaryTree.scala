@@ -69,6 +69,26 @@ object BinaryTree extends App {
     map.values.toList
   }
 
+  // 102. Binary Tree Level Order Traversal bfs
+  def levelOrder_bfs(root: TreeNode): List[List[Int]] = {
+    if (root == null) return List()
+
+    val queue = collection.mutable.Queue.empty[TreeNode]
+    val lb = collection.mutable.ListBuffer.empty[List[Int]]
+    queue.enqueue(root)
+
+    while (queue.nonEmpty) {
+      lb.addOne(queue.toList.map(_.value))
+      val size = queue.size
+      for (i <- 0 until size) {
+        val node = queue.dequeue()
+        if (node.left != null) queue.enqueue(node.left)
+        if (node.right != null) queue.enqueue(node.right)
+      }
+    }
+    lb.toList
+  }
+
   // 543. Diameter of Binary Tree
   def diameterOfBinaryTree(root: TreeNode): Int = {
     //                                 result, longest
