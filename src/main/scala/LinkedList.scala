@@ -188,12 +188,26 @@ object LinkedList extends App {
     if (head != null) oldNewMap(head) else null
   }
 
-  val node = new Node(7)
-  node.next = new Node(13)
-  node.next.next = new Node(11)
-  node.next.next.next = new Node(10)
-  node.next.next.next.next = new Node(1)
-  //  copyRandomList(node)
+  // 138. Copy List with Random Pointer
+  def copyRandomList_2(head: Node): Node = {
+    if (head == null) return null
+
+    val map = collection.mutable.Map.empty[Node, Node]
+
+    def copy(node: Node): Node = {
+      if (node == null) return null
+      if (!map.contains(node)) {
+        val newNode = new Node(node.value)
+        map.put(node, newNode)
+        map(node).next = map.getOrElse(node.next, copy(node.next))
+        map(node).random = map.getOrElse(node.random, copy(node.random))
+      }
+      map(node)
+    }
+
+    copy(head)
+  }
+
 
   // 2. Add Two Numbers
   def addTwoNumbers(l1: ListNode, l2: ListNode): ListNode = {
