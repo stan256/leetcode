@@ -89,6 +89,38 @@ object BinaryTree extends App {
     lb.toList
   }
 
+
+  // 1485. Clone Binary Tree With Random Pointer
+  class Node(var _value: Int, _left: Node = null, _right: Node = null, _random: Node = null) {
+    var value: Int = _value
+    var left: Node = _left
+    var right: Node = _right
+    var random: Node = _random
+  }
+  class NodeCopy(var _value: Int, _left: NodeCopy = null, _right: NodeCopy = null, _random: NodeCopy = null) {
+    var value: Int = _value
+    var left: NodeCopy = _left
+    var right: NodeCopy = _right
+    var random: NodeCopy = _random
+  }
+  def copyRandomBinaryTree(root: Node): NodeCopy = {
+    val map = collection.mutable.HashMap.empty[Node, NodeCopy]
+
+
+    def copy(node: Node): NodeCopy = {
+      if (node == null) return null
+      if (!map.contains(node)) {
+        map.put(node, new NodeCopy(node.value, null, null, null))
+        map(node).left = map.getOrElse(node.left, copy(node.left))
+        map(node).right = map.getOrElse(node.right, copy(node.right))
+        map(node).random = map.getOrElse(node.random, copy(node.random))
+      }
+      map(node)
+    }
+
+    copy(root)
+  }
+
   // 543. Diameter of Binary Tree
   def diameterOfBinaryTree(root: TreeNode): Int = {
     //                                 result, longest
