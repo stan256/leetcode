@@ -106,7 +106,6 @@ object BinaryTree extends App {
   def copyRandomBinaryTree(root: Node): NodeCopy = {
     val map = collection.mutable.HashMap.empty[Node, NodeCopy]
 
-
     def copy(node: Node): NodeCopy = {
       if (node == null) return null
       if (!map.contains(node)) {
@@ -114,6 +113,26 @@ object BinaryTree extends App {
         map(node).left = map.getOrElse(node.left, copy(node.left))
         map(node).right = map.getOrElse(node.right, copy(node.right))
         map(node).random = map.getOrElse(node.random, copy(node.random))
+      }
+      map(node)
+    }
+
+    copy(root)
+  }
+
+  // 1490. Clone N-ary Tree
+  class TNode(var _value: Int) {
+    var value: Int = _value
+    var children: List[TNode] = List()
+  }
+  def cloneTree(root: TNode): TNode = {
+    val map = collection.mutable.Map.empty[TNode, TNode]
+
+    def copy(node: TNode): TNode = {
+      if (node == null) return null
+      if (!map.contains(node)) {
+        map.put(node, new TNode(node.value))
+        map(node).children = node.children.map(copy)
       }
       map(node)
     }
