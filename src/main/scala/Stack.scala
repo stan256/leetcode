@@ -440,6 +440,27 @@ object Stack extends App {
       get.isEmpty && stack.isEmpty
     }
   }
+
+  // 150. Evaluate Reverse Polish Notation
+  def evalRPN_2(tokens: Array[String]): Int = {
+    val stack = collection.mutable.Stack.empty[Int]
+    val iterator = tokens.iterator
+
+    while (iterator.hasNext) {
+      val str = iterator.next
+      if ("+-/*".contains(str)) {
+        val one = stack.pop()
+        val two = stack.pop()
+        val res = if (str == "/") two / one
+        else if (str == "*") two * one
+        else if (str == "-") two - one
+        else two + one
+        stack.push(res)
+      } else stack.push(str.toInt)
+    }
+
+    stack.pop()
+  }
 }
 
 
