@@ -160,4 +160,27 @@ object Graphs extends App {
 
     updateAndReturnGraph(graph)
   }
+
+  // 207. Course Schedule
+  def canFinish(numCourses: Int, prerequisites: Array[Array[Int]]): Boolean = {
+    var arr = Array.ofDim[Int](numCourses)
+    val map = Array.fill[List[Int]](numCourses) {List()}
+    val queue = collection.mutable.Queue.empty[Int]
+    for (p <- prerequisites) {
+      arr(p(0)) += 1
+      map(p(1)) = p(0) :: map(p(1))
+    }
+    for (i <- arr.zipWithIndex) if (i._1 == 0) queue.enqueue(i._2)
+    var visited = 0
+    while (queue.nonEmpty) {
+      visited += 1
+      val index = queue.dequeue()
+      val dependants = map(index)
+      for (d <- dependants) {
+        arr(d) -= 1
+        if (arr(d) == 0) queue.enqueue(d)
+      }
+    }
+    visited == numCourses
+  }
 }
