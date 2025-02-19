@@ -183,4 +183,32 @@ object Graphs extends App {
     }
     visited == numCourses
   }
+
+
+  // 210. Course Schedule II
+  def findOrder(numCourses: Int, prerequisites: Array[Array[Int]]): Array[Int] = {
+    val arr = Array.ofDim[Int](numCourses)
+    val dependants = Array.fill[List[Int]](numCourses) {List()}
+    val queue = collection.mutable.Queue.empty[Int]
+
+    for (p <- prerequisites) {
+      dependants(p(1)) = p(0) :: dependants(p(1))
+      arr(p(0)) += 1
+    }
+    for (a <- arr.zipWithIndex) if(a._1 == 0) queue.enqueue(a._2)
+
+    val lb = collection.mutable.ListBuffer.empty[Int]
+    var counter = 0
+    while (queue.nonEmpty) {
+      counter += 1
+      val index = queue.dequeue()
+      lb.addOne(index)
+      val deps = dependants(index)
+      for (d <- deps) {
+        arr(d) -= 1
+        if (arr(d) == 0) queue.enqueue(d)
+      }
+    }
+    if (counter == numCourses) lb.toArray else Array()
+  }
 }
