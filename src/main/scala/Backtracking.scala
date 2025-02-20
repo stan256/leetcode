@@ -282,7 +282,7 @@ object Backtracking extends App {
   }
 
   // 322. Coin Change
-  def coinChange(coins: Array[Int], amount: Int): Int = {
+  def coinChange_2(coins: Array[Int], amount: Int): Int = {
     val arr = Array.ofDim[Int](amount + 1)
 
     for (i <- 1 to amount) {
@@ -290,6 +290,20 @@ object Backtracking extends App {
     }
 
     arr(amount)
+  }
+
+  // 322. Coin Change - with max value
+  def coinChange(coins: Array[Int], amount: Int): Int = {
+    val arr = Array.fill[Int](amount + 1)(Int.MaxValue)
+    arr(0) = 0
+
+    for (i <- 1 to amount) {
+      for (c <- coins) {
+        if (i - c >= 0 && arr(i - c) != Int.MaxValue) arr(i) = Math.min(arr(i), arr(i - c) + 1)
+      }
+    }
+
+    if (arr(amount) != Int.MaxValue) arr(amount) else -1
   }
 
 
