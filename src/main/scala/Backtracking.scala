@@ -281,4 +281,16 @@ object Backtracking extends App {
     arr.toList
   }
 
+  // 322. Coin Change
+  def coinChange(coins: Array[Int], amount: Int): Int = {
+    val arr = Array.ofDim[Int](amount + 1)
+
+    for (i <- 1 to amount) {
+      arr(i) = coins.map(c => i - c).filter(_ >= 0).map(arr(_)).filter(_ >= 0).minOption.map(_ + 1).getOrElse(-1)
+    }
+
+    arr(amount)
+  }
+
+
 }
