@@ -253,4 +253,26 @@ object DynamicProgramming extends App {
 
     dp(text1.length - 1, text2.length - 1)
   }
+
+  // 983. Minimum Cost For Tickets
+  def mincostTickets(days: Array[Int], costs: Array[Int]): Int = {
+    var i = 0
+    val arr = Array.fill(366)(0)
+    val lastDay = days.last
+
+    for (day <- 1 to lastDay) {
+      if (day < days(i)) {
+        arr(day) = arr(day - 1)
+      } else {
+        i += 1
+        arr(day) = Array(
+          arr(day - 1) + costs(0),
+          arr(Math.max(day - 7, 0)) + costs(1),
+          arr(Math.max(day - 30, 0)) + costs(2)
+        ).min
+      }
+    }
+
+    arr(lastDay)
+  }
 }
