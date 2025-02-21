@@ -293,10 +293,10 @@ object LinkedList extends App {
     var slow = nums(0)
     var fast = nums(nums(0))
 
-    do {
+    while (slow != fast) {
       slow = nums(slow)
       fast = nums(nums(fast))
-    } while (slow != fast)
+    } 
 
     var slow2 = 0
     while (slow != slow2) {

@@ -11,7 +11,8 @@ object RandomTasks extends App {
       val diff = target - x
 
       var startIndex = -1
-      do {
+      // it was a do ... while, but had to rewrite due to Scala 2 => Scala 3
+      while (startIndex != -1) {
         startIndex = nums.indexOf(diff, startIndex + 1)
 
         if (startIndex != i && startIndex != -1) {
@@ -19,7 +20,7 @@ object RandomTasks extends App {
           result(1) = i
           return result
         }
-      } while (startIndex != -1)
+      } 
     }
 
     result
