@@ -255,7 +255,7 @@ object DynamicProgramming extends App {
   }
 
   // 983. Minimum Cost For Tickets
-  def mincostTickets(days: Array[Int], costs: Array[Int]): Int = {
+  def mincostTickets_2(days: Array[Int], costs: Array[Int]): Int = {
     var i = 0
     val arr = Array.fill(366)(0)
     val lastDay = days.last
@@ -274,5 +274,26 @@ object DynamicProgramming extends App {
     }
 
     arr(lastDay)
+  }
+
+  // 983. Minimum Cost For Tickets - top to bottom
+  object Solution {
+    val arr = Array.fill(100001)(Int.MaxValue)
+
+    def coinChange(coins: Array[Int], amount: Int): Int = {
+      if (amount == 0) return 0
+      else if (amount < 0) return -1
+      else if (arr(amount) != Int.MaxValue) return arr(amount)
+
+      val value = coins.map(c => coinChange(coins, amount - c))
+        .filter(_ >= 0)
+        .minOption
+        .map(_ + 1)
+        .getOrElse(-1)
+      println(value)
+
+      arr(amount) = value
+      arr(amount)
+    }
   }
 }
