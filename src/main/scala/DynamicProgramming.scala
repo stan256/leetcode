@@ -290,10 +290,27 @@ object DynamicProgramming extends App {
         .minOption
         .map(_ + 1)
         .getOrElse(-1)
-      println(value)
 
       arr(amount) = value
       arr(amount)
     }
+  }
+
+  // 983. Minimum Cost For Tickets - top to bottom
+  def mincostTickets(days: Array[Int], costs: Array[Int]): Int = {
+    val arr = Array.fill(days.last + 1)(-1)
+    val set = days.toSet
+
+    def solve(day: Int): Int = {
+      if (day <= 0) return 0
+      else if (arr(day) != -1) return arr(day)
+      else if (!set.contains(day)) return solve(day - 1)
+
+      arr(day) = Array(solve(day - 1) + costs(0), solve(day - 7) + costs(1), solve(day - 30) + costs(2)).min
+      arr(day)
+    }
+
+    days.foreach(solve)
+    arr(days.last)
   }
 }
