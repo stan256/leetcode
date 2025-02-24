@@ -60,6 +60,43 @@ object TwoDArrays extends App {
     Array()
   }
 
-  println(List(1,2,10,4).sortBy(-_))
+
+  // 289. Game of Life
+  def gameOfLife(board: Array[Array[Int]]): Unit = {
+    val counters = Array.fill(board.length)(Array.fill(board.head.length)(0))
+    for (i <- board.indices) {
+      for (j <- board.head.indices) {
+        val neighbours = Array(
+          (i + 1, j),
+          (i - 1, j),
+          (i, j + 1),
+          (i, j - 1),
+          (i - 1, j - 1),
+          (i - 1, j + 1),
+          (i + 1, j - 1),
+          (i + 1, j + 1)
+        ).filter((a, b) => a >= 0 && a < board.length && b >= 0 && b < board.head.length)
+
+        var counter = 0
+        for (n <- neighbours) {
+          if (board(n._1)(n._2) == 1) counter += 1
+        }
+        counters(i)(j) = counter
+      }
+    }
+
+    for (i <- board.indices) {
+      for (j <- board.head.indices) {
+        if (board(i)(j) == 1) {
+          val counter = counters(i)(j)
+          if (counter < 2) board(i)(j) = 0
+          else if (counter < 4) {}
+          else if (counter > 3) {board(i)(j) = 0}
+        } else {
+          if (counters(i)(j) == 3) board(i)(j) = 1
+        }
+      }
+    }
+  }
 
 }
