@@ -99,4 +99,39 @@ object TwoDArrays extends App {
     }
   }
 
+  // Obstacles elimination count
+  def countObstacles(board: Array[Array[String]]): Int = {
+    var body = for {
+      row <- board.indices
+      col <- board.head.indices if board(row)(col) == "*"
+    } yield (row, col)
+
+    val lowest = body.groupBy(_._2).map(x => x._2.maxBy(_._1)).maxBy(_._1)._1
+    val diff = board.length - lowest - 1
+
+    var counter = 0
+    var result = 0
+    while (counter < diff) {
+      counter += 1
+
+      for (tuple <- body) {
+        if (board(tuple._1 + 1)(tuple._2) == "#") result += 1
+      }
+      for (tuple <- body) {
+        board(tuple._1 + 1)(tuple._2) = board(tuple._1)(tuple._2)
+      }
+      body = body.map(t => t._1 + 1 -> t._2)
+    }
+
+    result
+  }
+
+  println(countObstacles(Array(
+    Array("#", "*", "*", "*", "#"),
+    Array("#", "#", "*", "#", "-"),
+    Array("#", "#", "*", "*", "-"),
+    Array("#", "-", "-", "#", "-"),
+    Array("#", "#", "-", "-", "-")
+  )))
+
 }
