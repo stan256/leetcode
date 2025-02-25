@@ -58,4 +58,15 @@ object Strings extends App {
 
     max
   }
+
+  // 409. Longest Palindrome
+  def longestPalindrome(s: String): Int = {
+    val lengths = s.groupBy(identity).map(_._2.length).toList
+    val addOne = lengths.exists(_ % 2 == 1)
+    var counter = 0
+    for (i <- 0 until lengths.length) {
+      counter += lengths(i) / 2 * 2
+    }
+    if (addOne) counter + 1 else counter
+  }
 }
