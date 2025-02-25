@@ -313,4 +313,17 @@ object DynamicProgramming extends App {
     days.foreach(solve)
     arr(days.last)
   }
+
+  // 70. Climbing Stairs
+  def climbStairs_2(n: Int): Int = {
+    if (n == 1) return 1
+
+    val arr = Array.ofDim[Int](n + 1)
+    arr(1) = 1
+    arr(2) = 2
+    for (i <- 3 to n) {
+      arr(i) = arr(i - 1) + arr(i - 2)
+    }
+    arr(n)
+  }
 }
