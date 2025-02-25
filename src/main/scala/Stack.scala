@@ -461,6 +461,53 @@ object Stack extends App {
 
     stack.pop()
   }
+
+  // 155. Min Stack
+  class MinStack_2 {
+    val stack = collection.mutable.Stack.empty[(Int, Int)]
+
+    def push(x: Int): Unit = {
+      if (stack.isEmpty) stack.push(x -> x)
+      else stack.push(x -> Math.min(stack.top._2, x))
+    }
+
+    def pop(): Unit = {
+      stack.pop()
+    }
+
+    def top(): Int = {
+      stack.top._1
+    }
+
+    def getMin(): Int = {
+      stack.top._2
+    }
+
+  }
+
+  class MinStack_3() {
+    val stack = collection.mutable.Stack.empty[Int]
+    val minStack = collection.mutable.Stack.empty[Int]
+
+    def push(x: Int): Unit = {
+      stack.push(x)
+      if (minStack.isEmpty || minStack.top >= x) minStack.push(x)
+    }
+
+    def pop(): Unit = {
+      var value = stack.pop()
+      if (minStack.nonEmpty && minStack.top == value) minStack.pop()
+    }
+
+    def top(): Int = {
+      stack.top
+    }
+
+    def getMin(): Int = {
+      minStack.top
+    }
+
+  }
 }
 
 
