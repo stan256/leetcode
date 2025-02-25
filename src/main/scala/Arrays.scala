@@ -1064,4 +1064,33 @@ object Arrays extends App {
       left
     }
   }
+
+  // 238. Product of Array Except Self
+  def productExceptSelf_2(nums: Array[Int]): Array[Int] = {
+    val left = Array.ofDim[Int](nums.length)
+    val right = Array.ofDim[Int](nums.length)
+
+    var m = 1
+    for (i <- nums.indices) {
+      m *= nums(i)
+      left(i) = m
+    }
+
+    m = 1
+    for (i <- nums.indices.reverse) {
+      m *= nums(i)
+      right(i) = m
+    }
+    println(left.mkString(", "))
+    println(right.mkString(", "))
+
+    val answer = Array.ofDim[Int](nums.length)
+    for (i <- nums.indices) {
+      val a = if (i - 1 >= 0) left(i - 1) else 1
+      val b = if (i < nums.length - 1) right(i + 1) else 1
+      println(a * b)
+      right(i) = a * b
+    }
+    answer
+  }
 }
