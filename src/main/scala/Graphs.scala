@@ -211,4 +211,39 @@ object Graphs extends App {
     }
     if (counter == numCourses) lb.toArray else Array()
   }
+
+
+  // 994. Rotting Oranges
+  def orangesRotting(grid: Array[Array[Int]]): Int = {
+    val queue = collection.mutable.Queue.empty[Array[Int]]
+    var totalFresh = 0
+    for (i <- grid.indices) {
+      for (j <- grid.head.indices) {
+        if (grid(i)(j) == 1) totalFresh += 1
+        else if (grid(i)(j) == 2) queue.enqueue(Array(i, j))
+      }
+    }
+    if (queue.isEmpty && totalFresh == 0) return 0
+
+    var counter = 0
+    while (queue.nonEmpty) {
+      counter += 1
+      val size = queue.size
+
+      for (i <- 0 until size) {
+        val arr = queue.dequeue()
+        Array((0, 1), (0, -1), (1, 0), (-1, 0))
+          .map(t => (t._1 + arr(0)) -> (t._2 + arr(1)))
+          .filter(t => t._1 >= 0 && t._1 < grid.length && t._2 >= 0 && t._2 < grid.head.length)
+          .filter(t => grid(t._1)(t._2) == 1)
+          .foreach(t => {
+            queue.enqueue(Array(t._1, t._2))
+            grid(t._1)(t._2) = 2
+            totalFresh -= 1
+          })
+      }
+    }
+
+    if (totalFresh == 0) counter - 1 else -1
+  }
 }
