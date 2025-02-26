@@ -491,4 +491,16 @@ object BinaryTree extends App {
     Math.abs(height(root.left) - height(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right)
   }
 
+
+  // 98. Validate Binary Search Tree
+  def isValidBST(root: TreeNode): Boolean = {
+    def dfs(node: TreeNode, low: Long, high: Long): Boolean = {
+      if (node == null) true
+      else if (node.value <= low || node.value >= high) false
+      else dfs(node.left, low, node.value) && dfs(node.right, node.value, high)
+    }
+
+    dfs(root, Int.MinValue.toLong - 1, Int.MaxValue.toLong + 1)
+  }
+
 }
