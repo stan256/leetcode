@@ -1095,7 +1095,7 @@ object Arrays extends App {
   }
 
 
-  def search222(nums: Array[Int], target: Int): Int = {
+  def search_2(nums: Array[Int], target: Int): Int = {
 
     var start = 0
     var end = nums.length - 1
@@ -1105,15 +1105,21 @@ object Arrays extends App {
 
       if (nums(middle) == target) return middle
 
-      if (nums(start) <= target && nums(middle) > target) {
-        end = middle - 1
+      if (nums(start) <= nums(middle)) {
+        if (nums(start) <= target && nums(middle) > target){
+          end = middle - 1
+        } else {
+          start = start + 1
+        }
       } else {
-        start = middle + 1
+        if (nums(middle) < target && nums(end) >= target) {
+          start = middle + 1
+        } else {
+          end = middle - 1
+        }
       }
     }
 
     -1
   }
-
-  println(search222(Array(4, 5, 6, 7, 0, 1, 2), 0))
 }
