@@ -246,4 +246,51 @@ object Graphs extends App {
 
     if (totalFresh == 0) counter - 1 else -1
   }
+
+  // 399. Evaluate Division
+  def calcEquation(equations: List[List[String]],
+                   values: Array[Double],
+                   queries: List[List[String]]): Array[Double] = {
+
+    import collection.mutable
+
+    val map = mutable.Map.empty[String, mutable.Map[String, Double]]
+    for ((eq, i) <- equations.zipWithIndex) {
+      map.getOrElseUpdate(eq(0), mutable.Map.empty[String, Double]).put(eq(1), values(i))
+      map.getOrElseUpdate(eq(1), mutable.Map.empty[String, Double]).put(eq(0), 1d / values(i))
+    }
+
+    var results = List[Double]()
+
+    for (query <- queries) {
+      val queue = collection.mutable.Queue.empty[(String, Double)]
+      val seen = collection.mutable.HashSet.empty[String]
+      val submap = map.getOrElse(query(0), collection.mutable.Map.empty)
+      submap.foreach(queue.enqueue)
+      seen.addAll(submap.keys)
+      var result: Double = -1
+
+      var found = false
+      while (queue.nonEmpty && !found) {
+        val value = queue.dequeue()
+
+        if (value._1 == query(1)) {
+          found = true
+          if (result < 0) result = value._2
+          else result *= value._2
+        } else {
+          map(value._1).foreach((k, v) => {
+            if (!seen.contains(k)) {
+              queue.enqueue((k, v * value._2))
+              seen.addOne(k)
+            }
+          })
+        }
+      }
+
+      results = results :+ result
+    }
+
+    results.toArray
+  }
 }
