@@ -114,4 +114,54 @@ object General extends App {
     def get(path: String): Int = map.getOrElse(path, -1)
   }
 
+
+  // 146. LRU Cache
+  class LRUCache(capacity: Int) {
+    case class ListNode(var key: Int, var value: Int, var prev: ListNode, var next: ListNode)
+
+    val map = collection.mutable.Map.empty[Int, ListNode]
+
+    val head = ListNode(-1, -1, null, null)
+    val tail = ListNode(-1, -1, head, null)
+    head.next = tail
+
+    def get(key: Int): Int = {
+      if (!map.contains(key)) return -1
+
+      remove(map(key))
+      add(map(key))
+      map(key).value
+    }
+
+    def add(node: ListNode): Unit = {
+      val prevEnd = tail.prev
+      node.prev = prevEnd
+      prevEnd.next = node
+      node.next = tail
+      tail.prev = node
+    }
+
+    def remove(node: ListNode): Unit = {
+      node.prev.next = node.next
+      node.next.prev = node.prev
+    }
+
+    def put(key: Int, value: Int): Unit = {
+      if (map.contains(key)) {
+        remove(map(key))
+      }
+
+      val node = ListNode(key, value, null, null)
+      map.put(key, node)
+      add(node)
+
+      if (map.size > capacity) {
+        val rm = head.next
+        remove(rm)
+        map.remove(rm.key)
+      }
+
+    }
+  }
+
 }
