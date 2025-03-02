@@ -294,36 +294,5 @@ object Graphs extends App {
     results.toArray
   }
 
-  class DisjointFastFind(size: Int) {
-    val array: Array[Int] = (0 until size).toArray
-
-    def find(x: Int): Int = array(x)
-
-    def union(x: Int, y: Int): Unit = {
-      val findx = find(x)
-      val findy = find(y)
-      if (findx != findy) {
-        for (i <- array.indices) if (array(i) == findy) array(i) = findx
-      }
-    }
-
-    def connected(x: Int, y: Int): Boolean = find(x) == find(y)
-  }
-
-  val uf = new DisjointFastFind(10)
-  // 1-2-5-6-7 3-8-9 4
-  uf.union(1, 2)
-  uf.union(2, 5)
-  uf.union(5, 6)
-  uf.union(6, 7)
-  uf.union(3, 8)
-  uf.union(8, 9)
-  println(uf.connected(1, 5)) // true
-  println(uf.connected(5, 7)) // true
-  println(uf.connected(4, 9)) // false
-
-  // 1-2-5-6-7 3-8-9-4
-  uf.union(9, 4)
-  println(uf.connected(4, 9)) // true
 
 }
