@@ -351,8 +351,8 @@ object Graphs extends App {
       } else if (ranks(findY) < ranks(findX)) {
         root(findY) = findX
       } else {
-        ranks(findY) += 1
-        root(findX) = findY
+        ranks(findX) += 1
+        root(findY) = findX
       }
       true
     }
@@ -366,5 +366,36 @@ object Graphs extends App {
     edges.forall(ed => union(ed(0), ed(1)))
   }
 
+
+  // 323. Number of Connected Components in an Undirected Graph
+  def countComponents(n: Int, edges: Array[Array[Int]]): Int = {
+    val ranks = Array.fill(n)(1)
+    val root = (0 until n).toArray
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    def union(x: Int, y: Int): Unit = {
+      val findX = find(x)
+      val findY = find(y)
+      if (findX != findY) {
+        if (ranks(findX) < ranks(findY)) {
+          root(findX) = findY
+        } else if (ranks(findY) < ranks(findX)) {
+          root(findY) = findX
+        } else {
+          root(findX) = findY
+          ranks(findY) += 1
+        }
+      }
+    }
+
+    edges.foreach(ed => union(ed(0), ed(1)))
+    (0 until n).foreach(find)
+    root.toSet.size
+  }
 
 }
