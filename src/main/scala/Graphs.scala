@@ -398,4 +398,46 @@ object Graphs extends App {
     root.toSet.size
   }
 
+  // 1101. The Earliest Moment When Everyone Become Friends
+  def earliestAcq(logs: Array[Array[Int]], n: Int): Int = {
+    val root = (0 until n).toArray
+    val ranks = Array.fill(n)(1)
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    def union(x: Int, y: Int): Unit = {
+      val findX = find(x)
+      val findY = find(y)
+      if (findX != findY) {
+        if (ranks(findX) < ranks(findY)) {
+          root(findX) = findY
+        } else if (ranks(findY) < ranks(findX)) {
+          root(findY) = findX
+        } else {
+          ranks(findX) += 1
+          root(findY) = findX
+        }
+      }
+    }
+
+    val sorted = logs.sortBy(_(0))
+    var counter = 0
+    while (counter < sorted.length) {
+      val log = sorted(counter)
+      counter += 1
+
+      union(log(1), log(2))
+      (0 until n).foreach(find)
+      println(root.mkString(", "))
+
+      if (root.toSet.size == 1) return log(0)
+    }
+
+    -1
+  }
+
 }
