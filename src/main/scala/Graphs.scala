@@ -334,5 +334,37 @@ object Graphs extends App {
     root.toSet.size
   }
 
+  // 261. Graph Valid Tree
+  def validTree(n: Int, edges: Array[Array[Int]]): Boolean = {
+    if (edges.length != n - 1) return false
+
+    val root = (0 until n).toArray
+    val ranks = Array.fill(n)(1)
+
+    def union(x: Int, y: Int): Boolean = {
+      val findY = find(y)
+      val findX = find(x)
+      if (findX == findY) return false
+
+      if (ranks(findX) < ranks(findY)) {
+        root(findX) = findY
+      } else if (ranks(findY) < ranks(findX)) {
+        root(findY) = findX
+      } else {
+        ranks(findY) += 1
+        root(findX) = findY
+      }
+      true
+    }
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    edges.forall(ed => union(ed(0), ed(1)))
+  }
+
 
 }
