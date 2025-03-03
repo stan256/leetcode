@@ -294,5 +294,45 @@ object Graphs extends App {
     results.toArray
   }
 
+  // 547. Number of Provinces
+  def findCircleNum_disjoint(isConnected: Array[Array[Int]]): Int = {
+
+    val root = (0 until isConnected.length).toArray
+    val ranks = Array.fill(isConnected.length)(1)
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    def union(x: Int, y: Int): Unit = {
+      val rootx = find(x)
+      val rooty = find(y)
+      if (rootx != rooty) {
+        if (ranks(rootx) > ranks(rooty)) {
+          root(rooty) = rootx
+        } else if (ranks(rootx) < ranks(rooty)) {
+          root(rootx) = rooty
+        } else {
+          ranks(rootx) += 1
+          root(rooty) = rootx
+        }
+      }
+    }
+
+    for (i <- isConnected.indices) {
+      for (j <- isConnected.indices) {
+        if (i != j && isConnected(i)(j) == 1) {
+          union(i, j)
+        }
+      }
+    }
+    for (i <- isConnected.indices) find(i)
+
+    println(root.toSet)
+    root.toSet.size
+  }
+
 
 }
