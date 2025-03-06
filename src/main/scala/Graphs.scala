@@ -491,4 +491,52 @@ object Graphs extends App {
     components.keys.map(i => accounts(i).head :: components(i).sorted.toList).toList
   }
 
+  // 1202. Smallest String With Swaps
+  def smallestStringWithSwaps(s: String, pairs: List[List[Int]]): String = {
+    import collection.mutable
+
+    val root = s.indices.toArray
+    val ranks = Array.fill(s.length)(1)
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    def union(x: Int, y: Int): Unit = {
+      val findX = find(x)
+      val findY = find(y)
+      if (findX != findY) {
+        if (ranks(findX) < ranks(findY)) {
+          root(findX) = findY
+        } else if (ranks(findY) < ranks(findX)) {
+          root(findY) = findX
+        } else {
+          root(findY) = findX
+          ranks(findX) += 1
+        }
+      }
+    }
+
+    for (pair <- pairs) union(pair(0), pair(1))
+    s.indices.foreach(find)
+
+    val map = mutable.Map.empty[Int, mutable.HashSet[Int]].withDefaultValue(mutable.HashSet.empty[Int])
+    s.indices.foreach(i => map(root(i)).addOne(i))
+    val pqList = map.values.map(set => (set, mutable.PriorityQueue.from(set.map(s(_)))))
+    val result = Array.fill[Char](s.length)('a')
+    for (t <- pqList) {
+      val set = t._1
+      val queue = t._2
+
+      for (el <- set) {
+        val cc = queue.dequeue()
+        result(el) = cc
+      }
+    }
+
+    new String(result)
+  }
+
 }
