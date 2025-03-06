@@ -440,4 +440,55 @@ object Graphs extends App {
     -1
   }
 
+
+  // 721. Accounts Merge
+  def accountsMerge(accounts: List[List[String]]): List[List[String]] = {
+    import collection.mutable
+
+    val root = accounts.indices.toArray
+    val ranks = Array.fill(accounts.length)(1)
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    def union(x: Int, y: Int): Unit = {
+      val findX = find(x)
+      val findY = find(y)
+      if (findX != findY) {
+        if (ranks(findX) < ranks(findY)) {
+          root(findX) = findY
+        } else if (ranks(findY) < ranks(findX)) {
+          root(findY) = findX
+        } else {
+          ranks(findX) += 1
+          root(findY) = findX
+        }
+      }
+    }
+
+    val emailGroup = mutable.Map.empty[String, Int]
+    for (i <- accounts.indices) {
+      val accountName = accounts(i).head
+
+      for (j <- 1 until accounts(i).length) {
+        val email = accounts(i)(j)
+
+        if (!emailGroup.contains(email)) emailGroup.put(email, i)
+        else union(i, emailGroup(email))
+      }
+    }
+
+    val components = mutable.HashMap.empty[Int, mutable.ListBuffer[String]]
+    for (email <- emailGroup.keys) {
+      val group = emailGroup(email)
+      val groupDsu = find(group)
+      components.getOrElseUpdate(groupDsu, mutable.ListBuffer()).addOne(email)
+    }
+
+    components.keys.map(i => accounts(i).head :: components(i).sorted.toList).toList
+  }
+
 }
