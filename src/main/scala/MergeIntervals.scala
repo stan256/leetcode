@@ -21,4 +21,22 @@ object MergeIntervals extends App {
     lb.toArray
   }
 
+  // 56. Merge Intervals
+  def merge(intervals: Array[Array[Int]]): Array[Array[Int]] = {
+    val sorted = intervals.sortBy(_(0))
+    var current = sorted.head
+
+    val result = collection.mutable.ListBuffer.empty[Array[Int]]
+    for (i <- 1 until sorted.length) {
+      if (current(1) < sorted(i)(0)) {
+        result.addOne(current)
+        current = sorted(i)
+      } else {
+        current = Array(Math.min(current(0), sorted(i)(0)), Math.max(current(1), sorted(i)(1)))
+      }
+    }
+    result.addOne(current)
+    result.toArray
+  }
+
 }
