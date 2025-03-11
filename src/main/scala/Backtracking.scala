@@ -322,5 +322,19 @@ object Backtracking extends App {
     if (arr(amount) != Int.MaxValue) arr(amount) else -1
   }
 
+  // 46. Permutations
+  def permute_2(nums: Array[Int]): List[List[Int]] = {
+    import collection.mutable
+
+    val result = mutable.ListBuffer.empty[List[Int]]
+
+    def loop(acc: List[Int], used: Set[Int]): Unit =
+      if (acc.length == nums.length) result += acc
+      else nums.indices.filterNot(used).foreach(i => loop(nums(i) :: acc, used + i))
+
+    loop(List.empty[Int], Set.empty[Int])
+    result.toList
+  }
+
 
 }
