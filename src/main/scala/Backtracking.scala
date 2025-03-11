@@ -135,6 +135,22 @@ object Backtracking extends App {
     answer
   }
 
+  // 39. Combination Sum
+  def combinationSum_2(candidates: Array[Int], target: Int): List[List[Int]] = {
+    import collection.mutable
+
+    val result = mutable.HashSet.empty[List[Int]]
+
+    def func(list: List[Int], current: Int): Unit = {
+      if (current > target) return
+      if (current == target) result.addOne(list.sorted)
+      else candidates.foreach(c => func(c :: list, current + c))
+    }
+
+    func(List(), 0)
+    result.toList
+  }
+
   // 52. N-Queens II
   def totalNQueens(n: Int): Int = {
     var answer = 0
