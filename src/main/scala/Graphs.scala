@@ -492,10 +492,9 @@ object Graphs extends App {
   }
 
   // 1202. Smallest String With Swaps
+  import collection.mutable
   def smallestStringWithSwaps(s: String, pairs: List[List[Int]]): String = {
-    import collection.mutable
-
-    val root = s.indices.toArray
+    val root = (0 until s.length).toArray
     val ranks = Array.fill(s.length)(1)
 
     def find(x: Int): Int = {
@@ -519,24 +518,28 @@ object Graphs extends App {
       }
     }
 
-    for (pair <- pairs) union(pair(0), pair(1))
-    s.indices.foreach(find)
+    pairs.foreach(p => union(p(0), p(1)))
+    (0 until s.length).foreach(find)
 
-    val map = mutable.Map.empty[Int, mutable.HashSet[Int]].withDefaultValue(mutable.HashSet.empty[Int])
-    s.indices.foreach(i => map(root(i)).addOne(i))
-    val pqList = map.values.map(set => (set, mutable.PriorityQueue.from(set.map(s(_)))))
-    val result = Array.fill[Char](s.length)('a')
-    for (t <- pqList) {
-      val set = t._1
-      val queue = t._2
+    val map = mutable.HashMap.empty[Int, (mutable.PriorityQueue[Char], mutable.PriorityQueue[Int])]
+    root.indices.foreach(i => {
+      if (!map.contains(root(i))) map.put(root(i), (mutable.PriorityQueue.empty[Char], mutable.PriorityQueue.empty[Int]))
+      val tuple = map(root(i))
+      tuple._1.enqueue(s(i))
+      tuple._2.enqueue(i)
+    })
+    val result = Array.fill(s.length)('a')
 
-      for (el <- set) {
-        val cc = queue.dequeue()
-        result(el) = cc
+    map.values.foreach(t => {
+      while(t._1.nonEmpty) {
+        val charq = t._1
+        val indexq = t._2
+        result(indexq.dequeue) = charq.dequeue
       }
-    }
-
+    })
     new String(result)
   }
+
+  println(smallestStringWithSwaps("dcab", List(List(0, 3), List(1, 2))))
 
 }
