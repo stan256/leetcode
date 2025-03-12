@@ -220,6 +220,26 @@ object BinaryTree extends App {
     if (l != null) l else r
   }
 
+  // 236. Lowest Common Ancestor of a Binary Tree
+  def lowestCommonAncestor_3(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
+    if (root == null || root == p || root == q) return root
+    var answer: TreeNode = null
+
+    def dfs(node: TreeNode): Boolean = {
+      if (node == null) return false
+
+      val left = if (dfs(node.left)) 1 else 0
+      val right = if (dfs(node.right)) 1 else 0
+      val mid = if (node == p || node == q) 1 else 0
+
+      if (mid + left + right == 2) answer = node
+      left + right + mid > 0
+    }
+
+    dfs(root)
+    answer
+  }
+
   // 111. Minimum Depth of Binary Tree
   def minDepth(root: TreeNode): Int = {
     def dfs(node: TreeNode, k: Int): Int = {
