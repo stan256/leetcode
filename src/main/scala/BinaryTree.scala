@@ -473,6 +473,39 @@ object BinaryTree extends App {
     root
   }
 
+  // 380. Insert Delete GetRandom O(1)
+  class RandomizedSet {
+    import collection.mutable
+
+    val array = mutable.ArrayBuffer.empty[Int]
+    val map = mutable.HashMap.empty[Int, Int]
+
+    def insert(value: Int): Boolean = {
+      if (map.contains(value)) false
+      else {
+        map.put(value, array.size)
+        array += value
+        true
+      }
+    }
+
+    def remove(value: Int): Boolean = {
+      if (!map.contains(value)) false
+      else {
+        val last = array.last
+        val index = map(value)
+        array(index) = last
+        map(last) = index
+        map.remove(value)
+        array.dropRightInPlace(1)
+        true
+      }
+    }
+
+    def getRandom(): Int = array(scala.util.Random.nextInt(array.length))
+
+  }
+
   // 235. Lowest Common Ancestor of a Binary Search Tree
   def lowestCommonAncestor_4(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     var answer: TreeNode = null
