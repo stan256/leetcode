@@ -506,6 +506,39 @@ object BinaryTree extends App {
 
   }
 
+  // 381. Insert Delete GetRandom O(1) - Duplicates allowed
+  class RandomizedCollection() {
+
+    import util.Random
+    import collection.mutable
+
+    val map = mutable.HashMap.empty[Int, mutable.HashSet[Int]]
+    val array = mutable.ArrayBuffer.empty[Int]
+
+    def insert(value: Int): Boolean = {
+      if (!map.contains(value)) map.put(value, mutable.HashSet.empty[Int])
+      map(value) += array.length
+      array += value
+      map(value).size == 1
+    }
+
+    def remove(value: Int): Boolean = {
+      if (!map.contains(value) || map(value).isEmpty) false
+      else {
+        val removeId = map(value).head
+        map(value).remove(removeId)
+        val last = array.last
+        array(removeId) = last
+        map(last) += removeId
+        map(last) -= array.length - 1
+        array.dropRightInPlace(1)
+        true
+      }
+    }
+
+    def getRandom(): Int = array(Random.nextInt(array.length))
+  }
+
   // 235. Lowest Common Ancestor of a Binary Search Tree
   def lowestCommonAncestor_4(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     var answer: TreeNode = null
