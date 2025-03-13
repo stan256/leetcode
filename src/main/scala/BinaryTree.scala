@@ -474,7 +474,7 @@ object BinaryTree extends App {
   }
 
   // 235. Lowest Common Ancestor of a Binary Search Tree
-  def lowestCommonAncestor_3(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
+  def lowestCommonAncestor_4(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode = {
     var answer: TreeNode = null
 
     def dfs(node: TreeNode): (Boolean, Boolean) = {

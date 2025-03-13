@@ -141,6 +141,33 @@ object BinarySearch extends App {
       }
   }
 
+  class TimeMap_2() {
+
+    import collection.mutable
+
+    val map = mutable.HashMap.empty[String, mutable.ArrayBuffer[(Int, String)]]
+
+    def set(key: String, value: String, timestamp: Int): Unit = {
+      map.getOrElseUpdate(key, mutable.ArrayBuffer.empty[(Int, String)]).addOne((timestamp, value))
+    }
+
+    def get(key: String, timestamp: Int): String = {
+      if (!map.contains(key)) return ""
+      val arr = map(key)
+      var left = 0
+      var right = arr.length
+
+      while (left < right) {
+        var mid = left + (right - left) / 2
+        if (arr(mid)._1 <= timestamp) left = mid + 1
+        else right = mid
+      }
+
+      if (right == 0) ""
+      else arr(right - 1)._2
+    }
+  }
+
   // 2300. Successful Pairs of Spells and Potions
   def successfulPairs(spells: Array[Int], potions: Array[Int], success: Long): Array[Int] = {
     val sortedPotions = potions.sorted
