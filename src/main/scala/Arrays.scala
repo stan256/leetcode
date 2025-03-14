@@ -1122,4 +1122,11 @@ object Arrays extends App {
 
     -1
   }
+
+  // 169. Majority Element
+  def majorityElement(nums: Array[Int]): Int = {
+    val map = collection.mutable.HashMap.empty[Int, Int].withDefaultValue(0)
+    nums.foreach(n => map(n) += 1)
+    map.toList.find(_._2 > nums.length / 2).get._1
+  }
 }
