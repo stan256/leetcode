@@ -1125,8 +1125,28 @@ object Arrays extends App {
 
   // 169. Majority Element
   def majorityElement(nums: Array[Int]): Int = {
-    val map = collection.mutable.HashMap.empty[Int, Int].withDefaultValue(0)
-    nums.foreach(n => map(n) += 1)
-    map.toList.find(_._2 > nums.length / 2).get._1
+    nums.groupBy(identity).map((i, arr) => (i, arr.length)).toList.find(_._2 > nums.length / 2).get._1
+  }
+
+  // 67. Add Binary
+  def addBinary(a: String, b: String): String = {
+    val diff = Math.abs(a.length - b.length)
+    var one = if (a.length > b.length) a else "0" * diff + a
+    var two = if (a.length > b.length) "0" * diff + b else b
+    var result = Array.ofDim[Char](one.length)
+
+    var plusOne = false
+    for (i <- one.length - 1 to 0 by -1) {
+      (one(i), two(i), plusOne) match {
+        case ('0', '0', false) => result(i) = '0'
+        case ('0', '0', true) => result(i) = '1'; plusOne = false
+        case ('1', '0', false) | ('0', '1', false) => result(i) = '1'
+        case ('1', '0', true) | ('0', '1', true) => result(i) = '0'
+        case ('1', '1', false) => result(i) = '0'; plusOne = true
+        case ('1', '1', true) => result(i) = '1'
+        case _ =>
+      }
+    }
+    if (plusOne) "1" + new String(result) else new String(result)
   }
 }
