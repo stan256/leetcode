@@ -589,4 +589,23 @@ object BinaryTree extends App {
     dfs(root, Int.MinValue.toLong - 1, Int.MaxValue.toLong + 1)
   }
 
+  // 543. Diameter of Binary Tree
+  def diameterOfBinaryTree(root: TreeNode): Int = {
+    var result = 0
+
+    def dfs(node: TreeNode): Int = {
+      if (node == null) return 0
+
+      val left = if (node.left != null) dfs(node.left) + 1 else 0
+      val right = if (node.right != null) dfs(node.right) + 1 else 0
+
+      result = result.max(left + right)
+      left.max(right)
+    }
+
+    dfs(root)
+
+    result
+  }
+
 }
