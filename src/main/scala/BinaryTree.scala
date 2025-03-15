@@ -590,7 +590,7 @@ object BinaryTree extends App {
   }
 
   // 543. Diameter of Binary Tree
-  def diameterOfBinaryTree(root: TreeNode): Int = {
+  def diameterOfBinaryTree_2(root: TreeNode): Int = {
     var result = 0
 
     def dfs(node: TreeNode): Int = {
