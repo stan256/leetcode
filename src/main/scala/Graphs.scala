@@ -540,6 +540,50 @@ object Graphs extends App {
     new String(result)
   }
 
-  println(smallestStringWithSwaps("dcab", List(List(0, 3), List(1, 2))))
+  // 721. Accounts Merge
+  def accountsMerge_2(accounts: List[List[String]]): List[List[String]] = {
+    import collection.mutable
+
+    val ranks = Array.fill[Int](accounts.length)(1)
+    val root = accounts.indices.toArray
+
+    def find(x: Int): Int = {
+      if (root(x) == x) return x
+      root(x) = find(root(x))
+      root(x)
+    }
+
+    def union(x: Int, y: Int): Unit = {
+      val findX = find(x)
+      val findY = find(y)
+      if (findX != findY) {
+        if (ranks(findX) < ranks(findY)) {
+          root(findX) = findY
+        } else if (ranks(findY) < ranks(find(x))) {
+          root(findY) = findX
+        } else {
+          ranks(findX) += 1
+          root(findY) = findX
+        }
+      }
+    }
+
+    val map = mutable.HashMap.empty[String, Int]
+
+    for (i <- accounts.indices) {
+      val emails = accounts(i).drop(1)
+      emails.foreach(email => {
+        if (map.contains(email)) union(map(email), i)
+        else map.put(email, i)
+      })
+    }
+    accounts.indices.foreach(find)
+
+    val results = mutable.HashMap.empty[Int, mutable.HashSet[String]]
+    for ((email, group) <- map) {
+      results.getOrElseUpdate(root(map(email)), mutable.HashSet.empty[String]).addOne(email)
+    }
+    results.values.map(_.toList.sorted).toList.map(list => accounts(map(list.head))(0) :: list)
+  }
 
 }
