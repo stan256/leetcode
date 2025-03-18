@@ -1123,6 +1123,25 @@ object Arrays extends App {
     -1
   }
 
+  // Counting sort
+  def countingSort(arr: Array[Int]): Array[Int] = {
+    val frequencies = Array.ofDim[Int](arr.max + 1)
+    for (x <- arr) {
+      frequencies(x) += 1
+    }
+    for (i <- 1 until frequencies.length) {
+      frequencies(i) = frequencies(i - 1) + frequencies(i)
+    }
+
+    val result = Array.ofDim[Int](arr.length)
+    for (i <- arr.length - 1 to 0 by -1) {
+      result(frequencies(arr(i)) - 1) = arr(i)
+      frequencies(arr(i)) -= 1
+    }
+
+    result
+  }
+
   // 169. Majority Element
   def majorityElement(nums: Array[Int]): Int = {
     nums.groupBy(identity).map((i, arr) => (i, arr.length)).toList.find(_._2 > nums.length / 2).get._1
