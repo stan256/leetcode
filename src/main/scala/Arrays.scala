@@ -1142,6 +1142,32 @@ object Arrays extends App {
     result
   }
 
+  // 75. Sort Colors
+  def sortColors(nums: Array[Int]): Unit = {
+    var left = 0
+    var current = 0
+    var right = nums.length - 1
+
+    def swap(i: Int, j: Int): Unit = {
+      val temp = nums(i)
+      nums(i) = nums(j)
+      nums(j) = temp
+    }
+
+    while (current <= right) {
+      if (nums(current) == 0) {
+        swap(left, current)
+        current += 1
+        left += 1
+      } else if (nums(current) == 2) {
+        swap(current, right)
+        right -= 1
+      } else {
+        current += 1
+      }
+    }
+  }
+
   // 169. Majority Element
   def majorityElement(nums: Array[Int]): Int = {
     nums.groupBy(identity).map((i, arr) => (i, arr.length)).toList.find(_._2 > nums.length / 2).get._1
