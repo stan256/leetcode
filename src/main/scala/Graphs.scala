@@ -586,4 +586,26 @@ object Graphs extends App {
     results.values.map(_.toList.sorted).toList.map(list => accounts(map(list.head))(0) :: list)
   }
 
+  // 139. Word Break
+  def wordBreak(s: String, wordDict: List[String]): Boolean = {
+    val words = wordDict.toSet
+    val queue = collection.mutable.Queue(0)
+    val seen = Array.fill(s.length + 1)(false)
+
+    while (queue.nonEmpty) {
+      val start = queue.dequeue()
+      if (start == s.length) return true
+
+      for (end <- start + 1 to s.length) {
+        val word = s.substring(start, end)
+        if (!seen(end) && words.contains(word)) {
+          queue.enqueue(end)
+          seen(end) = true
+        }
+      }
+    }
+
+    false
+  }
+
 }
