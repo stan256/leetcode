@@ -608,4 +608,29 @@ object Graphs extends App {
     false
   }
 
+  // 139. Word Break
+  def wordBreak_dp_top(s: String, wordDict: List[String]): Boolean = {
+    val memo = Array.fill(s.length)(-1)
+
+    def dp(i: Int): Boolean = {
+      if (i < 0) return true
+
+      memo(i) match {
+        case 1 => true
+        case 0 => false
+        case _ => {
+          val find = wordDict
+            .filter(i - _.length + 1 >= 0)
+            .find(word => s.substring(i - word.length + 1, i + 1) == word && dp(i - word.length))
+
+          val res = if (find.nonEmpty) 1 else 0
+          memo(i) = res
+          memo(i) == 1
+        }
+      }
+    }
+
+    dp(s.length - 1)
+  }
+
 }
