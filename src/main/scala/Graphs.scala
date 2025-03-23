@@ -633,4 +633,19 @@ object Graphs extends App {
     dp(s.length - 1)
   }
 
+  // 139. Word Break
+  def wordBreak_bottom_up(s: String, words: List[String]): Boolean = {
+    val arr = Array.fill(s.length)(false)
+
+    for (i <- 0 until s.length) {
+      arr(i) = words.exists(word => {
+        val prev = i + 1 - word.length
+        if (prev < 0) false
+        else s.substring(prev, i + 1) == word && (prev == 0 || arr(prev - 1))
+      })
+    }
+
+    arr.last
+  }
+
 }
