@@ -74,17 +74,5 @@ object DisjointSet {
     def connected(x: Int, y: Int): Boolean = find(x) == find(y)
   }
 
-  val uf = new DisjointUnionByRankWithAmortizedConstantFind(10)
-  uf.union(0, 1)
-  uf.union(0, 2)
-  uf.union(0, 3)
-  uf.union(0, 4)
-  uf.union(5, 6)
-  uf.union(5, 7)
-  uf.union(5, 8)
-  uf.union(5, 9)
-  uf.union(8, 3)
 
-  uf.find(3)
-  println()
 }

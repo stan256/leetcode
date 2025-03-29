@@ -508,6 +508,17 @@ object Stack extends App {
     }
 
   }
+
+  // 1209. Remove All Adjacent Duplicates in String II
+  def removeDuplicates(s: String, k: Int): String = {
+    val stack = collection.mutable.Stack.empty[(Char, Int)]
+    for (c <- s) {
+      if (stack.isEmpty || stack.head._1 != c) stack.push((c, 1))
+      else if (stack.head._2 != k - 1) stack.push((c, stack.head._2 + 1))
+      else for (_ <- 0 until k - 1) stack.pop()
+    }
+    stack.map(_._1).mkString.reverse
+  }
 }
 
 
