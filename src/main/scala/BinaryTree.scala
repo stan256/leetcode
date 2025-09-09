@@ -608,4 +608,23 @@ object BinaryTree extends App {
     result
   }
 
+  // 543. Diameter of Binary Tree
+  def diameterOfBinaryTree_3(root: TreeNode): Int = {
+
+    // (max, branch_max)
+    def dfs(node: TreeNode): (Int, Int) = {
+      if (node == null) return (0, 0)
+
+      val left_t = dfs(node.left)
+      val right_t = dfs(node.right)
+
+      val diameter = left_t._2 + right_t._2 + 2
+      val maxSum = List(diameter, left_t._1, right_t._1).max
+      val maxBranch = Math.max(left_t._2, right_t._2) + 1
+      (maxSum, maxBranch)
+    }
+
+    dfs(root)._1 - 2
+  }
+
 }

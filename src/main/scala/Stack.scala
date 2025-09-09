@@ -20,7 +20,6 @@ object Stack extends App {
           stack.pop()
         } else {
           return false
-        }
       }
     }
 
