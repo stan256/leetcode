@@ -20,6 +20,7 @@ object Stack extends App {
           stack.pop()
         } else {
           return false
+        }
       }
     }
 
@@ -354,7 +355,7 @@ object Stack extends App {
   def simplifyPath_3(path: String): String = {
     val parts = path.split("/").filter(_.nonEmpty)
     val stack = collection.mutable.Stack.empty[String]
-    
+
     for (part <- parts) {
       part match {
         case "." =>
@@ -524,7 +525,7 @@ object Stack extends App {
   }
 
   // 1209. Remove All Adjacent Duplicates in String II
-  def removeDuplicates(s: String, k: Int): String = {
+  def removeDuplicates_2(s: String, k: Int): String = {
     val stack = collection.mutable.Stack.empty[(Char, Int)]
     for (c <- s) {
       if (stack.isEmpty || stack.head._1 != c) stack.push((c, 1))
