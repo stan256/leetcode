@@ -349,6 +349,21 @@ object Stack extends App {
     }
     if (stack.isEmpty) sign else stack.reverse.mkString
   }
+    
+  // 71. Simplify Path
+  def simplifyPath_3(path: String): String = {
+    val parts = path.split("/").filter(_.nonEmpty)
+    val stack = collection.mutable.Stack.empty[String]
+    
+    for (part <- parts) {
+      part match {
+        case "." =>
+        case ".." => if (stack.nonEmpty) stack.pop()
+        case x => stack.push(x)
+      }
+    }
+    "/" + stack.reverse.mkString("/")
+  }
 
   //  println(simplifyPath("/home//foo/"))
   //  println(simplifyPath("/home//.foo/"))
