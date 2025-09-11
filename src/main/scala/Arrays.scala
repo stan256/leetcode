@@ -1194,4 +1194,30 @@ object Arrays extends App {
     }
     if (plusOne) "1" + new String(result) else new String(result)
   }
+
+  // 88. Merge Sorted Array
+  def merge(nums1: Array[Int], m: Int, nums2: Array[Int], n: Int): Unit = {
+    var i, j, counter = 0
+
+    var array = Array.ofDim[Int](m + n)
+
+    while (counter < m + n) {
+      val first = if (i < m) nums1(i) else Int.MaxValue
+      val second = if (j < n) nums2(j) else Int.MaxValue
+
+      array(counter) = if (first < second) {
+        i += 1
+        first
+      } else {
+        j += 1
+        second
+      }
+
+      counter += 1
+    }
+
+    for (i <- array.indices) {
+      nums1(i) = array(i)
+    }
+  }
 }
