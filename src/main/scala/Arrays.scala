@@ -953,6 +953,21 @@ object Arrays extends App {
     true
   }
 
+  def isPalindrome_2(s: String): Boolean = {
+    val p = s.replaceAll("[^\\da-zA-Z]", "")
+    var l = 0
+    var r = p.length - 1
+
+    while (l < r) {
+      if (p.charAt(l).toLower != p.charAt(r).toLower) return false
+
+      r -= 1
+      l += 1
+    }
+
+    true
+  }
+
   // 242. Valid Anagram
   def isAnagram(s: String, t: String): Boolean = {
     val arr = Array.ofDim[Int](26)
