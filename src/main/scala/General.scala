@@ -164,4 +164,52 @@ object General extends App {
     }
   }
 
+  class LRUCache_2(_capacity: Int) {
+    case class ListNode(key: Int, var value: Int, var prev: ListNode, var next: ListNode)
+
+    val first = ListNode(-1, -1, null, null)
+    val last = ListNode(-1, -1, null, null)
+    first.next = last
+    last.prev = first
+    val map = collection.mutable.HashMap.empty[Int, ListNode]
+
+    def insert(node: ListNode) = {
+      node.next = first.next
+      first.next.prev = node
+      first.next = node
+      node.prev = first
+    }
+
+    def deleteNode(node: ListNode) = {
+      val next = node.next
+      val prev = node.prev
+      next.prev = prev
+      prev.next = next
+    }
+
+    def get(key: Int): Int = {
+      if (map.contains(key)) {
+        deleteNode(map(key))
+        insert(map(key))
+        map(key).value
+      } else -1
+    }
+
+    def put(key: Int, value: Int): Unit = {
+      if (map.contains(key)) {
+        deleteNode(map(key))
+        insert(map(key))
+        map(key).value = value
+      } else {
+        if (map.size == _capacity) {
+          map.remove(last.prev.key)
+          deleteNode(last.prev)
+        }
+        val node = ListNode(key, value, null, null)
+        map.put(key, node)
+        insert(node)
+      }
+    }
+  }
+
 }
