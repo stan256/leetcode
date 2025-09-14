@@ -207,4 +207,30 @@ object TwoPointers extends App {
 
     set.toList
   }
+
+  // 680. Valid Palindrome II
+  def validPalindrome(s: String): Boolean = {
+    var l = 0
+    var r = s.length - 1
+
+    def isPal(x: Int, y: Int): Boolean = {
+      var st = x
+      var e = y
+
+      while (st < e) {
+        if (s.charAt(st) != s.charAt(e)) return false
+        st += 1
+        e -= 1
+      }
+      true
+    }
+
+    while (l < r) {
+      if (s.charAt(l) != s.charAt(r)) return isPal(l + 1, r) || isPal(l, r - 1)
+
+      l += 1
+      r -= 1
+    }
+    true
+  }
 }
