@@ -212,4 +212,40 @@ object General extends App {
     }
   }
 
+  // 1570. Dot Product of Two Sparse Vectors
+  class SparseVector(nums: Array[Int]) {
+    val el = toArr(nums)
+
+    def toArr(n: Array[Int]) = n.zipWithIndex.filter(_._1 != 0).map((x, i) => (i, x))
+
+    def elements() = el
+
+    def dotProduct(vec: SparseVector): Int = {
+      val firstIsBigger = elements().length > vec.elements().length
+      val first = if (firstIsBigger) elements() else vec.elements()
+      val second = if (firstIsBigger) vec.elements() else elements()
+      var result = 0
+
+      def bs(index: Int): Option[Int] = {
+        var l = 0
+        var r = second.length - 1
+
+        while (l <= r) {
+          val m = l + (r - l) / 2
+          val secondIndex = second(m)._1
+          if (secondIndex == index) return Option(second(m)._2)
+          else if (secondIndex > index) r = m - 1
+          else l = m + 1
+        }
+        None
+      }
+
+      for (tuple <- first) {
+        val maybeFound = bs(tuple._1)
+        result += maybeFound.map(x => x * tuple._2).getOrElse(0)
+      }
+      result
+    }
+  }
+
 }
