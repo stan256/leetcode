@@ -627,4 +627,42 @@ object BinaryTree extends App {
     dfs(root)._1 - 2
   }
 
+  // 1650. Lowest Common Ancestor of a Binary Tree III
+  class Node2(var _value: Int, val parent: Node2 = null, val left: Node2 = null, val right: Node2 = null) {}
+  def lowestCommonAncestor(p: Node2, q: Node2): Node2 = {
+    def checkSubtree(origin: Node2, search: Node2): Boolean = {
+      if (origin == null) return false
+      if (origin == search) return true
+      checkSubtree(origin.left, search) || checkSubtree(origin.right, search)
+    }
+
+    if (checkSubtree(p, q)) p
+    else if (checkSubtree(q, p)) q
+    else {
+      val set = collection.mutable.HashSet.empty[Node2]
+
+      var x = p
+      var y = q
+
+      while (x != null || y != null) {
+        if (x != null) {
+          if (set.contains(x.parent)) return x.parent
+          else {
+            set.addOne(x.parent)
+            x = x.parent
+          }
+        }
+
+        if (y != null) {
+          if (set.contains(y.parent)) return y.parent
+          else {
+            set.addOne(y.parent)
+            y = y.parent
+          }
+        }
+      }
+      null;
+    }
+  }
+
 }
