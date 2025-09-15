@@ -665,4 +665,35 @@ object BinaryTree extends App {
     }
   }
 
+  // 314. Binary Tree Vertical Order Traversal
+  def verticalOrder(root: TreeNode): List[List[Int]] = {
+    if (root == null) return List()
+
+    import collection.mutable
+    val map = mutable.HashMap.empty[Int, mutable.Queue[Int]]
+    val queue = mutable.Queue.empty[(TreeNode, Int)]
+    queue.enqueue(root -> 0)
+    var min = 0
+    var max = 0
+
+    while (queue.nonEmpty) {
+      val size = queue.size
+
+      for (i <- 0 until size) {
+        val (node, x) = queue.dequeue()
+        map.getOrElseUpdate(x, mutable.Queue.empty[Int]).enqueue(node.value)
+        if (node.left != null) queue.enqueue(node.left -> (x - 1))
+        if (node.right != null) queue.enqueue(node.right -> (x + 1))
+        min = min.min(x)
+        max = max.max(x)
+      }
+    }
+
+    val list = mutable.ListBuffer.empty[List[Int]]
+    for (i <- min to max) {
+      list.addOne(map(i).toList)
+    }
+    list.toList
+  }
+
 }
