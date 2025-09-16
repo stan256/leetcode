@@ -534,6 +534,22 @@ object Stack extends App {
     }
     stack.map(_._1).mkString.reverse
   }
+
+  // 1249. Minimum Remove to Make Valid Parentheses
+  def minRemoveToMakeValid(s: String): String = {
+    val stack = collection.mutable.Stack.empty[(Char, Int)]
+    val wrong = collection.mutable.HashSet.empty[Int]
+
+    for ((c, i) <- s.zipWithIndex) {
+      if (c == ')') {
+        val maybeChar = stack.headOption.map(_._1)
+        if (maybeChar.contains('(')) stack.pop()
+        else wrong.addOne(i)
+      } else if (c == '(') stack.push((c, i))
+    }
+    wrong.addAll(stack.map(_._2))
+    s.zipWithIndex.filterNot((c, i) => wrong.contains(i)).map(_._1).mkString
+  }
 }
 
 
