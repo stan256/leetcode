@@ -1235,4 +1235,36 @@ object Arrays extends App {
       nums1(i) = array(i)
     }
   }
+
+  // 408. Valid Word Abbreviation
+  def validWordAbbreviation(word: String, abbr: String): Boolean = {
+    val currentNumber = new StringBuilder()
+    var i = 0
+
+    def applyNumber(): Unit = {
+      if (currentNumber.nonEmpty) {
+        i += currentNumber.toString().toInt
+        currentNumber.clear()
+      }
+    }
+
+    var k = 0
+    while (k < abbr.length) {
+      val c = abbr(k)
+      if (c >= '0' && c <= '9') {
+        if (currentNumber.isEmpty && c == '0') return false
+        else currentNumber += c
+      } else {
+        applyNumber()
+        if (i >= word.length) return false
+
+        if (word(i) == c) i += 1
+        else return false
+      }
+      k += 1
+    }
+
+    applyNumber()
+    i == word.length - 1
+  }
 }
