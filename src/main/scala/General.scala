@@ -249,7 +249,7 @@ object General extends App {
   }
 
   // 50. Pow(x, n) - dummy! Doesn't work
-  def myPow(x: Double, n: Int): Double = {
+  def myPow_bad(x: Double, n: Int): Double = {
     def positivePow(a: Double, k: Long): Double = {
       if (k == 0) 1.0
       else {
@@ -266,6 +266,17 @@ object General extends App {
       case 1 => x
       case y if y < 0 => 1 / positivePow(x, -n.toLong)
       case _ => positivePow(x, n.toLong)
+    }
+  }
+
+  // 50. Pow(x, n)
+  def myPow(x: Double, n: Long): Double = {
+    n match {
+      case 0 => 1
+      case 1 => x
+      case y if y < 0 => 1 / myPow(x, Math.abs(n))
+      case y if y % 2 == 0 => myPow(x * x, n / 2)
+      case y => x * myPow(x, n - 1)
     }
   }
 
