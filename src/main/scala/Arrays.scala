@@ -1267,4 +1267,21 @@ object Arrays extends App {
     applyNumber()
     i == word.length - 1
   }
+
+  // 973. K Closest Points to Origin
+  def kClosest(points: Array[Array[Int]], k: Int): Array[Array[Int]] = {
+    val pq = collection.mutable.PriorityQueue.empty[(Double, Array[Int])](Ordering.by(_._1))
+    for (point <- points) {
+      val numb = Math.sqrt(point(0) * point(0) + point(1) * point(1))
+      if (pq.size < k) {
+        pq.enqueue(numb -> point)
+      } else {
+        if (pq.size == k && pq.headOption.exists(_._1 > numb)) {
+          pq.dequeue()
+          pq.enqueue(numb -> point)
+        }
+      }
+    }
+    pq.toArray.map(_._2)
+  }
 }
