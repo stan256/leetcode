@@ -248,4 +248,25 @@ object General extends App {
     }
   }
 
+  // 50. Pow(x, n) - dummy! Doesn't work
+  def myPow(x: Double, n: Int): Double = {
+    def positivePow(a: Double, k: Long): Double = {
+      if (k == 0) 1.0
+      else {
+        var result = 1.0
+        for (_ <- 0 until k.toInt) result *= a
+        result
+      }
+    }
+
+    if (x == 1) return 1.0
+
+    n match {
+      case 0 => 1.0
+      case 1 => x
+      case y if y < 0 => 1 / positivePow(x, -n.toLong)
+      case _ => positivePow(x, n.toLong)
+    }
+  }
+
 }
