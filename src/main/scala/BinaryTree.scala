@@ -696,4 +696,29 @@ object BinaryTree extends App {
     list.toList
   }
 
+  // 34. Find First and Last Position of Element in Sorted Array
+  def searchRange(nums: Array[Int], target: Int): Array[Int] = {
+    if (nums.isEmpty) return Array(-1, -1)
+
+    var l = 0
+    var r = nums.length - 1
+    while (l < r) {
+      val middle = l + (r - l) / 2
+      if (nums(middle) < target) l = middle + 1
+      else r = middle
+    }
+    if (nums(l) != target) return Array(-1, -1)
+    val start = l
+
+    r = nums.length - 1
+    while (l < r) {
+      val middle = l + (r - l + 1) / 2
+      if (nums(middle) > target) r = middle - 1
+      else l = middle
+    }
+    val end = r
+
+    Array(start, end)
+  }
+
 }
